@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Poppins, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import Navigation from "@/components/navigation";
-import Footer from "@/components/footer";
+// Removing unused imports
+// import Navigation from "@/components/navigation";
+// import Footer from "@/components/footer";
 
 // Load Inter font for body text
 const inter = Inter({
