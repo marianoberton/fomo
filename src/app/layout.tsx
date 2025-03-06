@@ -40,9 +40,9 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth">
       <body className={`${inter.variable} ${poppins.variable} ${playfair.variable} font-sans`}>
-        <Navigation />
+        {/* <Navigation /> */}
         <main>{children}</main>
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );

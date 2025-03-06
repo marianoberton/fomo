@@ -8,10 +8,11 @@ import ContactSection from "@/components/contact-section";
 import { redirect } from 'next/navigation';
 
 export default function Home() {
+  // Temporarily redirect to coming soon page
   redirect('/proximamente');
-}
-export default function LandingPage() {
-  return (
+  
+  // This code will be used when the site is ready to launch
+  /* return (
     <>
       <HeroSection />
       <AboutSection />
@@ -21,5 +22,5 @@ export default function LandingPage() {
       <BlogSection />
       <ContactSection />
     </>
-  );
+  ); */
 }

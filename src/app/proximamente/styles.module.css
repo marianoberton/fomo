@@ -1,0 +1,150 @@
+@font-face {
+  font-family: 'CustomFont';
+  src: url('/fonts/TF_Nukes.ttf') format('truetype'),
+       url('/fonts/TF_Nukes.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@900&display=swap');
+
+.container {
+  width: 100dvw;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  background-color: #0a0a0a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.gradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at 50% 50%, #241b00 0%, #0a0a0a 70%);
+  z-index: 1;
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  width: 90vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(12rem, 35vw, 30rem);
+  font-weight: 900;
+  color: #ffd147;
+  margin: 0;
+  line-height: 0.8;
+  letter-spacing: -0.02em;
+  position: relative;
+}
+
+.title::after {
+  content: '';
+  position: absolute;
+  width: 120%;
+  height: 8px;
+  background-color: #ebb000;
+  bottom: -20px;
+  left: -10%;
+  border-radius: 4px;
+}
+
+.subtitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(4rem, 12vw, 12rem);
+  font-weight: 900;
+  color: #ebb000;
+  margin-top: 40px;
+  letter-spacing: -0.02em;
+  position: relative;
+  padding: 0 20px;
+}
+
+.subtitle::before,
+.subtitle::after {
+  content: '';
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #ffd147;
+  top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+}
+
+.subtitle::before {
+  left: 0;
+}
+
+.subtitle::after {
+  right: 0;
+}
+
+@media (max-width: 768px) {
+  .title::after {
+    height: 4px;
+    bottom: -10px;
+  }
+  
+  .subtitle {
+    margin-top: 20px;
+  }
+  
+  .subtitle::before,
+  .subtitle::after {
+    width: 6px;
+    height: 6px;
+  }
+}
+.canvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.section {
+  text-align: center;
+  font-family: 'CustomFont', sans-serif;
+}
+
+.snake {
+  font-size: clamp(4rem, 20vw, 12rem);
+  font-weight: bold;
+  color: #4A90E2;
+  text-shadow: 0 0 20px rgba(74, 144, 226, 0.5);
+  margin-bottom: -0.2em;
+  font-family: 'CustomFont', sans-serif;
+}
+
+.wave {
+  font-size: clamp(2rem, 8vw, 4rem);
+  font-weight: bold;
+  color: #4A90E2;
+  opacity: 0.9;
+  text-shadow: 0 0 15px rgba(74, 144, 226, 0.3);
+  font-family: 'CustomFont', sans-serif;
+}
+
+.char {
+  display: inline-block;
+  transform-origin: 50% 50%;
+  font-family: 'CustomFont', sans-serif;
+}
