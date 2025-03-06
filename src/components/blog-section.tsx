@@ -111,7 +111,9 @@ export default function BlogSection() {
           {blogPosts.map((post, index) => (
             <div
               key={post.slug}
-              ref={el => cardsRef.current[index] = el}
+              ref={(el: HTMLDivElement | null) => {
+                cardsRef.current[index] = el;
+              }}
               className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow duration-300"
             >
               <div className="relative h-48 w-full">
