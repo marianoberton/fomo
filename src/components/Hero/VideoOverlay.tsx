@@ -18,11 +18,10 @@ export default function VideoOverlay() {
         start: "top bottom",
         end: "+=100%",
         scrub: 1,
-        pin: false, // Disable pinning to prevent downward movement
       },
     });
 
-    // 1) De círculo pequeño a círculo más grande (manteniendo posición)
+    // Animación del círculo manteniendo centrado perfecto
     tl.fromTo(
       videoContainerRef.current,
       {
@@ -37,27 +36,24 @@ export default function VideoOverlay() {
       {
         width: "100vw",
         height: "100vh",
+        borderRadius: 0,
+        top: 0,
+        left: "50%", // Mantenemos el left al 50%
+        transform: "translateX(-50%)", // Mantenemos el transform hasta el final
         ease: "power2.inOut",
       },
       0
-    );
-    
-    // 2) De círculo a fullscreen (ajustado para mantener posición)
-    tl.to(
+    )
+    .to(
       videoContainerRef.current,
       {
-        borderRadius: 0,
-        width: "100%",
-        height: "100vh",
-        top: 0,
         left: 0,
         transform: "none",
-        ease: "power2.inOut",
       },
-      ">-0.3" // Reduced overlap for smoother transition
+      ">-0.1" // Solo al final removemos el centrado
     );
     
-    // 3) Zoom/parallax en el video (scale + objectPosition)
+    // Sutil zoom del video para dar sensación de profundidad
     tl.fromTo(
       videoRef.current,
       {
@@ -65,9 +61,9 @@ export default function VideoOverlay() {
         objectPosition: "center 30%",
       },
       {
-        scale: 1.2,
+        scale: 1.1,
         objectPosition: "center center",
-        ease: "power1.inOut",
+        ease: "none",
       },
       0
     );
