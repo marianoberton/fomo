@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { Barriecito } from "next/font/google";
 
 // Load fonts from Google Fonts
@@ -12,15 +10,8 @@ const barriecito = Barriecito({
 });
 
 export default function ComingSoon() {
-  const router = useRouter();
-
-  useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    if (!params.get('from')) {
-      router.replace('/proximamente?from=root');
-    }
-  }, [router]);
-
+  // Removed the redirection logic
+  
   return (
     <main className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden">
       {/* Background with ivory color */}
