@@ -1,57 +1,86 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 
-type Particle = {
+interface Particle {
   id: number;
-  top: string;
-  left: string;
-  yAnimation: number[];
-  duration: number;
-  delay: number;
-};
+  x: number;
+  y: number;
+  size: number;
+  color: string;
+  opacity: number;
+  speed: number;
+}
 
-export default function ClientParticles() {
-  const [particles, setParticles] = useState<Particle[]>([]);
+const ClientParticles = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const particlesRef = useRef<Particle[]>([]);
   
+  // Generate random particles
   useEffect(() => {
-    // Only run on client side
-    const newParticles = Array(8).fill(0).map((_, i) => ({
-      id: i,
-      top: `${Math.random() * 100}%`,
-      left: `${Math.random() * 100}%`,
-      yAnimation: [0, -15 * Math.random(), 0],
-      duration: 2 + Math.random() * 3,
-      delay: Math.random() * 2
-    }));
+    if (!containerRef.current) return;
     
-    setParticles(newParticles);
+    // Generate between 15-25 particles
+    const count = Math.floor(Math.random() * 10) + 15;
+    const particles: Particle[] = [];
+    
+    // Colors array with primary and accent color variants
+    const colors = [
+      "hsl(var(--primary) / 0.8)",
+      "hsl(var(--primary) / 0.6)",
+      "hsl(var(--accent) / 0.8)",
+      "hsl(var(--accent) / 0.6)",
+      "hsl(var(--secondary) / 0.7)"
+    ];
+    
+    for (let i = 0; i < count; i++) {
+      particles.push({
+        id: i,
+        x: Math.random() * 100, // percentage position
+        y: Math.random() * 100, // percentage position
+        size: Math.random() * 6 + 1, // between 1-7px
+        color: colors[Math.floor(Math.random() * colors.length)],
+        opacity: Math.random() * 0.5 + 0.2, // between 0.2-0.7
+        speed: Math.random() * 15 + 10 // between 10-25s
+      });
+    }
+    
+    particlesRef.current = particles;
   }, []);
-  
+
   return (
-    <>
-      {particles.map((particle) => (
+    <div 
+      ref={containerRef}
+      className="absolute inset-0 overflow-hidden pointer-events-none z-20"
+      aria-hidden="true"
+    >
+      {particlesRef.current.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute w-2 h-2 rounded-full bg-accent/70"
+          className="absolute rounded-full"
           style={{
-            top: particle.top,
-            left: particle.left,
-            filter: "blur(1px)"
+            left: `${particle.x}%`,
+            top: `${particle.y}%`,
+            width: `${particle.size}px`,
+            height: `${particle.size}px`,
+            backgroundColor: particle.color,
+            opacity: particle.opacity,
           }}
           animate={{
-            y: particle.yAnimation,
-            opacity: [0, 0.8, 0],
-            scale: [0, 1.5, 0]
+            y: [0, -30, 0],
+            x: [0, particle.id % 2 === 0 ? 10 : -10, 0],
+            opacity: [particle.opacity, particle.opacity * 1.5, particle.opacity],
           }}
           transition={{
-            duration: particle.duration,
+            duration: particle.speed,
             repeat: Infinity,
-            delay: particle.delay
+            ease: "easeInOut",
           }}
         />
       ))}
-    </>
+    </div>
   );
-} 
+};
+
+export default ClientParticles; 
