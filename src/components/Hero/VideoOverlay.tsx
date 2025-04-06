@@ -26,10 +26,10 @@ export default function VideoOverlay() {
       videoContainerRef.current,
       {
         borderRadius: "50%",
-        width: "500px",
-        height: "500px",
+        width: "600px",
+        height: "600px",
         overflow: "hidden",
-        top: "-25vh",
+        top: "-15vh",
         left: "50%",
         transform: "translateX(-50%)",
       },

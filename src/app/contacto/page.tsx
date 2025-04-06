@@ -81,7 +81,7 @@ export default function ContactPage() {
                   <Phone className="h-6 w-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-medium text-neutral">Teléfono</h3>
-                    <p className="text-neutral/70">+54 11 1234-5678</p>
+                    <p className="text-neutral/70">+54 11 3906-6421</p>
                   </div>
                 </div>
                 
@@ -89,7 +89,7 @@ export default function ContactPage() {
                   <MapPin className="h-6 w-6 text-primary mt-1" />
                   <div>
                     <h3 className="font-medium text-neutral">Ubicación</h3>
-                    <p className="text-neutral/70">Buenos Aires, Argentina</p>
+                    <p className="text-neutral/70">Av. Cordoba 1886, Buenos Aires, Argentina</p>
                   </div>
                 </div>
               </div>
