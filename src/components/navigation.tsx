@@ -102,11 +102,12 @@ export default function Navigation() {
     <header 
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-300 ${getHeaderBg()}`}
     >
-      <div className="container mx-auto px-4 h-20 flex justify-between items-center">
+      <div className="w-full max-w-[1800px] mx-auto px-4 md:px-8 lg:px-12 xl:px-16 h-20 flex justify-between items-center">
         <motion.div
           initial="initial"
           animate="animate"
           variants={logoVariants}
+          className="pl-0"
         >
           <Link href="/" className="z-50 group">
             <span className={`text-2xl font-bold font-accent ${getTextColor()} transition-colors duration-300 group-hover:text-primary`}>
