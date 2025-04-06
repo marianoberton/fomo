@@ -10,89 +10,122 @@ const ParticlesBackground = () => {
     const container = containerRef.current;
     if (!container) return;
 
-    // Limpiar cualquier contenido previo
     container.innerHTML = '';
 
-    // Definir las tres líneas semicirculares - ajustadas para que sean más sutiles
-    const arcs = [
-      { radius: 25, centerX: 50, centerY: 110, particleCount: 20, direction: 1, color: 'rgba(168, 168, 255, 0.6)' },  // Arco 1
-      { radius: 35, centerX: 50, centerY: 110, particleCount: 25, direction: -1, color: 'rgba(134, 134, 236, 0.5)' }, // Arco 2
-      { radius: 45, centerX: 50, centerY: 110, particleCount: 30, direction: 1, color: 'rgba(255, 255, 255, 0.4)' },  // Arco 3
+    const colors = [
+      'rgba(99, 102, 241, 0.6)',
+      'rgba(129, 140, 248, 0.5)',
+      'rgba(147, 197, 253, 0.4)',
+      'rgba(196, 181, 253, 0.5)',
+      'rgba(167, 139, 250, 0.6)'
     ];
-
-    // Crear partículas para cada arco con posiciones iniciales distribuidas
-    arcs.forEach(arc => {
-      // Crear un grupo de animación para cada arco para mantener sincronización
-      const particles = [];
+    // Crear partículas con distribución controlada
+    for (let i = 0; i < 20; i++) {
+      const particle = document.createElement('div');
+      const baseSize = 2 + Math.random() * 3;
+      const color = colors[Math.floor(Math.random() * colors.length)];
       
-      // Crear partículas con posiciones iniciales distribuidas uniformemente
-      for (let i = 0; i < arc.particleCount; i++) {
-        // Distribuir las partículas uniformemente a lo largo del arco
-        const startProgress = i / arc.particleCount; // Distribución uniforme inicial
-        
-        // Crear partícula
-        const particle = document.createElement('div');
-        
-        // Tamaño más pequeño para que sea más sutil como en la imagen
-        const size = 1.5 + (arc.radius / 40);
-        
-        // Estilo de la partícula - más sutil
-        particle.style.position = 'absolute';
-        particle.style.width = `${size}px`;
-        particle.style.height = `${size}px`;
-        particle.style.backgroundColor = arc.color;
-        particle.style.borderRadius = '50%';
-        particle.style.boxShadow = `0 0 ${size}px ${arc.color}`;
-        particle.style.opacity = '0.6';
-        
-        // Añadir al contenedor
-        container.appendChild(particle);
-        particles.push({
-          element: particle,
-          startProgress: startProgress
-        });
+      let startX, startY;
+      const zone = Math.random();
+      
+      if (zone < 0.4) {
+        // Zona alrededor del video
+        const angle = Math.random() * Math.PI * 2;
+        const radius = 15 + Math.random() * 20;
+        startX = 50 + Math.cos(angle) * radius;
+        startY = 50 + Math.sin(angle) * radius;
+      } else if (zone < 0.7) {
+        // Zonas laterales medias
+        startX = Math.random() > 0.5 ? 
+          5 + Math.random() * 25 :   // Lateral izquierdo
+          70 + Math.random() * 25;   // Lateral derecho
+        startY = 35 + Math.random() * 40;
+      } else {
+        // Esquinas inferiores y parte inferior
+        if (Math.random() > 0.5) {
+          // Esquina inferior izquierda
+          startX = Math.random() * 30;
+          startY = 70 + Math.random() * 30;
+        } else {
+          // Esquina inferior derecha
+          startX = 70 + Math.random() * 30;
+          startY = 70 + Math.random() * 30;
+        }
       }
       
-      // Usar una única animación para todo el arco para mantener la sincronización
-      const duration = 30; // Duración fija para todas las partículas del mismo arco
+      particle.style.position = 'absolute';
+      particle.style.width = `${baseSize}px`;
+      particle.style.height = `${baseSize}px`;
+      particle.style.backgroundColor = color;
+      particle.style.borderRadius = '50%';
+      particle.style.boxShadow = `0 0 ${baseSize * 3}px ${color}`;
+      particle.style.opacity = '0.8';
+      particle.style.left = `${startX}%`;
+      particle.style.top = `${startY}%`;
+      particle.style.transform = 'translate(-50%, -50%)';
       
-      // Animación principal que controla todas las partículas del arco
-      gsap.to({}, {
-        duration: duration,
+      container.appendChild(particle);
+      
+      // Animación ajustada para movimientos más amplios
+      gsap.to(particle, {
+        x: 'random(-35, 35)',
+        y: 'random(-30, 30)',
+        scale: 'random(1.5, 3)',
+        boxShadow: `0 0 ${baseSize * 10}px ${color}`,
+        duration: 1.5 + Math.random() * 1.5,
         repeat: -1,
-        ease: "none",
-        onUpdate: function() {
-          const masterProgress = this.progress();
-          
-          // Actualizar cada partícula manteniendo su offset inicial
-          particles.forEach(particle => {
-            // Calcular el progreso individual manteniendo la separación original
-            let progress = (masterProgress + particle.startProgress) % 1;
-            
-            // Calcular el ángulo actual basado en la dirección
-            let currentAngle;
-            if (arc.direction === 1) {
-              // De 0 a 180 grados
-              currentAngle = progress * 180;
-            } else {
-              // De 180 a 0 grados
-              currentAngle = 180 - (progress * 180);
-            }
-            
-            // Convertir a radianes
-            const currentRadians = (currentAngle * Math.PI) / 180;
-            
-            // Calcular nueva posición
-            const newX = arc.centerX + arc.radius * Math.cos(currentRadians);
-            const newY = arc.centerY - arc.radius * Math.sin(currentRadians);
-            
-            // Actualizar posición
-            particle.element.style.left = `${newX}%`;
-            particle.element.style.top = `${newY}%`;
-          });
-        }
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: Math.random()
       });
-    });
+    }
+
+    // Crear partículas con distribución uniforme
+    for (let i = 0; i < 60; i++) {
+      const particle = document.createElement('div');
+      const baseSize = 2 + Math.random() * 3;
+      const color = colors[Math.floor(Math.random() * colors.length)];
+      
+      // Distribución uniforme evitando solo las esquinas superiores
+      let startX = 5 + Math.random() * 90; // 5-95%
+      let startY = 20 + Math.random() * 80; // 20-100%
+      
+      // Evitar las esquinas superiores
+      if (startY < 30) {
+        if (startX < 25) startX = 25; // Evitar esquina superior izquierda
+        if (startX > 75) startX = 75; // Evitar esquina superior derecha
+      }
+      
+      particle.style.position = 'absolute';
+      particle.style.width = `${baseSize}px`;
+      particle.style.height = `${baseSize}px`;
+      particle.style.backgroundColor = color;
+      particle.style.borderRadius = '50%';
+      particle.style.boxShadow = `0 0 ${baseSize * 3}px ${color}`;
+      particle.style.opacity = '0.8';
+      particle.style.left = `${startX}%`;
+      particle.style.top = `${startY}%`;
+      particle.style.transform = 'translate(-50%, -50%)';
+      
+      container.appendChild(particle);
+      
+      // Animación con movimientos aleatorios
+      gsap.to(particle, {
+        x: 'random(-50, 50)',
+        y: 'random(-40, 40)',
+        scale: 'random(1.5, 3)',
+        boxShadow: `0 0 ${baseSize * 10}px ${color}`,
+        duration: 2 + Math.random() * 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: Math.random()
+      });
+    }
+
+    return () => {
+      gsap.killTweensOf({});
+    };
   }, []);
 
   return (

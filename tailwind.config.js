@@ -17,9 +17,9 @@ module.exports = {
     },
     extend: {
       fontFamily: {
-        sans: ["var(--font-inter)", "sans-serif"],
-        heading: ["var(--font-poppins)", "sans-serif"],
-        accent: ["var(--font-playfair)", "serif"],
+        body: ["var(--font-body)", "sans-serif"],
+        heading: ["var(--font-heading)", "sans-serif"],
+        accent: ["var(--font-accent)", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -28,24 +28,24 @@ module.exports = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#4A90E2",
+          DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "#F0F4F8",
+          DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
-        accent: {
-          DEFAULT: "#FF6B6B",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        neutral: {
-          DEFAULT: "#333333",
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
           DEFAULT: "hsl(var(--muted))",
           foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -54,6 +54,10 @@ module.exports = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        neutral: {
+          DEFAULT: "hsl(var(--neutral))",
+          foreground: "hsl(var(--neutral-foreground))",
         },
       },
       borderRadius: {
@@ -70,10 +74,70 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: 0 },
         },
+        "fade-in": {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
+        "fade-out": {
+          "0%": { opacity: 1 },
+          "100%": { opacity: 0 },
+        },
+        "slide-up": {
+          "0%": { transform: "translateY(20px)", opacity: 0 },
+          "100%": { transform: "translateY(0)", opacity: 1 },
+        },
+        "slide-down": {
+          "0%": { transform: "translateY(-20px)", opacity: 0 },
+          "100%": { transform: "translateY(0)", opacity: 1 },
+        },
+        "slide-left": {
+          "0%": { transform: "translateX(20px)", opacity: 0 },
+          "100%": { transform: "translateX(0)", opacity: 1 },
+        },
+        "slide-right": {
+          "0%": { transform: "translateX(-20px)", opacity: 0 },
+          "100%": { transform: "translateX(0)", opacity: 1 },
+        },
+        "scale-up": {
+          "0%": { transform: "scale(0.8)", opacity: 0 },
+          "100%": { transform: "scale(1)", opacity: 1 },
+        },
+        "reveal-text": {
+          "0%": { transform: "translateY(100%)", opacity: 0 },
+          "100%": { transform: "translateY(0)", opacity: 1 },
+        },
+        "marquee": {
+          "0%": { transform: "translateX(0)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-10px)" }
+        },
+        "typing": {
+          "from": { width: "0" },
+          "to": { width: "100%" }
+        },
+        "blink-caret": {
+          "from, to": { borderColor: "transparent" },
+          "50%": { borderColor: "currentColor" }
+        }
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "fade-in": "fade-in 0.7s ease-in",
+        "fade-out": "fade-out 0.7s ease-out",
+        "slide-up": "slide-up 0.7s ease-out",
+        "slide-down": "slide-down 0.7s ease-out",
+        "slide-left": "slide-left 0.7s ease-out",
+        "slide-right": "slide-right 0.7s ease-out",
+        "scale-up": "scale-up 0.7s ease-out",
+        "reveal-text": "reveal-text 1s cubic-bezier(0.16, 1, 0.3, 1)",
+        "marquee": "marquee 20s linear infinite",
+        "float": "float 3s ease-in-out infinite",
+        "typing": "typing 3.5s steps(40, end)",
+        "blink-caret": "blink-caret .75s step-end infinite"
       },
     },
   },

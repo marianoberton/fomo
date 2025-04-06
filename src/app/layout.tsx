@@ -1,36 +1,32 @@
-import type { Metadata } from "next";
-import { Inter, Poppins, Playfair_Display } from "next/font/google";
 import "./globals.css";
-// Removing unused imports
-// import Navigation from "@/components/navigation";
-// import Footer from "@/components/footer";
+import type { Metadata } from "next";
+import { Quicksand, Poppins, Fredoka } from "next/font/google";
+import Navigation from "@/components/navigation";
+import Footer from "@/components/footer";
 
-// Load Inter font for body text
-const inter = Inter({
+// Font definitions - Más redondeadas y cálidas
+const quicksand = Quicksand({ 
   subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
+  variable: "--font-body",
+  display: "swap"
 });
 
-// Load Poppins for headings
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-  variable: "--font-poppins",
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-heading",
+  display: "swap"
 });
 
-// Load Playfair Display for accent text
-const playfair = Playfair_Display({
+const fredoka = Fredoka({
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
-  display: "swap",
-  variable: "--font-playfair",
+  variable: "--font-accent",
+  display: "swap"
 });
 
 export const metadata: Metadata = {
-  title: "FOMO - Soluciones Tecnológicas para Pymes",
-  description: "Transformamos tu negocio con tecnología a medida. Desarrollo web, automatizaciones, IA y más para pymes argentinas.",
+  title: "FOMO - Diseño Digital para Pymes",
+  description: "Transformamos tu negocio con soluciones digitales a medida. Desarrollo, automatizaciones, IA y diseño para pymes innovadoras.",
 };
 
 export default function RootLayout({
@@ -40,10 +36,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" className="scroll-smooth">
-      <body className={`${inter.variable} ${poppins.variable} ${playfair.variable} font-sans`}>
-        {/* <Navigation /> */}
+      <body className={`${quicksand.variable} ${poppins.variable} ${fredoka.variable} font-body bg-background selection:bg-accent selection:text-accent-foreground`}>
+        <Navigation />
         <main>{children}</main>
-        {/* <Footer /> */}
+        <Footer />
       </body>
     </html>
   );
