@@ -38,6 +38,7 @@ export default function RootLayout({
   return (
     <html lang="es" className="scroll-smooth">
       <head>
+        <meta name="facebook-domain-verification" content="3dyqkms7knx3xv282a8j1db5capb0o" />
         <Script id="facebook-pixel" strategy="afterInteractive">
           {`
             !function(f,b,e,v,n,t,s)
