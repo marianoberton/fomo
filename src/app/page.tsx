@@ -17,7 +17,7 @@ import Footer from "@/components/footer";
 // Main Home component
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col w-full overflow-x-hidden items-center bg-background text-foreground">
+    <main className="flex min-h-screen flex-col w-full items-center bg-background text-foreground">
       <Navbar />
       <div className="flex flex-col w-full items-center">
         <HeroSection />
