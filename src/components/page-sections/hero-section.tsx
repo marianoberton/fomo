@@ -15,6 +15,11 @@ export default function HeroSection() {
   // const expandingCircleRef = useRef<HTMLDivElement>(null); // Comentado Fase 2
   // const newTextRef = useRef<HTMLDivElement>(null); // Comentado Fase 2
 
+  // Refs para la nueva sección AWS
+  const expandingCircleRef = useRef<HTMLDivElement>(null);
+  const awsContentRef = useRef<HTMLDivElement>(null);
+  const awsBadgesContainerRef = useRef<HTMLDivElement>(null);
+
   const [animationData, setAnimationData] = useState<any | null>(null);
 
   // Efecto para cargar la animación Lottie
@@ -27,7 +32,9 @@ export default function HeroSection() {
 
   // Efecto principal para configurar GSAP y ScrollTrigger cuando la data Lottie esté lista
   useEffect(() => {
-    if (!animationData || !heroRef.current || !contentRef.current || !lottieRef.current || !lottieContainerRef.current /*|| !expandingCircleRef.current || !newTextRef.current*/) { // Comentado Fase 2 refs check
+    if (!animationData || !heroRef.current || !contentRef.current || !lottieRef.current || !lottieContainerRef.current /*|| !expandingCircleRef.current || !newTextRef.current*/ // Comentado Fase 2 refs check
+      || !expandingCircleRef.current || !awsContentRef.current || !awsBadgesContainerRef.current // Nuevas refs
+    ) {
       return;
     }
 
@@ -36,18 +43,31 @@ export default function HeroSection() {
     lottieRef.current.goToAndStop(0, true); // Frame inicial del Lottie
 
     // Estados iniciales definidos con GSAP
-    gsap.set(lottieContainerRef.current, { yPercent: 50 }); // Posición inicial del Lottie (ajustar para la mitad de la esfera)
-    // gsap.set(expandingCircleRef.current, { scale: 0, borderRadius: '50%' }); // Comentado Fase 2
-    // gsap.set(newTextRef.current, { opacity: 0, scale: 0.5 }); // Comentado Fase 2
+    gsap.set(lottieContainerRef.current, { yPercent: 50 });
     gsap.set(contentRef.current, { opacity: 1 }); // Texto original visible al inicio
 
-    const totalFramesLottie = animationData.op || 180; // Total de frames del Lottie
-    // const framePhase2Start = 72; // Comentado Fase 2
-    // const progressPhase2Start = framePhase2Start / totalFramesLottie; // Comentado Fase 2
-    
-    // const heroWidth = heroRef.current.offsetWidth; // Comentado Fase 2
-    // const heroHeight = heroRef.current.offsetHeight; // Comentado Fase 2
-    // const baseCircleSize = 40; // Comentado Fase 2
+    // Estados iniciales para la sección AWS (ahora es el contenedor de máscara)
+    gsap.set(expandingCircleRef.current, {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100vw', 
+      height: '100vh',
+      backgroundColor: '#1D253F',
+      scale: 1, // Tamaño completo desde el inicio
+      opacity: 1, // Opaco desde el inicio (controlado por clip-path)
+      zIndex: 40, 
+      clipPath: 'circle(0% at 50% 50%)', // Inicia como un círculo de radio 0 en el centro
+    });
+    // Contenido AWS visible dentro del contenedor de máscara
+    gsap.set(awsContentRef.current, { opacity: 1, y: 0, width: '100%', textAlign: 'center' });
+    if (awsBadgesContainerRef.current) {
+      gsap.set(awsBadgesContainerRef.current.children, { opacity: 1 }); // Asegurarse de que sean visibles
+    }
+
+    const totalFramesLottie = animationData.op || 180;
+    const frameToStartAwsReveal = 72; // Frame donde comienza la revelación de AWS
+    const progressToStartAwsReveal = totalFramesLottie > 0 ? frameToStartAwsReveal / totalFramesLottie : 0.4;
 
     // Timeline principal de ScrollTrigger
     const tl = gsap.timeline({
@@ -92,17 +112,52 @@ export default function HeroSection() {
       }
     });
 
-    // Animaciones de la Fase 1 en la timeline (Lottie sube, texto original se desvanece)
-    tl
-      .to(lottieContainerRef.current, { yPercent: -25, ease: "none" }, 0) // Lottie se mueve hacia arriba
-      .to(contentRef.current, { opacity: 0, ease: "none" }, 0); // Texto original se desvanece
+    // Fase 1: Lottie se mueve al centro y Texto original se desvanece
+    // Lottie se mueve HASTA progressToStartAwsReveal
+    tl.to(lottieContainerRef.current, {
+        // yPercent: -25, // Cambiado
+        yPercent: 0, // Mover al centro vertical
+        ease: "none",
+        duration: progressToStartAwsReveal // Termina exactamente cuando empieza la revelación AWS
+      }, 0) // Empieza al inicio de la timeline
+      .to(contentRef.current, { 
+        opacity: 0, 
+        ease: "none",
+        duration: progressToStartAwsReveal // Desvanecer durante el mismo tiempo
+      }, 0); // Empieza al inicio
 
     // Las animaciones de la Fase 2 ahora se manejan completamente en onUpdate
+
+    // Animación de la sección AWS (ahora es la animación de la máscara)
+    tl
+      // .set(expandingCircleRef.current, { // Ya no es necesario este set
+      //   opacity: 1,
+      //   scale: 0, 
+      // }, progressToStartAwsReveal)
+      
+      // Paso único: Animar el clip-path para revelar
+      .to(expandingCircleRef.current, {
+          clipPath: 'circle(71% at 50% 50%)', // Expandir círculo hasta cubrir la pantalla (71% > sqrt(50^2+50^2))
+          duration: 0.8, // Duración de la expansión de la máscara
+          ease: 'power2.inOut', // Puede ajustarse el ease
+      }, progressToStartAwsReveal) // Comienza en el progress calculado
+
+      // Ya no se necesitan las animaciones separadas para border-radius, padding, contenido y badges
+      // .to(expandingCircleRef.current, { ... }) // Eliminado
+      // .to(awsContentRef.current, { ... }) // Eliminado
+      // .to(awsBadgesContainerRef.current ? awsBadgesContainerRef.current.children : [], { ... }) // Eliminado
+      ;
 
     return () => {
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
       // Considerar matar tweens específicos si hay problemas al desmontar
-      // gsap.killTweensOf([lottieContainerRef.current, contentRef.current, expandingCircleRef.current, newTextRef.current]);
+      gsap.killTweensOf([
+        lottieContainerRef.current, 
+        contentRef.current, 
+        expandingCircleRef.current, 
+        awsContentRef.current,
+        awsBadgesContainerRef.current ? awsBadgesContainerRef.current.children : null
+      ].filter(Boolean));
     };
   }, [animationData]); // El efecto se ejecuta cuando animationData cambia
 
@@ -146,6 +201,34 @@ export default function HeroSection() {
           />
         </div>
       )}
+
+      {/* Círculo que se expande y contenido AWS (z-40) - Ahora es Contenedor de Máscara */}
+      <div 
+        ref={expandingCircleRef} 
+        className="bg-[#1D253F] absolute inset-0 flex items-center justify-center" // Asegura tamaño y centrado del contenido interno
+      >
+        {/* Contenido AWS centrado dentro del contenedor de máscara */}
+        <div ref={awsContentRef} className="text-white text-center max-w-screen-lg mx-auto px-5">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2.5">
+            AWS <span className="font-normal">Advanced</span> Partner
+          </h2>
+          <p className="text-base sm:text-lg mb-7">
+            We rank among the top 1% of partners for startups on AWS.
+          </p>
+          <div ref={awsBadgesContainerRef} className="flex flex-wrap justify-center gap-5 mb-7">
+            {/* Placeholder para badges - reemplaza con tus <img> tags */}
+            <div className="bg-white/10 p-4 rounded-lg w-24 h-24 flex justify-center items-center">Badge 1</div>
+            <div className="bg-white/10 p-4 rounded-lg w-24 h-24 flex justify-center items-center">Badge 2</div>
+            <div className="bg-white/10 p-4 rounded-lg w-24 h-24 flex justify-center items-center">Badge 3</div>
+          </div>
+          <a 
+            href="#" 
+            className="inline-block bg-[#FF9900] text-[#1D253F] py-3 px-6 rounded-md font-bold transition-colors duration-300 ease-in-out hover:bg-[#e68a00]"
+          >
+            LEARN MORE
+          </a>
+        </div>
+      </div>
 
       {/* Círculo que se expande (z-15) - Comentado Fase 2 */}
       {/* 
