@@ -66,7 +66,7 @@ export default function RootLayout({
       <body className={`${quicksand.variable} ${poppins.variable} ${fredoka.variable} font-body bg-background selection:bg-accent selection:text-accent-foreground`}>
         <Navigation />
         <main>{children}</main>
-        <Footer />
+       
       </body>
     </html>
   );
