@@ -26,8 +26,8 @@ const fredoka = Fredoka({
 });
 
 export const metadata: Metadata = {
-  title: "FOMO - Diseño Digital para Pymes",
-  description: "Transformamos tu negocio con soluciones digitales a medida. Desarrollo, automatizaciones, IA y diseño para pymes innovadoras.",
+  title: "FOMO - IA y Datos que disparan tu PyME",
+  description: "Consultora FOMO: estrategia, implementación y optimización continua para crecer sin depender de la intuición.",
 };
 
 export default function RootLayout({
@@ -66,7 +66,7 @@ export default function RootLayout({
       <body className={`${quicksand.variable} ${poppins.variable} ${fredoka.variable} font-body bg-background selection:bg-accent selection:text-accent-foreground`}>
         <Navigation />
         <main>{children}</main>
-       
+        <Footer />
       </body>
     </html>
   );

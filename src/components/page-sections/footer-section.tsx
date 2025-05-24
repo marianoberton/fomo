@@ -14,7 +14,7 @@ import {
   Zap
 } from "lucide-react";
 
-export default function Footer() {
+export default function FooterSection() {
   const currentYear = new Date().getFullYear();
 
   const quickLinks = [

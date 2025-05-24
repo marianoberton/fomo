@@ -167,7 +167,6 @@ export default function PopularServices() {
   }, [])
 
   useEffect(() => {
-    // Only run in browser
     if (typeof window === 'undefined' || !animationData || !sectionRef.current || servicesData.length === 0) return
 
     // Register both plugins explicitly
@@ -198,28 +197,36 @@ export default function PopularServices() {
       scrub: 0.5,
       markers: true,
       snap: {
-        // Use a custom snap function that only works for specific indices
+        // Use a custom snap function that works for all indices including first and last
         snapTo: (value) => {
-          // If we're at last service, don't snap elsewhere
-          if (isAtLastService.current) {
-            return value; // Stay where we are
+          // Reset last service flag if we're scrolling back up towards the beginning
+          if (value < 0.2 && isAtLastService.current) {
+            console.log("Scrolling back up, resetting isAtLastService flag");
+            isAtLastService.current = false;
           }
           
-          // Find closest snap point (excluding the last one to prevent bouncing)
+          // Special case for the first element - increased threshold to 0.2
+          if (value < 0.2) {
+            console.log("Near start, snapping to first service");
+            return 0; // Force snap to first element
+          }
+          
+          // Special case for the last element
+          if (value > 0.8 || isAtLastService.current) {
+            console.log("Near end or already at last service, snapping to last service");
+            return 1; // Force snap to last element
+          }
+          
+          // For middle elements, find the closest snap point
           let closestIndex = 0;
           let minDistance = 1;
           
-          for (let i = 0; i < snapPoints.length - 1; i++) {
+          for (let i = 0; i < snapPoints.length; i++) {
             const distance = Math.abs(value - snapPoints[i]);
             if (distance < minDistance) {
               minDistance = distance;
               closestIndex = i;
             }
-          }
-          
-          // Only return the last snap point if we're very close to it
-          if (value > 0.8) {
-            return 1; // Last snap point
           }
           
           return snapPoints[closestIndex];
@@ -229,7 +236,8 @@ export default function PopularServices() {
       },
       onUpdate: self => {
         // If we already decided this is the last service, don't change back
-        if (isAtLastService.current && targetServiceIndex === numServices - 1) {
+        // unless we're explicitly scrolling back up towards the beginning
+        if (isAtLastService.current && targetServiceIndex === numServices - 1 && self.progress > 0.5) {
           console.log("Already at last service, ignoring scroll update");
           return;
         }
@@ -238,25 +246,22 @@ export default function PopularServices() {
         let targetIndex;
         const progress = self.progress;
         
-        // Find the second-to-last snap point
-        const secondLastSnapPoint = snapPoints[snapPoints.length - 2];
-        
-        // If we're beyond the second-to-last snap point (>= not just >), 
-        // we should show the last service
-        if (progress >= secondLastSnapPoint) {
-          targetIndex = numServices - 1; // Last service
-          console.log(`Progress: ${progress.toFixed(3)} → Beyond ${secondLastSnapPoint.toFixed(3)}, ACTIVATING LAST service: ${targetIndex}`);
-          
-          // Set the flag to prevent bouncing back
-          isAtLastService.current = true;
-        } 
-        // First service handling
-        else if (progress < 0.1) {
+        // First service handling - special case to always work - increased threshold to 0.2
+        if (progress < 0.2) {
           targetIndex = 0; // First service
           console.log(`Progress: ${progress.toFixed(3)} → ACTIVATING FIRST service: 0`);
           
           // Reset the last service flag
           isAtLastService.current = false;
+        }
+        // Find the second-to-last snap point for last service detection
+        else if (progress >= snapPoints[numServices - 2]) {
+          // Beyond second-to-last snap point, show last service
+          targetIndex = numServices - 1; // Last service
+          console.log(`Progress: ${progress.toFixed(3)} → Beyond ${snapPoints[numServices - 2].toFixed(3)}, ACTIVATING LAST service: ${targetIndex}`);
+          
+          // Set the flag to prevent bouncing back
+          isAtLastService.current = true;
         }
         // For all other cases, find the closest snap point
         else {
@@ -358,8 +363,8 @@ export default function PopularServices() {
           setTargetServiceIndex(numServices - 1);
           isAtLastService.current = true;
         } 
-        // First service handling
-        else if (progress < 0.1 && targetServiceIndex !== 0) {
+        // First service handling - increased threshold to 0.2
+        else if (progress < 0.2 && targetServiceIndex !== 0) {
           console.log("Progress near start, activating first service");
           setTargetServiceIndex(0);
           isAtLastService.current = false;
@@ -388,12 +393,22 @@ export default function PopularServices() {
     // Reset the last service flag
     isAtLastService.current = false;
     
-    // Scroll to start
+    // Scroll to start - using a slightly better approach to ensure we reach the start
     if (pinningTriggerRef.current) {
+      const trigger = pinningTriggerRef.current;
+      // Use a more precise approach to target the exact beginning
+      const scrollPos = Math.max(0, trigger.start - 10); // Small offset to ensure we're at the very beginning
+      
       gsap.to(window, {
-        scrollTo: { y: pinningTriggerRef.current.start, autoKill: true },
+        scrollTo: { y: scrollPos, autoKill: true },
         duration: 0.5,
-        ease: "power2.inOut"
+        ease: "power2.inOut",
+        onComplete: () => {
+          // Force first service again after scrolling completes
+          setTargetServiceIndex(0);
+          setDisplayServiceIndex(0);
+          ScrollTrigger.refresh();
+        }
       });
     }
   }, []);
