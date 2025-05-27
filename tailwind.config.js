@@ -26,6 +26,9 @@ module.exports = {
       colors: {
         brilliantBlue: '#0077B6',
         signalYellow: '#FCCD12',
+        plum: '#310629',
+        cream: '#FDF6E3',
+        gold: '#D4AF37',
         cloudGray: '#F4F4F6',
         slateText: '#222222',
         white: '#FFFFFF',
