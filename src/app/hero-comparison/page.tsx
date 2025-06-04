@@ -58,7 +58,7 @@ export default function HeroComparisonPage() {
         <p className="text-xs text-muted-foreground mb-3">
           {showAI 
             ? 'Simulación interactiva que muestra cómo la IA toma decisiones en tiempo real en entornos urbanos complejos.'
-            : 'Dashboard inteligente con métricas en tiempo real, animaciones de conteo y efectos Three.js sutiles.'
+            : 'Dashboard inteligente con métricas en tiempo real y animaciones de conteo.'
           }
         </p>
         
