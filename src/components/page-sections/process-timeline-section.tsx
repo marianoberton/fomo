@@ -261,11 +261,11 @@ export default function ProcessTimelineSection() {
       {/* Combined Section with Global Blueprint Background */}
       <div className="relative w-screen" style={{ backgroundColor: '#222222' }}>
         {/* Global Background decoration */}
-        <div className="absolute inset-0">
+      <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-signalYellow/8 rounded-full blur-3xl"></div>
           <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-orange-500/6 rounded-full blur-3xl"></div>
           <div className="absolute top-3/4 left-1/2 w-64 h-64 bg-signalYellow/5 rounded-full blur-3xl"></div>
-        </div>
+      </div>
 
         {/* SVG Decorations distributed throughout the ENTIRE component */}
         {/* (SVGs removed as requested) */}
@@ -276,17 +276,17 @@ export default function ProcessTimelineSection() {
             <div className="inline-flex items-center gap-2 bg-gradient-to-r from-signalYellow to-orange-500 text-slate-900 px-6 py-3 rounded-full text-sm font-bold mb-6 shadow-lg">
               <Workflow className="w-5 h-5" />
               Roadmap paso a paso
-            </div>
+          </div>
             <h2 className="text-4xl lg:text-6xl font-bold text-white mb-6 leading-tight">
               <span className="bg-gradient-to-r from-signalYellow to-orange-500 bg-clip-text text-transparent">
                 Nuestro proceso
               </span>{" "}
               paso a paso
-            </h2>
+          </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
-              Una metodología probada que garantiza resultados tangibles y adopción exitosa
-            </p>
-          </div>
+            Una metodología probada que garantiza resultados tangibles y adopción exitosa
+          </p>
+        </div>
         </section>
 
         {/* Main Timeline Section - Full Screen Pinned */}
@@ -351,10 +351,10 @@ export default function ProcessTimelineSection() {
                  </div>
                  <div className="absolute -bottom-2 -right-2 w-8 h-8 lg:w-10 lg:h-10 bg-gradient-to-br from-slate-900 to-slate-800 rounded-full flex items-center justify-center text-signalYellow font-bold text-sm lg:text-base border-2 border-signalYellow transition-all duration-500">
                    {processSteps[activeStep].number}
-                 </div>
-               </div>
-            </div>
-
+                    </div>
+                    </div>
+                  </div>
+                  
                          {/* Right Section - Reduced margins, more space */}
              <div className="w-5/12 relative flex items-center justify-center pl-8">
                {processSteps.map((step, index) => (
@@ -377,8 +377,8 @@ export default function ProcessTimelineSection() {
                          </div>
                          <div className="flex-1">
                            <h3 className="text-xl lg:text-2xl font-bold text-white mb-2">
-                             {step.title}
-                           </h3>
+                        {step.title}
+                      </h3>
                          </div>
                        </div>
                      </div>
@@ -387,10 +387,10 @@ export default function ProcessTimelineSection() {
                        {/* Description */}
                        <div className="mb-6">
                          <p className="text-white/80 text-base lg:text-lg leading-relaxed">
-                           {step.description}
-                         </p>
+                        {step.description}
+                      </p>
                        </div>
-                       
+                      
                        {/* Details with enhanced styling */}
                        <div className="space-y-4">
                          <div className="flex items-center gap-2 mb-4">
@@ -402,27 +402,27 @@ export default function ProcessTimelineSection() {
                            </h4>
                          </div>
                          <ul className="space-y-3">
-                           {step.details.map((detail, detailIndex) => (
+                          {step.details.map((detail, detailIndex) => (
                              <li key={detailIndex} className="flex items-start gap-3 group">
                                <div className="w-6 h-6 bg-gradient-to-br from-signalYellow/30 to-orange-500/30 rounded-lg flex items-center justify-center mt-0.5 border border-signalYellow/40 group-hover:border-signalYellow/60 transition-colors">
                                  <div className="w-2 h-2 bg-signalYellow rounded-full"></div>
                                </div>
                                <span className="text-white/80 text-sm lg:text-base leading-relaxed group-hover:text-white transition-colors">
-                                 {detail}
-                               </span>
-                             </li>
-                           ))}
-                         </ul>
-                       </div>
-                     </CardContent>
-                   </Card>
-                 </div>
+                                {detail}
+                              </span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
                ))}
              </div>
           </div>
         </div>
         </section>
-      </div>
+            </div>
 
       {/* CTA Section - Appears after pinned section */}
       <section className="w-full py-24 bg-gradient-to-br from-slate-100 to-white relative overflow-hidden">
@@ -430,7 +430,7 @@ export default function ProcessTimelineSection() {
           <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-signalYellow/8 rounded-full blur-3xl"></div>
           <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-orange-500/6 rounded-full blur-3xl"></div>
         </div>
-        
+
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-12 border-2 border-signalYellow/20">
             <div className="flex items-center justify-center gap-3 mb-6">
@@ -448,9 +448,9 @@ export default function ProcessTimelineSection() {
             >
               Empezar diagnóstico de transformación
             </Button>
-          </div>
         </div>
-      </section>
+      </div>
+    </section>
     </>
   );
 } 

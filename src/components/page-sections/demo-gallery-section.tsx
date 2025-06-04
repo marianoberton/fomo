@@ -2,29 +2,28 @@
 
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { 
-  ChevronLeft, 
-  ChevronRight,
-  Play,
-  Maximize2,
   BarChart3,
   GitBranch,
   MessageCircle,
-  Eye
+  Eye,
+  Play,
+  Globe,
+  Zap
 } from "lucide-react";
+import { motion } from "framer-motion";
 
 interface DemoItem {
   id: string;
-  type: 'dashboard' | 'process-map' | 'chatbot';
+  type: 'dashboard' | 'website' | 'automation' | 'chatbot';
   title: string;
   description: string;
   thumbnail: string;
-  fullImage?: string;
   videoUrl?: string;
   icon: React.ElementType;
   tech: string;
   benefit: string;
+  colorTheme: 'signalYellow' | 'brilliantBlue' | 'plum' | 'orange';
 }
 
 const demoItems: DemoItem[] = [
@@ -32,274 +31,337 @@ const demoItems: DemoItem[] = [
     id: 'dashboard',
     type: 'dashboard',
     title: 'Centro de Comando Real',
-    description: 'Dashboard ejecutivo construido en Looker/Next.js para una PyME del sector retail. Datos reales, identidades protegidas.',
-    thumbnail: '/images/demo/dashboard-thumbnail.jpg', // Placeholder
-    fullImage: '/images/demo/dashboard-full.jpg', // Placeholder
+    description: 'Dashboard ejecutivo construido en Looker/Next.js para una PyME del sector retail. Datos reales, decisiones inteligentes.',
+    thumbnail: '/images/demo/dashboard-thumbnail.jpg',
+    videoUrl: '/videos/demo/dashboard.mp4',
     icon: BarChart3,
     tech: 'Looker Studio + Next.js',
-    benefit: 'Decisiones basadas en datos reales'
+    benefit: 'Decisiones basadas en datos reales',
+    colorTheme: 'brilliantBlue'
   },
   {
-    id: 'process-map',
-    type: 'process-map',
-    title: 'Mapeo de Procesos en Miro',
-    description: 'Proceso de gestión de leads mapeado y optimizado. De 8 pasos manuales a 3 automatizados.',
-    thumbnail: '/images/demo/miro-thumbnail.jpg', // Placeholder
-    fullImage: '/images/demo/miro-full.jpg', // Placeholder
-    icon: GitBranch,
-    tech: 'Miro + Documentación',
-    benefit: 'Procesos estandarizados y claros'
+    id: 'website',
+    type: 'website',
+    title: 'Web + E-commerce Integrado',
+    description: 'Sitio web completo con carrito integrado a stock y CRM. Todo conectado en tiempo real.',
+    thumbnail: '/images/demo/website-thumbnail.jpg',
+    videoUrl: '/videos/demo/website.mp4',
+    icon: Globe,
+    tech: 'Next.js + Integrations',
+    benefit: 'Ventas online automatizadas',
+    colorTheme: 'signalYellow'
+  },
+  {
+    id: 'automation',
+    type: 'automation',
+    title: 'Flujo de Automatización',
+    description: 'Proceso completo automatizado: de lead a cliente en 3 pasos. Sin intervención manual.',
+    thumbnail: '/images/demo/automation-thumbnail.jpg',
+    videoUrl: '/videos/demo/automation.mp4',
+    icon: Zap,
+    tech: 'n8n + APIs',
+    benefit: 'Procesos que funcionan solos',
+    colorTheme: 'orange'
   },
   {
     id: 'chatbot',
     type: 'chatbot',
-    title: 'Bot WhatsApp en Acción',
-    description: 'Bot respondiendo consultas frecuentes y derivando leads calificados. Sandbox de Meta Business.',
-    thumbnail: '/images/demo/whatsapp-thumbnail.jpg', // Placeholder
-    videoUrl: '/videos/demo/whatsapp-bot.mp4', // Placeholder
+    title: 'Bot WhatsApp Inteligente',
+    description: 'Bot que responde consultas, califica leads y agenda reuniones. Atención 24/7 real.',
+    thumbnail: '/images/demo/whatsapp-thumbnail.jpg',
+    videoUrl: '/videos/demo/whatsapp-bot.mp4',
     icon: MessageCircle,
-    tech: 'Meta Business API + n8n',
-    benefit: 'Atención 24/7 automatizada'
+    tech: 'Meta Business API + IA',
+    benefit: 'Atención que nunca duerme',
+    colorTheme: 'plum'
+  },
+  {
+    id: 'process-flow',
+    type: 'automation',
+    title: 'Mapeo de Procesos Visual',
+    description: 'De 8 pasos manuales a 3 automatizados. Procesos claros que todo el equipo entiende.',
+    thumbnail: '/images/demo/miro-thumbnail.jpg',
+    videoUrl: '/videos/demo/process-map.mp4',
+    icon: GitBranch,
+    tech: 'Miro + Documentación',
+    benefit: 'Procesos estandarizados',
+    colorTheme: 'brilliantBlue'
+  },
+  {
+    id: 'integration',
+    type: 'automation',
+    title: 'Integración Total de Sistemas',
+    description: 'CRM, inventario, contabilidad y web hablando entre sí. Un solo sistema unificado.',
+    thumbnail: '/images/demo/integration-thumbnail.jpg',
+    videoUrl: '/videos/demo/integration.mp4',
+    icon: GitBranch,
+    tech: 'APIs + Webhooks',
+    benefit: 'Datos siempre sincronizados',
+    colorTheme: 'signalYellow'
   }
 ];
 
 export default function DemoGallerySection() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalContent, setModalContent] = useState<DemoItem | null>(null);
+  const [hoveredItem, setHoveredItem] = useState<string | null>(null);
 
-  const nextSlide = () => {
-    setCurrentIndex((prev) => (prev + 1) % demoItems.length);
+  const getThemeColors = (theme: 'signalYellow' | 'brilliantBlue' | 'plum' | 'orange') => {
+    switch (theme) {
+      case 'signalYellow':
+        return {
+          bg: 'bg-signalYellow',
+          text: 'text-slate-900',
+          border: 'border-yellow-600/20'
+        };
+      case 'brilliantBlue':
+        return {
+          bg: 'bg-brilliantBlue',
+          text: 'text-white',
+          border: 'border-blue-700/20'
+        };
+      case 'plum':
+        return {
+          bg: 'bg-plum',
+          text: 'text-white',
+          border: 'border-purple-700/20'
+        };
+      case 'orange':
+        return {
+          bg: 'bg-orange-500',
+          text: 'text-white',
+          border: 'border-orange-700/20'
+        };
+    }
   };
-
-  const prevSlide = () => {
-    setCurrentIndex((prev) => (prev - 1 + demoItems.length) % demoItems.length);
-  };
-
-  const openModal = (item: DemoItem) => {
-    setModalContent(item);
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-    setModalContent(null);
-  };
-
-  const currentItem = demoItems[currentIndex];
-  const Icon = currentItem.icon;
 
   return (
-    <>
-      <section className="w-full py-24 bg-gradient-to-b from-background to-muted/20 relative overflow-hidden">
-        {/* Background decoration */}
+    <section className="w-full py-24 bg-white relative overflow-hidden">
+      {/* Background decoration with brand colors */}
         <div className="absolute inset-0">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brilliantBlue/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/3 right-1/4 w-80 h-80 bg-signalYellow/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/4 left-1/6 w-96 h-96 bg-gradient-to-r from-brilliantBlue/5 to-signalYellow/5 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/3 right-1/6 w-80 h-80 bg-gradient-to-r from-plum/5 to-orange-500/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-brilliantBlue/3 rounded-full blur-2xl"></div>
         </div>
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Section Header */}
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-neutral-900 text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
+        <motion.div 
+          className="text-center mb-16"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
+        >
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-brilliantBlue to-plum text-white px-6 py-3 rounded-full text-sm font-medium mb-6 shadow-lg">
               <Eye className="w-4 h-4" />
               Casos Reales
             </div>
-            <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
-              <span className="text-brilliantBlue">
+          <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6 leading-tight">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-brilliantBlue to-plum">
                 Mirá lo que construimos
               </span>{" "}
               para otros clientes
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
               Estos son artefactos reales de proyectos que desarrollamos. Sin métricas inventadas, sin mockups genéricos.
             </p>
-          </div>
+        </motion.div>
 
-          {/* Main Carousel */}
-          <div className="relative">
-            <div className="overflow-hidden rounded-3xl">
-              <div className="grid lg:grid-cols-2 gap-8 items-center bg-card/90 backdrop-blur-sm border border-border/50 p-8 rounded-3xl">
-                {/* Content Side */}
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-brilliantBlue/10 rounded-2xl flex items-center justify-center">
-                      <Icon className="w-6 h-6 text-brilliantBlue" />
-                    </div>
-                    <div>
-                      <div className="text-sm font-medium text-brilliantBlue">
-                        {currentItem.tech}
-                      </div>
-                      <h3 className="text-2xl font-bold text-foreground">
-                        {currentItem.title}
-                      </h3>
-                    </div>
-                  </div>
+        {/* Floating Videos Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          {demoItems.map((item, index) => {
+            const theme = getThemeColors(item.colorTheme);
+            const Icon = item.icon;
+            const isHovered = hoveredItem === item.id;
 
-                  <p className="text-muted-foreground text-lg leading-relaxed">
-                    {currentItem.description}
-                  </p>
+            // Determine video source based on card type
+            const getVideoSource = () => {
+              switch (item.id) {
+                case 'website':
+                  return '/videos/ecommerce.mp4';
+                case 'chatbot':
+                  return '/videos/chatbot.mp4';
+                case 'process-flow':
+                  return '/videos/procesos.mp4';
+                case 'automation':
+                  return '/videos/inted.mp4';
+                case 'integration':
+                  return '/videos/lamoderna.mp4';
+                default:
+                  return '/videos/istockphoto-1223693297-640_adpp_is.mp4';
+              }
+            };
 
-                  <div className="bg-signalYellow/10 rounded-2xl p-4 border border-signalYellow/20">
-                    <div className="text-sm font-semibold text-signalYellow/80 mb-1">
-                      Resultado clave:
-                    </div>
-                    <div className="text-foreground font-medium">
-                      {currentItem.benefit}
-                    </div>
-                  </div>
-
-                  <div className="flex gap-4">
-                    <Button
-                      onClick={() => openModal(currentItem)}
-                      className="bg-brilliantBlue hover:bg-brilliantBlue/90 text-white px-6 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105"
+            return (
+              <motion.div
+                key={item.id}
+                className="relative"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+                viewport={{ once: true }}
+                onMouseEnter={() => setHoveredItem(item.id)}
+                onMouseLeave={() => setHoveredItem(null)}
+              >
+                <motion.div
+                  className={`relative ${theme.bg} rounded-3xl shadow-lg border-2 ${theme.border} overflow-hidden cursor-pointer transition-all duration-500`}
+                  whileHover={{ 
+                    scale: 1.05,
+                    rotate: index % 2 === 0 ? 2 : -2,
+                    zIndex: 10
+                  }}
+                  style={{
+                    transformStyle: 'preserve-3d'
+                  }}
+                >
+                  {/* Video Preview Area */}
+                  <div className="aspect-video relative overflow-hidden">
+                    {/* Actual video element */}
+                    <video
+                      className="w-full h-full object-cover"
+                      muted
+                      loop
+                      playsInline
+                      onMouseEnter={(e) => {
+                        const video = e.target as HTMLVideoElement;
+                        video.play();
+                      }}
+                      onMouseLeave={(e) => {
+                        const video = e.target as HTMLVideoElement;
+                        video.pause();
+                        video.currentTime = 0;
+                      }}
                     >
-                      <Maximize2 className="w-4 h-4 mr-2" />
-                      Ver en detalle
-                    </Button>
+                      <source src={getVideoSource()} type="video/mp4" />
+                      Your browser does not support the video tag.
+                    </video>
                     
-                    {currentItem.videoUrl && (
-                      <Button
-                        variant="outline"
-                        onClick={() => openModal(currentItem)}
-                        className="px-6 py-3 rounded-full font-semibold border-brilliantBlue text-brilliantBlue hover:bg-brilliantBlue hover:text-white transition-all duration-300"
+                    {/* Play overlay */}
+                    <motion.div
+                      className="absolute inset-0 bg-black/20 flex items-center justify-center pointer-events-none"
+                      initial={{ opacity: 1 }}
+                      animate={{ opacity: isHovered ? 0 : 0.3 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      <motion.div
+                        className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center backdrop-blur-sm"
+                        animate={{ scale: isHovered ? 0.8 : 1 }}
+                        transition={{ duration: 0.3 }}
                       >
-                        <Play className="w-4 h-4 mr-2" />
-                        Ver demo
-                      </Button>
-                    )}
-                  </div>
-                </div>
+                        <Play className="w-8 h-8 text-white ml-1" />
+                      </motion.div>
+                    </motion.div>
 
-                {/* Visual Side */}
-                <div className="relative">
-                  <div className="aspect-video bg-muted rounded-2xl overflow-hidden border border-border/30 group cursor-pointer"
-                       onClick={() => openModal(currentItem)}>
-                    {/* Placeholder for actual images/videos */}
-                    <div className="w-full h-full bg-gradient-to-br from-brilliantBlue/20 to-signalYellow/20 flex items-center justify-center">
-                      <div className="text-center">
-                        <Icon className="w-16 h-16 text-brilliantBlue mx-auto mb-4 group-hover:scale-110 transition-transform duration-300" />
-                        <div className="text-lg font-semibold text-foreground mb-2">
-                          {currentItem.title}
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          Click para ampliar
-                        </div>
+                    {/* Icon overlay for branding */}
+                    <div className="absolute top-4 left-4">
+                      <div className={`w-10 h-10 ${theme.bg} rounded-lg flex items-center justify-center shadow-lg border-2 border-white/20`}>
+                        {React.createElement(Icon, {
+                          className: `w-4 h-4 ${theme.text}`
+                        })}
                       </div>
                     </div>
-                    
-                    {/* Hover overlay */}
-                    <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <Maximize2 className="w-8 h-8 text-white" />
-                    </div>
                   </div>
+
+                  {/* Content that appears on hover */}
+                  <motion.div
+                    className="p-6"
+                    initial={{ height: 80 }}
+                    animate={{ height: isHovered ? 'auto' : 80 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-8 h-8 bg-white/20 rounded-lg flex items-center justify-center`}>
+                          {React.createElement(Icon, {
+                            className: `w-4 h-4 ${theme.text}`
+                          })}
+                        </div>
+                        <h3 className={`text-lg font-bold ${theme.text} leading-tight`}>
+                          {item.title}
+                        </h3>
+                  </div>
+
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ 
+                          opacity: isHovered ? 1 : 0,
+                          height: isHovered ? 'auto' : 0
+                        }}
+                        transition={{ duration: 0.3, delay: isHovered ? 0.1 : 0 }}
+                    >
+                        <p className={`${theme.text} opacity-90 text-sm leading-relaxed mb-3`}>
+                          {item.description}
+                        </p>
+                        
+                        <div className="space-y-2">
+                          <div className={`text-xs font-medium ${theme.text} opacity-70`}>
+                            {item.tech}
+                  </div>
+                          <div className={`text-xs ${theme.text} opacity-80 bg-white/10 rounded-lg px-3 py-2`}>
+                            ✨ {item.benefit}
                 </div>
-              </div>
-            </div>
-
-            {/* Navigation Controls */}
-            <div className="flex items-center justify-between mt-8">
-              <Button
-                variant="outline"
-                onClick={prevSlide}
-                className="w-12 h-12 rounded-full border-border hover:bg-muted"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </Button>
-
-              {/* Dots indicator */}
-              <div className="flex gap-2">
-                {demoItems.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentIndex(index)}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                      index === currentIndex 
-                        ? 'bg-brilliantBlue scale-125' 
-                        : 'bg-muted-foreground/30 hover:bg-muted-foreground/50'
-                    }`}
-                  />
-                ))}
-              </div>
-
-              <Button
-                variant="outline"
-                onClick={nextSlide}
-                className="w-12 h-12 rounded-full border-border hover:bg-muted"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </Button>
-            </div>
+                        </div>
+                      </motion.div>
+                    </div>
+                  </motion.div>
+                    
+                  {/* Decorative corner element */}
+                  <div className="absolute top-4 right-4">
+                    <motion.div
+                      className="w-3 h-3 bg-white/30 rounded-full"
+                      animate={{
+                        scale: [1, 1.2, 1],
+                        opacity: [0.3, 0.6, 0.3]
+                      }}
+                      transition={{
+                        duration: 3,
+                        repeat: Infinity,
+                        ease: "easeInOut",
+                        delay: index * 0.2
+                      }}
+                    />
+                  </div>
+                </motion.div>
+              </motion.div>
+            );
+          })}
           </div>
 
           {/* Bottom CTA */}
-          <div className="mt-16 text-center">
-            <div className="bg-card/80 backdrop-blur-sm rounded-3xl p-8 border border-border/50">
-              <h3 className="text-xl font-bold text-foreground mb-4">
+        <motion.div 
+          className="mt-16 text-center"
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
+          viewport={{ once: true }}
+        >
+          <div className="bg-slate-50/80 backdrop-blur-sm rounded-3xl p-8 border-2 border-slate-200/50 max-w-4xl mx-auto shadow-lg relative overflow-hidden">
+            {/* Background gradient */}
+            <div className="absolute inset-0 bg-gradient-to-r from-brilliantBlue/5 via-transparent to-signalYellow/5"></div>
+            
+            <div className="relative">
+              <h3 className="text-xl font-bold text-slate-800 mb-4">
                 ¿Querés ver estos casos en tu contexto?
               </h3>
-              <p className="text-muted-foreground mb-6">
+              <p className="text-slate-600 mb-6 leading-relaxed">
                 En el diagnóstico te mostramos exactamente cómo aplicar estas soluciones a tu negocio específico.
               </p>
-              <Button 
+              <motion.button 
                 onClick={() => {
                   const contactSection = document.getElementById('contact-form');
                   if (contactSection) {
                     contactSection.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
-                className="bg-brilliantBlue hover:bg-brilliantBlue/90 text-white px-8 py-3 rounded-full font-semibold"
+                className="bg-gradient-to-r from-brilliantBlue to-plum hover:from-brilliantBlue/90 hover:to-plum/90 text-white px-8 py-4 rounded-xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 Solicitar diagnóstico personalizado
-              </Button>
+              </motion.button>
             </div>
           </div>
+        </motion.div>
         </div>
       </section>
-
-      {/* Modal for detailed view */}
-      {isModalOpen && modalContent && (
-        <div 
-          className="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4"
-          onClick={closeModal}
-        >
-          <div 
-            className="bg-card rounded-3xl max-w-4xl w-full max-h-[90vh] overflow-auto"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-2xl font-bold text-foreground">
-                  {modalContent.title}
-                </h3>
-                <Button
-                  variant="ghost"
-                  onClick={closeModal}
-                  className="w-10 h-10 rounded-full"
-                >
-                  ×
-                </Button>
-              </div>
-              
-              <div className="aspect-video bg-muted rounded-2xl mb-6 flex items-center justify-center">
-                <div className="text-center">
-                  <modalContent.icon className="w-20 h-20 text-brilliantBlue mx-auto mb-4" />
-                  <div className="text-lg font-semibold text-foreground mb-2">
-                    Vista detallada de {modalContent.title}
-                  </div>
-                  <div className="text-sm text-muted-foreground">
-                    Aquí iría la imagen/video real del proyecto
-                  </div>
-                </div>
-              </div>
-              
-              <p className="text-muted-foreground">
-                {modalContent.description}
-              </p>
-            </div>
-          </div>
-        </div>
-      )}
-    </>
   );
 } 
