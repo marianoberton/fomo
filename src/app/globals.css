@@ -78,16 +78,18 @@
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));
     font-family: var(--font-body), sans-serif;
+    letter-spacing: -0.01em;
   }
 
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading), sans-serif;
-    font-weight: bold;
-    letter-spacing: -0.025em;
+    font-weight: 700;
+    letter-spacing: -0.02em;
   }
 
-  .font-accent {
-    font-family: var(--font-accent), sans-serif;
+  .font-concert {
+    font-family: 'Concert One', cursive;
+    font-weight: 400;
   }
 }
 
@@ -95,8 +97,8 @@
 .display-text {
   font-size: clamp(2.5rem, 7vw, 5rem);
   line-height: 1;
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  letter-spacing: -0.03em;
 }
 
 .ultra-bold {
@@ -118,8 +120,8 @@
 .mega-text {
   font-size: clamp(3rem, 10vw, 7rem);
   line-height: 0.9;
-  font-weight: 900;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  letter-spacing: -0.04em;
 }
 
 @media (min-width: 768px) {
@@ -138,7 +140,7 @@
   font-size: clamp(2rem, 5vw, 3.5rem);
   line-height: 1.1;
   font-weight: 700;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 
 @media (min-width: 768px) {
@@ -171,6 +173,7 @@
   font-weight: 700;
   color: hsl(var(--foreground));
   margin-bottom: 1.2rem;
+  letter-spacing: -0.02em;
 }
 
 @media (min-width: 768px) {
@@ -179,11 +182,11 @@
   }
 }
 
-/* Estilo más juguetón para textos con la fuente accent */
+/* Estilo más juguetón para textos con la fuente concert */
 .playful-text {
-  font-family: theme('fontFamily.accent');
-  font-weight: 700;
-  letter-spacing: -0.03em;
+  font-family: 'Concert One', cursive;
+  font-weight: 400;
+  letter-spacing: -0.02em;
   border-radius: 0.5rem;
   transform: rotate(-1deg);
   display: inline-block;
@@ -569,9 +572,9 @@
 
 /* Add these classes at the end of the file */
 
-.font-accent {
-  font-family: var(--font-heading);
-  font-weight: 700;
+.font-concert {
+  font-family: 'Concert One', cursive;
+  font-weight: 400;
 }
 
 .font-heading {
@@ -579,7 +582,7 @@
 }
 
 .font-body {
-  font-family: var(--font-sans);
+  font-family: var(--font-body);
 }
 
 /* Grid background pattern */

@@ -180,127 +180,7 @@ export default function PainPointsSection() {
 
   return (
     <div>
-      {/* Enhanced Visual Separator - Flowing transition */}
-      <section className="relative overflow-hidden">
-        {/* Main gradient flow */}
-        <div 
-          className="h-40 sm:h-48 lg:h-56 relative"
-          style={{
-            background: `
-              linear-gradient(180deg, 
-                rgba(248, 250, 252, 0.95) 0%, 
-                rgba(241, 245, 249, 0.9) 20%,
-                rgba(0, 119, 182, 0.05) 40%,
-                rgba(0, 119, 182, 0.15) 70%,
-                rgba(49, 6, 41, 0.3) 100%
-              )
-            `
-          }}
-        >
-          {/* Flowing wave overlay */}
-          <div className="absolute inset-0 overflow-hidden">
-            <svg 
-              className="absolute bottom-0 w-full h-32" 
-              viewBox="0 0 1200 120" 
-              preserveAspectRatio="none"
-            >
-              <motion.path
-                d="M0,60 C300,100 400,20 600,60 C800,100 900,20 1200,60 L1200,120 L0,120 Z"
-                fill="rgba(0, 119, 182, 0.15)"
-                initial={{ pathLength: 0, opacity: 0 }}
-                whileInView={{ pathLength: 1, opacity: 1 }}
-                transition={{ duration: 2, ease: "easeInOut" }}
-                viewport={{ once: true }}
-              />
-            </svg>
-            
-            <svg 
-              className="absolute bottom-0 w-full h-24" 
-              viewBox="0 0 1200 120" 
-              preserveAspectRatio="none"
-            >
-              <motion.path
-                d="M0,80 C200,40 500,80 600,40 C700,0 900,80 1200,40 L1200,120 L0,120 Z"
-                fill="rgba(252, 205, 18, 0.2)"
-                initial={{ pathLength: 0, opacity: 0 }}
-                whileInView={{ pathLength: 1, opacity: 1 }}
-                transition={{ duration: 2.5, ease: "easeInOut", delay: 0.3 }}
-                viewport={{ once: true }}
-              />
-            </svg>
-          </div>
 
-          {/* Enhanced floating elements for transition */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <motion.div 
-              className="absolute top-1/3 left-1/4 w-6 h-6 bg-brilliantBlue/20 rounded-full"
-              animate={{ 
-                y: [0, -15, 0],
-                scale: [1, 1.2, 1],
-                opacity: [0.2, 0.6, 0.2]
-              }}
-              transition={{ 
-                duration: 5, 
-                repeat: Infinity,
-                ease: "easeInOut"
-              }}
-            ></motion.div>
-            
-            <motion.div 
-              className="absolute top-2/3 right-1/3 w-4 h-4 bg-signalYellow/25 rounded-full"
-              animate={{ 
-                y: [0, 12, 0],
-                scale: [1, 0.8, 1],
-                opacity: [0.25, 0.7, 0.25]
-              }}
-              transition={{ 
-                duration: 6, 
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 1
-              }}
-            ></motion.div>
-            
-            <motion.div 
-              className="absolute top-1/2 left-1/2 w-3 h-3 bg-plum/30 rounded-full"
-              animate={{ 
-                y: [0, -8, 0],
-                scale: [1, 1.5, 1],
-                opacity: [0.3, 0.8, 0.3]
-              }}
-              transition={{ 
-                duration: 4, 
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 2
-              }}
-            ></motion.div>
-
-            <motion.div 
-              className="absolute bottom-1/4 left-1/6 w-2 h-2 bg-orange-500/25 rounded-full"
-              animate={{ 
-                y: [0, -6, 0],
-                opacity: [0.2, 0.5, 0.2]
-              }}
-              transition={{ 
-                duration: 7, 
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: 0.5
-              }}
-            ></motion.div>
-          </div>
-
-          {/* Subtle texture overlay */}
-          <div 
-            className="absolute inset-0 opacity-5 mix-blend-multiply"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000' fill-opacity='0.1'%3E%3Cpath d='m0 40 40-40h-40v40zm40 0v-40h-40l40 40z'/%3E%3C/g%3E%3C/svg%3E")`,
-              backgroundSize: '20px 20px'
-            }}
-          ></div>
-        </div>
-      </section>
 
       {/* Storytelling Section - Enhanced with video background */}
       <section 
@@ -312,8 +192,8 @@ export default function PainPointsSection() {
       >
         {/* Background with overlay */}
         <div className="absolute inset-0">
-          <div className="absolute inset-0 bg-gradient-to-br from-plum/90 via-brilliantBlue/80 to-plum/95"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/30"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-plum/95 via-brilliantBlue/80 to-plum/90"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20"></div>
         </div>
 
         {/* Enhanced background elements */}
@@ -325,7 +205,7 @@ export default function PainPointsSection() {
 
         {/* Sticky Header Content */}
         <div className="sticky top-0 h-screen flex items-center justify-center z-10 relative">
-          <div className="w-full px-4 text-center relative z-20">
+          <div className="w-full px-4 text-center relative z-20 -mt-20">
             <motion.div 
               key={`badge-${currentStep}`}
               className="inline-flex items-center gap-2 bg-gradient-to-r from-signalYellow to-orange-500 text-slate-900 px-6 py-3 rounded-full text-lg font-bold mb-8 shadow-lg"
@@ -386,7 +266,7 @@ export default function PainPointsSection() {
             viewport={{ once: true }}
           >
             <h3 className="text-3xl font-bold text-slate-800 mb-4">
-              Estos son los 4 dolores principales
+              Estos son los 4 problemas más comunes
             </h3>
             <p className="text-lg text-slate-600">
               Cada uno tiene su nivel de impacto en tu negocio
@@ -739,12 +619,12 @@ export default function PainPointsSection() {
                   whileTap={{ scale: 0.98 }}
                 >
                   <span className="relative z-10 flex items-center justify-center gap-4">
-                    <div className="flex items-center justify-center w-12 h-12 bg-green-500 rounded-full p-2">
+                    <span>Hablemos de tu PyME</span>
+                    <div className="flex items-center justify-center w-12 h-12 bg-white/20 rounded-full p-2">
                       <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
                         <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
                       </svg>
                     </div>
-                    <span>Hablemos de tu PyME</span>
                   </span>
                   
                   {/* Animated background overlay */}

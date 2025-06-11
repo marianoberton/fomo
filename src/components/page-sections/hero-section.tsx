@@ -16,6 +16,7 @@ export default function HeroSection() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const mockupRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLSpanElement>(null);
+  const wordContainerRef = useRef<HTMLSpanElement>(null);
 
   const handleCTAClick = () => {
     // Scroll to contact form section
@@ -52,6 +53,13 @@ export default function HeroSection() {
     gsap.set(".hero-gradient-text", { y: 50, opacity: 0 });
     gsap.set(mockupRef.current, { y: 50, opacity: 0, rotateX: 10 });
     gsap.set(".hero-content > *:not(h1)", { y: 30, opacity: 0 });
+    
+    // Ensure tu-pyme line stays together
+    gsap.set(".tu-pyme-line", { 
+      whiteSpace: "nowrap",
+      display: "block",
+      width: "fit-content"
+    });
 
     // Create main timeline
     const tl = gsap.timeline({ delay: 0.5 });
@@ -98,8 +106,10 @@ export default function HeroSection() {
     tl.add(() => {
       // Animate number counting
       const numberElements = document.querySelectorAll('.count-number');
+      const targetValues = [45, 187]; // Define target values explicitly
+      
       numberElements.forEach((el, index) => {
-        const target = parseInt(el.textContent || '0');
+        const target = targetValues[index] || 0;
         gsap.fromTo(el, 
           { textContent: 0 },
           { 
@@ -109,7 +119,7 @@ export default function HeroSection() {
             ease: "power2.out",
             snap: { textContent: 1 },
             onUpdate: function() {
-              el.textContent = Math.round(this.targets()[0].textContent) + '%';
+              el.textContent = Math.round(this.targets()[0].textContent).toString();
             }
           }
         );
@@ -162,17 +172,65 @@ export default function HeroSection() {
       });
     }, "+=0.5");
 
-    // Highlight animation for "disparan" and "PyME"
-    const highlightTl = gsap.timeline({ delay: 2.5 });
+    // Word rotation animation with GSAP
+    const words = ["disparan", "potencian", "transforman"];
+    let currentWordIndex = 0;
     
-    highlightTl.to(".highlight-word", {
-      backgroundColor: "rgba(252, 205, 18, 0.3)",
-      duration: 0.4,
-      stagger: 0.8,
-      ease: "power2.inOut",
-      yoyo: true,
-      repeat: 1
-    });
+    const animateWordChange = () => {
+      if (!wordContainerRef.current) return;
+      
+      const currentWord = words[currentWordIndex];
+      const nextWordIndex = (currentWordIndex + 1) % words.length;
+      const nextWord = words[nextWordIndex];
+      
+      // Timeline for word change
+      const wordTl = gsap.timeline();
+      
+      // Phase 1: Show current word normally (2s)
+      wordTl.set(wordContainerRef.current, { 
+        textContent: currentWord,
+        textDecoration: "none",
+        scale: 1
+      })
+      
+      // Phase 2: Strike through effect (0.5s)
+      .to(wordContainerRef.current, {
+        textDecoration: "line-through",
+        textDecorationColor: "#f97316",
+        scale: 1.05,
+        duration: 0.3,
+        delay: 2.2
+      })
+      
+      // Phase 3: Fade out and change text (0.3s)
+      .to(wordContainerRef.current, {
+        opacity: 0,
+        y: -10,
+        duration: 0.2,
+        delay: 0.2
+      })
+      
+      // Phase 4: Change text and fade in (0.3s)
+      .set(wordContainerRef.current, { 
+        textContent: nextWord,
+        textDecoration: "none",
+        scale: 1,
+        y: 10
+      })
+      .to(wordContainerRef.current, {
+        opacity: 1,
+        y: 0,
+        duration: 0.3
+      });
+      
+      currentWordIndex = nextWordIndex;
+    };
+    
+    // Start the word rotation after initial animations
+    const wordRotationTimer = setInterval(animateWordChange, 3000);
+    
+    // Initial call after delay
+    setTimeout(animateWordChange, 3000);
 
     // Enhanced Mouse move parallax effect with magnetic interactions
     const handleMouseMove = (e: MouseEvent) => {
@@ -274,6 +332,7 @@ export default function HeroSection() {
       if (split) {
         split.revert();
       }
+      clearInterval(wordRotationTimer);
     };
   }, []);
 
@@ -281,131 +340,72 @@ export default function HeroSection() {
     <>
       <section 
         ref={heroRef}
-        className="relative h-screen flex items-center justify-center overflow-hidden w-full"
+        className="relative h-screen flex items-center justify-center overflow-hidden w-full pt-20"
         style={{
           background: 'linear-gradient(135deg, #ffffff 0%, #fafbfc 30%, #f8fafc 60%, rgba(0, 119, 182, 0.02) 90%, #ffffff 100%)'
         }}
       >
-        {/* Clean decorative background patterns */}
-        <div className="absolute inset-0 overflow-hidden opacity-3">
-          <div 
-            className="absolute inset-0"
-            style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%230077B6' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-              backgroundSize: '60px 60px'
-            }}
-          ></div>
-        </div>
 
-        {/* Refined floating elements with brand colors */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
-          {/* Large organic shapes */}
-          <div 
-            className="absolute top-1/6 right-1/5 w-72 h-72 rounded-full blur-3xl animate-float"
-            style={{
-              background: 'radial-gradient(circle, rgba(0, 119, 182, 0.06) 0%, rgba(0, 119, 182, 0.02) 40%, transparent 70%)',
-              animationDuration: '12s'
-            }}
-          ></div>
-          <div 
-            className="absolute bottom-1/4 left-1/6 w-64 h-64 rounded-full blur-3xl animate-float"
-            style={{
-              background: 'radial-gradient(circle, rgba(252, 205, 18, 0.08) 0%, rgba(252, 205, 18, 0.03) 40%, transparent 70%)',
-              animationDelay: '-3s',
-              animationDuration: '15s'
-            }}
-          ></div>
-          <div 
-            className="absolute top-2/3 right-1/3 w-48 h-48 rounded-full blur-2xl animate-float"
-            style={{
-              background: 'radial-gradient(circle, rgba(49, 6, 41, 0.04) 0%, rgba(49, 6, 41, 0.01) 40%, transparent 70%)',
-              animationDelay: '-6s',
-              animationDuration: '18s'
-            }}
-          ></div>
 
-          {/* Medium floating elements with icons */}
-          <div className="absolute top-1/4 left-1/4 animate-float" style={{ animationDelay: '-2s', animationDuration: '14s' }}>
-            <div className="w-12 h-12 bg-brilliantBlue/8 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-brilliantBlue/10">
-              <BarChart3 className="w-6 h-6 text-brilliantBlue/50" />
-            </div>
-          </div>
-          <div className="absolute bottom-1/3 right-1/5 animate-float" style={{ animationDelay: '-8s', animationDuration: '16s' }}>
-            <div className="w-10 h-10 bg-signalYellow/10 rounded-2xl flex items-center justify-center backdrop-blur-sm border border-signalYellow/15">
-              <TrendingUp className="w-5 h-5 text-signalYellow/60" />
-            </div>
-          </div>
-          <div className="absolute top-1/2 left-1/12 animate-float" style={{ animationDelay: '-5s', animationDuration: '13s' }}>
-            <div className="w-8 h-8 bg-plum/6 rounded-xl flex items-center justify-center backdrop-blur-sm border border-plum/10">
-              <Brain className="w-4 h-4 text-plum/50" />
-            </div>
-          </div>
-          <div className="absolute top-1/3 right-1/6 animate-float" style={{ animationDelay: '-1s', animationDuration: '17s' }}>
-            <div className="w-9 h-9 bg-orange-500/6 rounded-xl flex items-center justify-center backdrop-blur-sm border border-orange-500/10">
-              <Zap className="w-4 h-4 text-orange-500/50" />
-            </div>
-          </div>
-
-          {/* Small accent elements */}
-          <div className="absolute top-1/5 left-1/3 w-3 h-3 bg-brilliantBlue/15 rounded-full animate-pulse" style={{ animationDuration: '4s' }}></div>
-          <div className="absolute bottom-1/5 left-2/3 w-4 h-4 bg-signalYellow/20 rounded-full animate-pulse" style={{ animationDelay: '1s', animationDuration: '5s' }}></div>
-          <div className="absolute top-3/5 right-1/4 w-2 h-2 bg-plum/20 rounded-full animate-pulse" style={{ animationDelay: '2s', animationDuration: '3s' }}></div>
-          <div className="absolute bottom-2/5 left-1/5 w-5 h-5 bg-orange-500/15 rounded-full animate-bounce" style={{ animationDelay: '0.5s', animationDuration: '4s' }}></div>
-        </div>
-
-        <div className="relative w-full mx-auto grid lg:grid-cols-2 gap-8 lg:gap-12 items-center z-30 px-4 sm:px-6 lg:px-8 max-w-7xl min-h-screen py-8">
+        <div className="relative w-full mx-auto grid lg:grid-cols-[1.2fr_0.8fr] gap-8 lg:gap-12 items-center z-30 px-6 sm:px-8 lg:px-12 xl:px-16 max-w-7xl min-h-[calc(100vh-5rem)] py-8">
           {/* Left Column - Content */}
-          <div className="space-y-8 hero-content flex flex-col justify-center max-w-2xl">
-            {/* Main Headline - 3 Lines with improved gradients */}
+          <div className="space-y-8 hero-content flex flex-col justify-center w-full">
+            {/* Main Headline - 3 Lines with elegant gradient */}
             <div className="space-y-6">
               <h1 
                 ref={titleRef}
                 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold leading-tight tracking-tight"
                 style={{ 
-                  letterSpacing: '-0.01em', 
+                  letterSpacing: '-0.015em', 
                   lineHeight: '1.1'
                 }}
               >
                 <span 
-                  className="block hero-gradient-text mb-3"
+                  className="block mb-3"
                   style={{
-                    background: 'linear-gradient(135deg, #310629 0%, #0077B6 45%, #00a8cc 80%, #310629 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    color: '#0077B6',
                     display: 'block',
-                    paddingBottom: '0.2em'
+                    paddingBottom: '0.2em',
+                    color: '#1f2937'
                   }}
                 >
-                  Procesos inteligentes
+                  Procesos inteligentes que
                 </span>
                 <span className="block text-slate-800 mb-3 middle-line" style={{ paddingBottom: '0.2em' }}>
-                  que <span className="inline-block">disparan</span> tu
+                  <span 
+                    ref={wordContainerRef}
+                    className="inline-block animated-word-gsap font-extrabold"
+                    style={{ 
+                      color: '#f97316',
+                      textShadow: '0 0 20px rgba(249, 115, 22, 0.3)',
+                      minWidth: '12ch',
+                      display: 'inline-block'
+                    }}
+                  >
+                    disparan
+                  </span>
                 </span>
                 <span 
-                  className="block hero-gradient-text"
-                  style={{
-                    background: 'linear-gradient(135deg, #0077B6 0%, #310629 35%, #FCCD12 70%, #310629 100%)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    backgroundClip: 'text',
-                    color: '#0077B6',
+                  className="block text-slate-800 mb-3 middle-line tu-pyme-line" 
+                  style={{ 
+                    paddingBottom: '0.2em', 
+                    whiteSpace: 'nowrap',
                     display: 'block',
-                    paddingBottom: '0.2em'
+                    width: 'fit-content'
                   }}
                 >
-                  PyME
+                  <span style={{ whiteSpace: 'nowrap', display: 'inline-block' }}>
+                    tu <span 
+                      style={{
+                        color: '#1f2937',
+                        whiteSpace: 'nowrap',
+                        display: 'inline'
+                      }}
+                    >PyME</span>
+                  </span>
                 </span>
               </h1>
               
-              {/* Enhanced separator */}
-              <div 
-                className="w-24 h-1 mt-6 rounded-full"
-                style={{
-                  background: 'linear-gradient(to right, rgba(0, 119, 182, 0.6), rgba(252, 205, 18, 0.8), transparent)'
-                }}
-              ></div>
+
               
               <p className="text-lg lg:text-xl text-slate-700 max-w-xl leading-relaxed" style={{ lineHeight: '1.6', letterSpacing: '0.01em' }}>
                 Transformamos tu empresa con automatización inteligente, datos en tiempo real y decisiones que impulsan el crecimiento.
@@ -417,9 +417,9 @@ export default function HeroSection() {
               <Button 
                 onClick={handleCTAClick}
                 size="lg" 
-                className="w-full sm:w-auto text-white px-8 py-5 text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 group"
+                className="w-full sm:w-auto text-black px-8 py-5 text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 group"
                 style={{
-                  background: 'linear-gradient(135deg, #0077B6 0%, #310629 100%)'
+                  background: 'linear-gradient(135deg, #FCCD12 0%, #f97316 100%)'
                 }}
               >
                 <Rocket className="mr-3 w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
@@ -449,7 +449,7 @@ export default function HeroSection() {
                   <div className="flex gap-1">
                     <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                     <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: '#FCCD12', animationDelay: '0.3s' }}></div>
-                    <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: '#0077B6', animationDelay: '0.6s' }}></div>
+                    <div className="w-2 h-2 rounded-full animate-pulse bg-brilliantBlue" style={{ animationDelay: '0.6s' }}></div>
                   </div>
                 </div>
 
@@ -458,35 +458,35 @@ export default function HeroSection() {
                   <div 
                     className="p-4 lg:p-5 rounded-2xl backdrop-blur-sm group/card hover:scale-105 transition-all duration-500 relative overflow-hidden cursor-pointer"
                     style={{
-                      background: 'linear-gradient(135deg, rgba(0, 119, 182, 0.2) 0%, rgba(0, 119, 182, 0.1) 100%)',
+                      background: '#0077B6',
                       border: '1px solid rgba(0, 119, 182, 0.3)'
                     }}
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse"></div>
-                    <div className="absolute inset-0 bg-brilliantBlue/5 scale-0 group-hover/card:scale-100 transition-transform duration-500 rounded-2xl"></div>
-                    <BarChart3 className="w-7 h-7 lg:w-9 lg:h-9 mb-3 group-hover/card:rotate-12 group-hover/card:scale-110 transition-transform duration-500 relative z-10" style={{ color: '#0077B6' }} />
-                    <div className="text-3xl lg:text-4xl font-black mb-2 relative z-10" style={{ color: '#0077B6' }}>
-                      <span className="count-number">45</span>%
+                    <div className="absolute inset-0 bg-white/5 scale-0 group-hover/card:scale-100 transition-transform duration-500 rounded-2xl"></div>
+                    <BarChart3 className="w-7 h-7 lg:w-9 lg:h-9 mb-3 group-hover/card:rotate-12 group-hover/card:scale-110 transition-transform duration-500 relative z-10 text-white" />
+                    <div className="text-3xl lg:text-4xl font-black mb-2 relative z-10 text-white">
+                      <span className="count-number">0</span>%
                     </div>
-                    <div className="text-sm font-semibold relative z-10" style={{ color: '#0077B6' }}>Menos tiempo</div>
-                    <ArrowRight className="absolute top-3 right-3 w-4 h-4 floating-arrow opacity-60 group-hover/card:opacity-100 group-hover/card:translate-x-1 transition-all duration-300" style={{ color: 'rgba(0, 119, 182, 0.6)' }} />
+                    <div className="text-sm font-semibold relative z-10 text-white/90">Menos tiempo</div>
+                    <ArrowRight className="absolute top-3 right-3 w-4 h-4 floating-arrow opacity-60 group-hover/card:opacity-100 group-hover/card:translate-x-1 transition-all duration-300 text-white/60" />
                   </div>
 
                   <div 
                     className="p-4 lg:p-5 rounded-2xl backdrop-blur-sm group/card hover:scale-105 transition-all duration-500 relative overflow-hidden cursor-pointer"
                     style={{
-                      background: 'linear-gradient(135deg, rgba(252, 205, 18, 0.2) 0%, rgba(252, 205, 18, 0.1) 100%)',
-                      border: '1px solid rgba(252, 205, 18, 0.3)'
+                      background: '#f97316',
+                      border: '1px solid rgba(249, 115, 22, 0.3)'
                     }}
                   >
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-                    <div className="absolute inset-0 bg-signalYellow/5 scale-0 group-hover/card:scale-100 transition-transform duration-500 rounded-2xl"></div>
-                    <TrendingUp className="w-7 h-7 lg:w-9 lg:h-9 mb-3 group-hover/card:rotate-12 group-hover/card:scale-110 transition-transform duration-500 relative z-10" style={{ color: 'rgba(252, 205, 18, 0.9)' }} />
-                    <div className="text-3xl lg:text-4xl font-black mb-2 relative z-10" style={{ color: 'rgba(252, 205, 18, 0.9)' }}>
-                      <span className="count-number">134</span>%
+                    <div className="absolute inset-0 bg-white/5 scale-0 group-hover/card:scale-100 transition-transform duration-500 rounded-2xl"></div>
+                    <TrendingUp className="w-7 h-7 lg:w-9 lg:h-9 mb-3 group-hover/card:rotate-12 group-hover/card:scale-110 transition-transform duration-500 relative z-10 text-white" />
+                    <div className="text-3xl lg:text-4xl font-black mb-2 relative z-10 text-white">
+                      <span className="count-number">0</span>%
                     </div>
-                    <div className="text-sm font-semibold relative z-10" style={{ color: 'rgba(252, 205, 18, 0.9)' }}>Más eficiencia</div>
-                    <TrendingUp className="absolute top-3 right-3 w-4 h-4 floating-arrow opacity-60 group-hover/card:opacity-100 group-hover/card:translate-x-1 transition-all duration-300" style={{ color: 'rgba(252, 205, 18, 0.6)' }} />
+                    <div className="text-sm font-semibold relative z-10 text-white/90">Aumento de ventas</div>
+                    <TrendingUp className="absolute top-3 right-3 w-4 h-4 floating-arrow opacity-60 group-hover/card:opacity-100 group-hover/card:translate-x-1 transition-all duration-300 text-white/60" />
                   </div>
                 </div>
 
@@ -499,18 +499,12 @@ export default function HeroSection() {
                   }}
                 >
                   <div 
-                    className="absolute top-0 left-0 w-full h-1 animate-pulse"
-                    style={{
-                      background: 'linear-gradient(90deg, #310629 0%, #0077B6 50%, #FCCD12 100%)'
-                    }}
+                    className="absolute top-0 left-0 w-full h-1 animate-pulse bg-gradient-to-r from-plum via-brilliantBlue to-signalYellow"
                   ></div>
                   <div className="absolute inset-0 bg-gradient-to-r from-plum/5 to-brilliantBlue/5 scale-0 group-hover/ai:scale-100 transition-transform duration-500 rounded-2xl"></div>
                   <div className="flex items-center gap-4 relative z-10">
                     <div 
-                      className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center relative animate-pulse group-hover/ai:animate-bounce"
-                      style={{
-                        background: 'linear-gradient(45deg, #310629 0%, #0077B6 100%)'
-                      }}
+                      className="w-10 h-10 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center relative animate-pulse group-hover/ai:animate-bounce bg-gradient-to-br from-plum to-brilliantBlue"
                     >
                       <Brain className="w-5 h-5 lg:w-6 lg:h-6 text-white group-hover/ai:scale-110 transition-transform duration-300" />
                       <div className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full animate-ping group-hover/ai:bg-green-500"></div>
@@ -534,15 +528,12 @@ export default function HeroSection() {
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-semibold text-slate-600 group-hover:text-slate-800 transition-colors duration-300">Procesos automatizados</span>
-                    <span className="text-sm font-bold" style={{ color: '#0077B6' }}>87%</span>
+                    <span className="text-sm font-bold text-brilliantBlue">87%</span>
                   </div>
                   <div className="h-3 bg-slate-200 rounded-full overflow-hidden relative group/progress">
                     <div 
-                      className="progress-fill h-full rounded-full relative overflow-hidden" 
+                      className="progress-fill h-full rounded-full relative overflow-hidden bg-brilliantBlue" 
                       data-width="87%"
-                      style={{
-                        background: 'linear-gradient(90deg, #0077B6 0%, #FCCD12 100%)'
-                      }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 animate-pulse group-hover/progress:animate-none"></div>
                     </div>
@@ -550,15 +541,12 @@ export default function HeroSection() {
                   
                   <div className="flex items-center justify-between">
                     <span className="text-sm font-semibold text-slate-600 group-hover:text-slate-800 transition-colors duration-300">Decisiones basadas en datos</span>
-                    <span className="text-sm font-bold" style={{ color: '#310629' }}>92%</span>
+                    <span className="text-sm font-bold text-orange-500">92%</span>
                   </div>
                   <div className="h-3 bg-slate-200 rounded-full overflow-hidden relative group/progress">
                     <div 
-                      className="progress-fill h-full rounded-full relative overflow-hidden" 
+                      className="progress-fill h-full rounded-full relative overflow-hidden bg-orange-500" 
                       data-width="92%"
-                      style={{
-                        background: 'linear-gradient(90deg, #310629 0%, #0077B6 100%)'
-                      }}
                     >
                       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 animate-pulse group-hover/progress:animate-none" style={{ animationDelay: '0.5s' }}></div>
                     </div>
@@ -576,9 +564,8 @@ export default function HeroSection() {
                 <Zap className="w-5 h-5 lg:w-6 lg:h-6 text-neutral-900" />
               </div>
               <div 
-                className="absolute -bottom-4 -left-4 w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center shadow-xl animate-float"
+                className="absolute -bottom-4 -left-4 w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center shadow-xl animate-float bg-gradient-to-br from-brilliantBlue to-brilliantBlue/80"
                 style={{
-                  background: 'linear-gradient(45deg, #0077B6 0%, rgba(0, 119, 182, 0.8) 100%)',
                   animationDelay: '-1.5s'
                 }}
               >
@@ -760,7 +747,7 @@ export default function HeroSection() {
           }
           
           .hero-content p {
-            font-size: 1.125rem;
+            font-size: 1rem;
           }
           
           .animate-float {
@@ -770,25 +757,28 @@ export default function HeroSection() {
         
         @media (max-width: 1024px) {
           .hero-content h1 {
-            font-size: 3.5rem;
+            font-size: 3rem;
             line-height: 1.1;
           }
         }
         
         .hero-gradient-text {
-          background: linear-gradient(135deg, #310629 0%, #0077B6 45%, #00a8cc 80%, #310629 100%) !important;
-          -webkit-background-clip: text !important;
-          background-clip: text !important;
-          -webkit-text-fill-color: transparent !important;
-          color: transparent !important;
           display: block !important;
-          background-size: 200% 100% !important;
-          animation: gradient-flow 8s ease-in-out infinite !important;
         }
         
-        @keyframes gradient-flow {
-          0%, 100% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
+        .animated-word-gsap {
+          transition: all 0.3s ease;
+        }
+        
+        .tu-pyme-line {
+          white-space: nowrap !important;
+          display: block !important;
+          width: fit-content !important;
+        }
+        
+        .tu-pyme-line span {
+          white-space: nowrap !important;
+          display: inline-block !important;
         }
         
         /* Prevenir corte de letras con descenders */
