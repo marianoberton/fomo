@@ -259,7 +259,7 @@ export default function ProcessTimelineSection() {
   return (
     <>
       {/* Combined Section with Global Blueprint Background */}
-      <div className="relative w-screen" style={{ backgroundColor: '#222222' }}>
+      <div className="relative w-screen" data-section="process-timeline" style={{ backgroundColor: '#222222' }}>
         {/* Global Background decoration */}
       <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-signalYellow/8 rounded-full blur-3xl"></div>
@@ -337,13 +337,13 @@ export default function ProcessTimelineSection() {
              </div>
 
                           {/* Center Timeline - Same */}
-             <div className="w-2/12 relative flex items-center justify-center">
+             <div className="w-2/12 relative flex items-center justify-center" data-section="process-timeline-center">
                {/* Extended Timeline Line */}
                <div className="absolute w-1.5 bg-gradient-to-b from-signalYellow via-white/30 to-orange-500 left-1/2 transform -translate-x-1/2" 
                     style={{ top: '-80px', bottom: '-80px' }}></div>
               
                              {/* Active Node */}
-               <div className="relative z-10">
+               <div className="relative z-10" id="process-center-icon">
                  <div className="w-16 h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-signalYellow to-orange-500 rounded-full flex items-center justify-center shadow-2xl border-4 border-slate-900 transition-all duration-500">
                    {React.createElement(processSteps[activeStep].icon, { 
                      className: "w-8 h-8 lg:w-10 lg:h-10 text-slate-900" 
@@ -424,33 +424,7 @@ export default function ProcessTimelineSection() {
         </section>
             </div>
 
-      {/* CTA Section - Appears after pinned section */}
-      <section className="w-full py-24 bg-gradient-to-br from-slate-100 to-white relative overflow-hidden">
-        <div className="absolute inset-0">
-          <div className="absolute top-1/3 left-1/3 w-96 h-96 bg-signalYellow/8 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-1/3 right-1/3 w-96 h-96 bg-orange-500/6 rounded-full blur-3xl"></div>
-        </div>
 
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-white/90 backdrop-blur-sm rounded-3xl shadow-2xl p-12 border-2 border-signalYellow/20">
-            <div className="flex items-center justify-center gap-3 mb-6">
-              <Zap className="w-8 h-8 text-signalYellow" />
-              <span className="font-bold text-2xl text-slate-800">
-                ¿Listo para comenzar tu transformación?
-              </span>
-            </div>
-            <p className="text-slate-600 mb-8 text-lg leading-relaxed">
-              Empezamos con el diagnóstico 360° para mapear tu situación actual y diseñar el roadmap personalizado
-            </p>
-            <Button 
-              size="lg" 
-              className="bg-gradient-to-r from-signalYellow to-orange-500 hover:from-signalYellow/90 hover:to-orange-500/90 text-slate-900 px-12 py-6 text-xl font-bold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
-            >
-              Empezar diagnóstico de transformación
-            </Button>
-        </div>
-      </div>
-    </section>
     </>
   );
 } 

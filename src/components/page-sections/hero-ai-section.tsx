@@ -110,7 +110,7 @@ export default function HeroAISection() {
             situation: 'Tiene exactamente lo que necesita, cuando lo necesita',
             emotion: 'confident',
             solution: 'Inventario inteligente',
-            icon: <TrendingUp className="w-6 h-6 text-blue-500" />
+            icon: <TrendingUp className="w-6 h-6 text-brilliantBlue" />
           },
           {
             id: 'relaxed-night',
@@ -172,7 +172,7 @@ export default function HeroAISection() {
             situation: 'La IA detecta que Ana está en riesgo de cancelar',
             emotion: 'calm',
             solution: 'Predicción temprana',
-            icon: <Brain className="w-6 h-6 text-blue-500" />
+            icon: <Brain className="w-6 h-6 text-brilliantBlue" />
           },
           {
             id: 'proactive-action',
@@ -254,7 +254,7 @@ export default function HeroAISection() {
             situation: 'Se enfoca en cocinar, no en administrar',
             emotion: 'confident',
             solution: 'Tiempo para innovar',
-            icon: <Brain className="w-6 h-6 text-blue-500" />
+            icon: <Brain className="w-6 h-6 text-brilliantBlue" />
           },
           {
             id: 'family-time',
@@ -400,7 +400,7 @@ export default function HeroAISection() {
       case 'stressed': return 'border-red-500 bg-red-50';
       case 'frustrated': return 'border-orange-500 bg-orange-50';
       case 'overwhelmed': return 'border-red-600 bg-red-100';
-      case 'calm': return 'border-blue-500 bg-blue-50';
+              case 'calm': return 'border-brilliantBlue bg-brilliantBlue/5';
       case 'confident': return 'border-green-500 bg-green-50';
       case 'happy': return 'border-purple-500 bg-purple-50';
       default: return 'border-gray-500 bg-gray-50';
@@ -430,7 +430,7 @@ export default function HeroAISection() {
         {/* Left Column - Content */}
         <div className="space-y-10 hero-ai-content">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 bg-blue-500/20 text-blue-300 px-6 py-3 rounded-full text-sm font-medium border border-blue-500/30 backdrop-blur-sm">
+          <div className="inline-flex items-center gap-2 bg-brilliantBlue/20 text-brilliantBlue px-6 py-3 rounded-full text-sm font-medium border border-brilliantBlue/30 backdrop-blur-sm">
             <Brain className="w-5 h-5" />
             Historias Reales de Transformación IA
           </div>
@@ -445,7 +445,7 @@ export default function HeroAISection() {
               <span className="block text-white">
                 Del caos
               </span>
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-green-400">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-brilliantBlue to-signalYellow">
                 al control total
               </span>
               <span className="block text-white">
@@ -453,7 +453,7 @@ export default function HeroAISection() {
               </span>
             </h1>
             
-            <div className="w-16 h-px bg-gradient-to-r from-blue-400/40 to-transparent my-6"></div>
+            <div className="w-16 h-px bg-gradient-to-r from-brilliantBlue/40 to-transparent my-6"></div>
             
             <p className="text-xl text-gray-300 max-w-2xl" style={{ lineHeight: '1.5', letterSpacing: '0.01em' }}>
               Mirá cómo empresarios como vos transformaron sus negocios con IA. Historias reales, resultados reales.
@@ -469,9 +469,9 @@ export default function HeroAISection() {
                   key={story.id}
                   onClick={() => changeStory(story.id as any)}
                   variant={cinema.currentStory === story.id ? "default" : "outline"}
-                  className={`p-4 h-auto flex items-center justify-between text-left transition-all duration-300 ${
+                                      className={`p-4 h-auto flex items-center justify-between text-left transition-all duration-300 ${
                     cinema.currentStory === story.id 
-                      ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-500/25' 
+                      ? 'bg-brilliantBlue text-white border-brilliantBlue shadow-lg shadow-brilliantBlue/25' 
                       : 'border-gray-600 text-gray-300 hover:bg-gray-800/50 hover:border-gray-500'
                   }`}
                 >
@@ -512,7 +512,7 @@ export default function HeroAISection() {
             <Button 
               onClick={handleCTAClick}
               size="lg" 
-              className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700 text-white px-8 py-6 text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 group"
+              className="w-full sm:w-auto bg-gradient-to-r from-brilliantBlue to-signalYellow hover:from-brilliantBlue/90 hover:to-signalYellow/90 text-white px-8 py-6 text-lg font-semibold rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 hover:-translate-y-1 group"
             >
               <DollarSign className="mr-3 w-6 h-6 group-hover:rotate-12 transition-transform duration-300" />
               Quiero mi transformación
@@ -564,7 +564,7 @@ export default function HeroAISection() {
               <div className="w-full bg-gray-700 rounded-full h-2 mb-6">
                 <div 
                   className={`h-2 rounded-full transition-all duration-500 ${
-                    cinema.showingAfter ? 'bg-gradient-to-r from-green-500 to-blue-500' : 'bg-gradient-to-r from-red-500 to-orange-500'
+                    cinema.showingAfter ? 'bg-gradient-to-r from-signalYellow to-brilliantBlue' : 'bg-gradient-to-r from-red-500 to-orange-500'
                   }`}
                   style={{ 
                     width: `${((cinema.currentScene + 1) / (currentScenes?.length || 1)) * 100}%` 
@@ -608,14 +608,14 @@ export default function HeroAISection() {
 
             {/* Story Results */}
             {currentStory && (
-              <div className="p-6 bg-gradient-to-r from-green-900/20 to-blue-900/20 border-t border-gray-700">
+                              <div className="p-6 bg-gradient-to-r from-signalYellow/10 to-brilliantBlue/20 border-t border-gray-700">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-green-400">{currentStory.savings}</div>
                     <div className="text-sm text-gray-400">Ahorro mensual</div>
                   </div>
                   <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-400">{currentStory.timeframe}</div>
+                    <div className="text-2xl font-bold text-brilliantBlue">{currentStory.timeframe}</div>
                     <div className="text-sm text-gray-400">Tiempo de implementación</div>
                   </div>
                 </div>

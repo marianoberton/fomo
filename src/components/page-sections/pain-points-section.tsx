@@ -156,7 +156,7 @@ export default function PainPointsSection() {
       badge: 'bg-white text-brilliantBlue',
       icon: 'bg-brilliantBlue',
       iconColor: 'text-brilliantBlue',
-      border: 'border-blue-700/20'
+      border: 'border-brilliantBlue/20'
     },
     'analysis': {
       bg: 'bg-plum',
@@ -310,23 +310,13 @@ export default function PainPointsSection() {
           height: '300vh'
         }}
       >
-        {/* Video background with overlay */}
-        <div className="absolute inset-0 overflow-hidden">
-          <video
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover"
-            style={{ filter: 'brightness(0.3) contrast(1.2)' }}
-          >
-            <source src="/videos/hero_video_ilu_blanca.mp4" type="video/mp4" />
-          </video>
-          <div className="absolute inset-0 bg-gradient-to-br from-plum/80 via-brilliantBlue/70 to-plum/90"></div>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20"></div>
+        {/* Background with overlay */}
+        <div className="absolute inset-0">
+          <div className="absolute inset-0 bg-gradient-to-br from-plum/90 via-brilliantBlue/80 to-plum/95"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/30"></div>
         </div>
 
-        {/* Enhanced background elements with video overlay */}
+        {/* Enhanced background elements */}
         <div className="absolute inset-0">
           <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '8s' }}></div>
           <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-signalYellow/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '12s', animationDelay: '2s' }}></div>
@@ -359,7 +349,7 @@ export default function PainPointsSection() {
             
             <motion.p 
               key={`subtitle-${currentStep}`}
-              className="text-xl sm:text-2xl text-slate-300 max-w-4xl mx-auto leading-relaxed mb-4"
+              className="text-xl sm:text-2xl text-white max-w-4xl mx-auto leading-relaxed mb-4"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
@@ -369,7 +359,7 @@ export default function PainPointsSection() {
 
             <motion.p 
               key={`description-${currentStep}`}
-              className="text-lg text-slate-400 max-w-3xl mx-auto leading-relaxed"
+              className="text-lg text-slate-200 max-w-3xl mx-auto leading-relaxed"
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.3 }}
@@ -377,46 +367,9 @@ export default function PainPointsSection() {
               {storySteps[currentStep].description}
             </motion.p>
 
-            {/* Progress indicator */}
-            <div className="mt-12 flex items-center justify-center gap-2">
-              {storySteps.map((_, index) => (
-                <div
-                  key={index}
-                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
-                    index === currentStep ? 'bg-signalYellow scale-125 shadow-lg shadow-signalYellow/50' : 'bg-white/30'
-                  }`}
-                />
-              ))}
-            </div>
 
-            {/* Debug info */}
-            <div className="mt-8 text-sm text-slate-500">
-              Step: {currentStep + 1}/{storySteps.length}
-            </div>
 
-            {/* Transition indicator when storytelling is about to end */}
-            {currentStep === storySteps.length - 1 && (
-              <motion.div
-                className="mt-8"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 }}
-              >
-                <div className="text-sm text-white/70 mb-4">
-                  Seguí scrolleando para ver los dolores específicos →
-                </div>
-                <motion.div
-                  className="w-6 h-6 mx-auto text-signalYellow"
-                  animate={{ y: [0, 8, 0] }}
-                  transition={{ duration: 1.5, repeat: Infinity }}
-                >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M7 13l3 3 7-7"/>
-                    <path d="m21 21-6-6m6 6v-4.8m0 4.8h-4.8"/>
-                  </svg>
-                </motion.div>
-              </motion.div>
-            )}
+
           </div>
         </div>
       </section>
@@ -766,47 +719,40 @@ export default function PainPointsSection() {
                 <strong className="text-brilliantBlue font-semibold">resultados desde la primera semana.</strong>
               </motion.p>
 
-              {/* Enhanced CTA section */}
+              {/* Enhanced CTA section - Single prominent button */}
               <motion.div
-                className="flex flex-col sm:flex-row gap-6 justify-center items-center"
+                className="flex justify-center items-center"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
                 viewport={{ once: true }}
               >
-                <motion.button 
-                  className="group relative bg-gradient-to-r from-brilliantBlue to-plum text-white px-10 py-5 rounded-2xl font-bold text-xl transition-all duration-300 shadow-2xl overflow-hidden"
+                <motion.a 
+                  href="https://wa.me/5491123456789?text=Hola%2C%20quiero%20saber%20más%20sobre%20cómo%20pueden%20ayudarme%20con%20los%20procesos%20de%20mi%20PyME"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group relative bg-gradient-to-r from-brilliantBlue to-plum hover:from-brilliantBlue/90 hover:to-plum/90 text-white px-12 py-6 rounded-3xl font-bold text-2xl transition-all duration-300 shadow-2xl hover:shadow-3xl overflow-hidden transform hover:scale-105"
                   whileHover={{ 
-                    scale: 1.05,
-                    boxShadow: '0 25px 50px -12px rgba(49, 6, 41, 0.25)'
+                    scale: 1.06,
+                    boxShadow: '0 25px 50px -12px rgba(0, 119, 182, 0.3)'
                   }}
-                  whileTap={{ scale: 0.95 }}
+                  whileTap={{ scale: 0.98 }}
                 >
-                  <span className="relative z-10 flex items-center gap-3">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                    </svg>
-                    Ver cómo lo resolvemos
+                  <span className="relative z-10 flex items-center justify-center gap-4">
+                    <div className="flex items-center justify-center w-12 h-12 bg-green-500 rounded-full p-2">
+                      <svg className="w-6 h-6 text-white" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488"/>
+                      </svg>
+                    </div>
+                    <span>Hablemos de tu PyME</span>
                   </span>
+                  
+                  {/* Animated background overlay */}
                   <div className="absolute inset-0 bg-gradient-to-r from-plum to-brilliantBlue opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                </motion.button>
-                
-                <motion.button 
-                  className="group border-3 border-brilliantBlue text-brilliantBlue hover:bg-brilliantBlue hover:text-white px-10 py-5 rounded-2xl font-bold text-xl transition-all duration-300 hover:shadow-xl relative overflow-hidden"
-                  whileHover={{ 
-                    scale: 1.05,
-                    borderColor: '#310629'
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                >
-                  <span className="relative z-10 flex items-center gap-3">
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-                    </svg>
-                    Hablar con un experto
-                  </span>
-                  <div className="absolute inset-0 bg-brilliantBlue scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></div>
-                </motion.button>
+                  
+                  {/* Subtle glow effect */}
+                  <div className="absolute inset-0 rounded-3xl bg-white/5 scale-100 group-hover:scale-105 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                </motion.a>
               </motion.div>
             </motion.div>
           </div>

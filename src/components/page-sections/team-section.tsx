@@ -73,14 +73,14 @@ export default function TeamSection() {
         iconBg: 'bg-white',
         iconColor: 'text-brilliantBlue',
         badge: 'bg-white text-brilliantBlue',
-        border: 'border-blue-700/20',
-        accentBg: 'bg-blue-700'
+        border: 'border-brilliantBlue/20',
+        accentBg: 'bg-brilliantBlue'
       };
     }
   };
 
   return (
-    <section className="w-full py-24 bg-gradient-to-b from-white via-slate-50/50 to-white relative overflow-hidden">
+    <section id="team" className="w-full py-24 bg-gradient-to-b from-white via-slate-50/50 to-white relative overflow-hidden">
       {/* Background decoration using brand colors */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-brilliantBlue/8 to-signalYellow/8 rounded-full blur-3xl"></div>
@@ -305,7 +305,7 @@ export default function TeamSection() {
                 </p>
                 </motion.div>
                 <motion.div 
-                  className="bg-brilliantBlue rounded-2xl p-6 border border-blue-300/20 shadow-lg"
+                  className="bg-brilliantBlue rounded-2xl p-6 border border-brilliantBlue/20 shadow-lg"
                   whileHover={{ scale: 1.02 }}
                   transition={{ duration: 0.3 }}
                 >

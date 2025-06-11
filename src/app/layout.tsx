@@ -1,8 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Quicksand, Poppins, Fredoka } from "next/font/google";
-import Navigation from "@/components/navigation";
-import Footer from "@/components/footer";
+import ClientLayout from "@/components/client-layout";
 import Script from "next/script";
 
 // Font definitions - Más redondeadas y cálidas
@@ -64,9 +63,9 @@ export default function RootLayout({
         </noscript>
       </head>
       <body className={`${quicksand.variable} ${poppins.variable} ${fredoka.variable} font-body bg-background selection:bg-accent selection:text-accent-foreground`}>
-        <Navigation />
-        <main>{children}</main>
-        <Footer />
+        <ClientLayout>
+          {children}
+        </ClientLayout>
       </body>
     </html>
   );

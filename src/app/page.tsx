@@ -13,7 +13,7 @@ import FAQSection from "@/components/page-sections/faq-section";
 import FinalCTASection from "@/components/page-sections/final-cta-section";
 import ContactFormSection from "@/components/page-sections/contact-form-section";
 
-// Main Home component with new layout
+// Main Home component with optimized conversion funnel
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col w-full items-center bg-background text-foreground">
@@ -21,31 +21,31 @@ export default function Home() {
         {/* A - Hero: Captar atención en 5s */}
         <HeroSection />
         
-        {/* B - "Dolores que resolvemos": Crear empatía */}
+        {/* B - Pain Points: Crear empatía con los dolores */}
         <PainPointsSection />
         
-        {/* C - Pilares: Explicar oferta simplificada */}
+        {/* C - Servicios (3 Pilares): ¿QUÉ hacemos? */}
         <ThreePillarsSection />
         
-        {/* D - Demo-Gallery: Mostrar capacidad sin "mentir" */}
-        <DemoGallerySection />
-        
-        {/* E - Metodología "5 Pasos": Transmitir proceso claro */}
+        {/* D - Metodología (Proceso): ¿CÓMO lo hacemos? */}
         <ProcessTimelineSection />
         
-        {/* F - Maturity Score: Lead magnet */}
-        <MaturityScoreSection />
+        {/* E - Casos (Demo Gallery): ¿FUNCIONA? Probar resultados */}
+        <DemoGallerySection />
         
-        {/* G - Equipo: Humanizar */}
+        {/* F - Maturity Score: Lead magnet */}
+        {/* <MaturityScoreSection /> */}
+        
+        {/* G - Equipo: ¿QUIÉN lo hace? Generar confianza */}
         <TeamSection />
         
-        {/* H - Preguntas frecuentes: Reducir fricción */}
+        {/* H - FAQ: Resolver objeciones finales */}
         <FAQSection />
         
-        {/* Contact Form: Still accessible via scroll */}
+        {/* I - Contact Form: Punto de conversión principal */}
         <ContactFormSection />
         
-        {/* I - CTA final: Cerrar */}
+        {/* J - CTA Final: Último empuje para conversión */}
         <FinalCTASection />
       </div>
     </main>

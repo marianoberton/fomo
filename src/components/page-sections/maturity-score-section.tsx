@@ -145,8 +145,8 @@ export default function MaturityScoreSection() {
     } else if (score <= 85) {
       return {
         level: 'Avanzado',
-        color: 'text-blue-600',
-        bg: 'bg-blue-50',
+        color: 'text-brilliantBlue',
+        bg: 'bg-brilliantBlue/5',
         message: 'Estás bien encaminado. Podemos llevarte al siguiente nivel con optimizaciones específicas.',
         recommendations: [
           'IA predictiva para toma de decisiones',

@@ -6,13 +6,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
-  { name: "About", href: "/about" },
-  { name: "Services", href: "/services" },
-  { name: "Clients", href: "/clients" },
-  { name: "Blog", href: "/blog" },
+  { name: "Servicios", href: "#three-pillars" },
+  { name: "Metodología", href: "#process-timeline" },
+  { name: "Casos", href: "#demo-gallery" },
+  { name: "Equipo", href: "#team" },
 ];
 
-const contactLink = { name: "Contact Us", href: "/contact" };
+const contactLink = { name: "Contáctanos", href: "#contact-form" };
 
 const mobileMenuVariants = {
   closed: { 
@@ -35,8 +35,15 @@ const mobileNavItemVariants = {
 export default function Navigation() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleLinkClick = () => {
+  const handleLinkClick = (href: string) => {
     setIsOpen(false);
+    
+    if (href.startsWith('#')) {
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
   };
 
   return (
@@ -58,20 +65,20 @@ export default function Navigation() {
 
         <nav className="hidden md:flex items-center space-x-1 lg:space-x-2 pl-4">
           {navLinks.map((link) => (
-            <Link
+            <button
               key={link.name}
-              href={link.href}
+              onClick={() => handleLinkClick(link.href)}
               className="text-xs lg:text-sm font-medium px-3 lg:px-4 py-2 transition-all duration-200 hover:text-brilliantBlue hover:bg-brilliantBlue/5 rounded-full text-gray-700"
             >
               {link.name}
-            </Link>
+            </button>
           ))}
-          <Link
-            href={contactLink.href}
+          <button
+            onClick={() => handleLinkClick(contactLink.href)}
             className="text-xs lg:text-sm font-medium bg-brilliantBlue hover:bg-brilliantBlue/90 text-white rounded-full px-4 lg:px-5 py-2 transition-all duration-200 ml-2 shadow-md hover:shadow-lg transform hover:scale-105"
           >
             {contactLink.name}
-          </Link>
+          </button>
         </nav>
 
         <div className="md:hidden flex items-center pl-4">
@@ -110,15 +117,15 @@ export default function Navigation() {
             <nav className="flex flex-col items-center space-y-5 mt-10">
               {navLinks.map((link, index) => (
                 <motion.div key={link.name} variants={mobileNavItemVariants} initial="closed" animate="open" exit="closed" transition={{ delay: index * 0.05 + 0.1, duration: 0.3 }}>
-                  <Link href={link.href} onClick={handleLinkClick} className="text-2xl font-medium text-gray-700 hover:text-brilliantBlue transition-colors py-2 block">
+                  <button onClick={() => handleLinkClick(link.href)} className="text-2xl font-medium text-gray-700 hover:text-brilliantBlue transition-colors py-2 block">
                     {link.name}
-                  </Link>
+                  </button>
                 </motion.div>
               ))}
               <motion.div variants={mobileNavItemVariants} initial="closed" animate="open" exit="closed" transition={{ delay: navLinks.length * 0.05 + 0.1, duration: 0.3 }} className="mt-6">
-                <Link href={contactLink.href} onClick={handleLinkClick} className="text-xl font-medium bg-brilliantBlue hover:bg-brilliantBlue/90 text-white rounded-full px-8 py-3 transition-all duration-200 shadow-lg">
+                <button onClick={() => handleLinkClick(contactLink.href)} className="text-xl font-medium bg-brilliantBlue hover:bg-brilliantBlue/90 text-white rounded-full px-8 py-3 transition-all duration-200 shadow-lg">
                   {contactLink.name}
-                </Link>
+                </button>
               </motion.div>
             </nav>
           </motion.div>

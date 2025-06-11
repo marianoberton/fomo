@@ -3,9 +3,7 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { 
   Send, 
   CheckCircle, 
@@ -13,13 +11,48 @@ import {
   User, 
   Globe, 
   AlertCircle,
-  Phone
+  Phone,
+  ArrowLeft,
+  ArrowRight,
+  Building2
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+
+// Example queries for floating elements
+const floatingExamples = [
+  {
+    text: "Perdemos tiempo en procesos manuales, necesitamos automatizar",
+    category: "Automatización",
+    position: { top: "15%", left: "8%" }
+  },
+  {
+    text: "No tenemos visibilidad de lo que pasa en el negocio",
+    category: "Dashboards",
+    position: { top: "60%", left: "5%" }
+  },
+  {
+    text: "Necesitamos un CRM que integre con nuestro sistema actual",
+    category: "Integración",
+    position: { top: "25%", right: "8%" }
+  },
+  {
+    text: "Queremos digitalizar toda la gestión de clientes",
+    category: "Digitalización",
+    position: { top: "70%", right: "5%" }
+  },
+  {
+    text: "Buscamos optimizar el flujo de trabajo del equipo",
+    category: "Procesos",
+    position: { bottom: "20%", left: "10%" }
+  }
+];
 
 export default function ContactFormSection() {
+  const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    company: '',
     website: '',
     painPoint: '',
     phone: ''
@@ -27,6 +60,57 @@ export default function ContactFormSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const totalSteps = 4;
+
+  const steps = [
+    {
+      id: 1,
+      title: "¡Hola! ¿Cómo te llamas?",
+      subtitle: "Empezamos con lo básico",
+      field: "name",
+      type: "text",
+      placeholder: "Tu nombre completo",
+      icon: User,
+      required: true
+    },
+    {
+      id: 2,
+      title: "¿Cuál es tu email?",
+      subtitle: "Para enviarte el diagnóstico",
+      field: "email",
+      type: "email", 
+      placeholder: "tu@empresa.com",
+      icon: Mail,
+      required: true
+    },
+    {
+      id: 3,
+      title: "¿Cómo se llama tu empresa?",
+      subtitle: "Y si tenés web o redes, compartinos",
+      field: "company",
+      type: "text",
+      placeholder: "Nombre de tu empresa",
+      icon: Building2,
+      required: true,
+      extraField: {
+        field: "website",
+        placeholder: "www.tuempresa.com o @instagram"
+      }
+    },
+    {
+      id: 4,
+      title: "¿Cuál es tu principal desafío?",
+      subtitle: "Contanos qué te está frenando para crecer",
+      field: "painPoint",
+      type: "textarea",
+      placeholder: "Ej: Perdemos tiempo en procesos manuales, necesito automatizar tareas repetitivas, no tengo visibilidad de lo que pasa en mi negocio...",
+      icon: AlertCircle,
+      required: true
+    }
+  ];
+
+  const currentStepData = steps[currentStep - 1];
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -43,42 +127,46 @@ export default function ContactFormSection() {
     }
   };
 
-  const validateForm = () => {
+  const validateCurrentStep = () => {
     const newErrors: Record<string, string> = {};
+    const step = currentStepData;
 
-    if (!formData.name.trim()) {
-      newErrors.name = 'El nombre es requerido';
+    if (step.required && !formData[step.field as keyof typeof formData].trim()) {
+      newErrors[step.field] = 'Este campo es requerido';
     }
 
-    if (!formData.email.trim()) {
-      newErrors.email = 'El email es requerido';
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Ingresá un email válido';
-    }
-
-    if (!formData.painPoint.trim()) {
-      newErrors.painPoint = 'Contanos tu principal desafío';
+    if (step.field === 'email' && formData.email.trim()) {
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+        newErrors.email = 'Ingresá un email válido';
+      }
     }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
+  const handleNext = () => {
+    if (validateCurrentStep()) {
+      if (currentStep < totalSteps) {
+        setCurrentStep(currentStep + 1);
+      } else {
+        handleSubmit();
+      }
     }
+  };
 
+  const handlePrev = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handleSubmit = async () => {
     setIsSubmitting(true);
 
     try {
-      // Here you would integrate with your form handling service
-      // For now, we'll simulate a submission
       await new Promise(resolve => setTimeout(resolve, 2000));
       
-      // Facebook Pixel track for form submission
       if (typeof window !== 'undefined' && (window as any).fbq) {
         (window as any).fbq('track', 'Lead', {
           content_name: 'Diagnóstico de Transformación Digital',
@@ -94,239 +182,263 @@ export default function ContactFormSection() {
     }
   };
 
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleNext();
+    }
+  };
+
   if (isSubmitted) {
     return (
-      <section id="contact-form" className="w-full py-24 bg-gradient-to-b from-background to-muted/20">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="bg-card rounded-3xl shadow-xl p-12 border border-border">
-            <CheckCircle className="w-16 h-16 text-brilliantBlue mx-auto mb-6" />
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              ¡Solicitud enviada exitosamente!
-            </h2>
-            <p className="text-xl text-muted-foreground mb-6">
-              Gracias <strong>{formData.name}</strong>, recibimos tu solicitud para el diagnóstico de transformación digital.
-            </p>
-            <div className="bg-muted/50 rounded-2xl p-6 mb-8 border border-border">
-              <h3 className="font-semibold text-foreground mb-4">
-                ¿Qué sigue ahora?
-              </h3>
-              <div className="space-y-3 text-left">
-                <div className="flex items-center gap-3">
-                  <div className="w-6 h-6 bg-brilliantBlue text-white rounded-full flex items-center justify-center text-sm font-bold">1</div>
-                  <span className="text-muted-foreground">En las próximas 24hs te contactamos para coordinar una llamada</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-6 h-6 bg-brilliantBlue text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
-                  <span className="text-muted-foreground">Realizamos el mapeo y auditoría de tus procesos actuales</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="w-6 h-6 bg-brilliantBlue text-white rounded-full flex items-center justify-center text-sm font-bold">3</div>
-                  <span className="text-muted-foreground">En 5 días tenés tu diagnóstico completo con roadmap de transformación</span>
-                </div>
-              </div>
-            </div>
-            <p className="text-muted-foreground">
-              Revisá tu email (incluí spam) por si te enviamos alguna info adicional.
-            </p>
-          </div>
+      <section id="contact-form" className="w-full min-h-screen bg-plum flex items-center justify-center relative overflow-hidden">
+        {/* Background decoration */}
+        <div className="absolute inset-0">
+          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-signalYellow/8 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-brilliantBlue/8 rounded-full blur-3xl"></div>
         </div>
+
+        <motion.div 
+          className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+                     <div className="bg-white/10 backdrop-blur-sm rounded-3xl shadow-2xl p-12 border border-white/20">
+             <CheckCircle className="w-20 h-20 text-signalYellow mx-auto mb-8" />
+             <h2 className="text-4xl font-bold text-white mb-6">
+               ¡Perfecto, {formData.name}!
+             </h2>
+             <p className="text-xl text-white/90 mb-8">
+               Tu mensaje fue enviado exitosamente. Te contactamos en las próximas 24hs.
+             </p>
+             
+             <div className="bg-white/10 rounded-2xl p-6 mb-8 border border-white/20">
+               <h3 className="font-semibold text-white mb-6 text-lg">
+                 ¿Qué sigue ahora?
+               </h3>
+               <div className="space-y-4 text-left">
+                 <div className="flex items-center gap-4">
+                   <div className="w-8 h-8 bg-signalYellow text-slate-900 rounded-full flex items-center justify-center text-sm font-bold">1</div>
+                   <span className="text-white/90">Te contactamos en las próximas 24hs</span>
+                 </div>
+                 <div className="flex items-center gap-4">
+                   <div className="w-8 h-8 bg-brilliantBlue text-white rounded-full flex items-center justify-center text-sm font-bold">2</div>
+                   <span className="text-white/90">Mapeamos y auditamos tus procesos actuales</span>
+                 </div>
+                 <div className="flex items-center gap-4">
+                   <div className="w-8 h-8 bg-orange-500 text-white rounded-full flex items-center justify-center text-sm font-bold">3</div>
+   <span className="text-white/90">En 5 días tenés una propuesta personalizada</span>
+                 </div>
+               </div>
+             </div>
+             
+             <p className="text-white/70 text-sm">
+               Revisá tu email (incluí spam) por si te enviamos info adicional
+             </p>
+          </div>
+        </motion.div>
       </section>
     );
   }
 
   return (
-    <section id="contact-form" className="w-full py-24 bg-gradient-to-b from-muted/20 to-background relative overflow-hidden">
-      {/* Background decoration */}
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-brilliantBlue/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-signalYellow/5 rounded-full blur-3xl"></div>
-      </div>
+    <section id="contact-form" className="w-full min-h-screen bg-plum relative overflow-hidden flex items-center justify-center">
+             {/* Floating examples */}
+       {floatingExamples.map((example, index) => (
+        <motion.div
+          key={index}
+                     className="absolute hidden lg:block max-w-xs"
+           style={example.position}
+           initial={{ opacity: 0, scale: 0.8 }}
+           animate={{ 
+             opacity: [0.6, 0.8, 0.6],
+             scale: [0.95, 1, 0.95],
+             y: [0, -10, 0]
+           }}
+           transition={{
+             duration: 4 + index,
+             repeat: Infinity,
+             ease: "easeInOut",
+             delay: index * 0.5
+           }}
+         >
+           <div className="bg-white rounded-2xl p-4 border border-gray-200 shadow-xl">
+             <p className="text-slate-700 text-sm mb-2">"{example.text}"</p>
+             <p className="text-slate-500 text-xs font-medium">{example.category}</p>
+           </div>
+        </motion.div>
+      ))}
 
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h2 className="text-4xl lg:text-5xl font-bold text-foreground mb-6">
-            Solicitá tu{" "}
-            <span className="text-brilliantBlue">
-              diagnóstico de transformación
-            </span>
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Completá el formulario y en 5 días tenés un análisis completo de las oportunidades de optimización en tu PyME
-          </p>
-        </div>
+             {/* Background decoration */}
+       <div className="absolute inset-0">
+         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-signalYellow/8 rounded-full blur-3xl"></div>
+         <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-brilliantBlue/8 rounded-full blur-3xl"></div>
+         <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-orange-500/8 rounded-full blur-3xl"></div>
+       </div>
 
-        <Card className="bg-card/90 backdrop-blur-sm shadow-2xl rounded-3xl border border-border/50 max-w-4xl mx-auto">
-          <CardHeader className="text-center pb-6">
-            <CardTitle className="text-2xl font-bold text-foreground">
-              Formulario de Diagnóstico
-            </CardTitle>
-            <p className="text-muted-foreground">
-              Solo te llevará 2 minutos completarlo
-            </p>
-          </CardHeader>
-          <CardContent className="px-8 pb-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              {/* Name and Email in Grid */}
-              <div className="grid md:grid-cols-2 gap-6">
-                {/* Name Field */}
-                <div>
-                  <Label htmlFor="name" className="text-base font-medium text-foreground">
-                    <User className="inline w-4 h-4 mr-2" />
-                    Nombre completo *
-                  </Label>
-                  <Input
-                    id="name"
-                    name="name"
-                    type="text"
-                    value={formData.name}
-                    onChange={handleInputChange}
-                    placeholder="Tu nombre y apellido"
-                    className={`mt-2 rounded-2xl h-12 ${errors.name ? 'border-red-500' : 'border-border'}`}
-                  />
-                  {errors.name && (
-                    <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
-                      <AlertCircle className="w-4 h-4" />
-                      {errors.name}
-                    </p>
-                  )}
-                </div>
-
-                {/* Email Field */}
-                <div>
-                  <Label htmlFor="email" className="text-base font-medium text-foreground">
-                    <Mail className="inline w-4 h-4 mr-2" />
-                    Email corporativo *
-                  </Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    placeholder="tu@empresa.com"
-                    className={`mt-2 rounded-2xl h-12 ${errors.email ? 'border-red-500' : 'border-border'}`}
-                  />
-                  {errors.email && (
-                    <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
-                      <AlertCircle className="w-4 h-4" />
-                      {errors.email}
-                    </p>
-                  )}
-                </div>
-              </div>
-
-              {/* Phone and Website in Grid */}
-              <div className="grid md:grid-cols-2 gap-6">
-                {/* Phone Field */}
-                <div>
-                  <Label htmlFor="phone" className="text-base font-medium text-foreground">
-                    <Phone className="inline w-4 h-4 mr-2" />
-                    Teléfono / WhatsApp
-                  </Label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    placeholder="+54 9 11 1234-5678"
-                    className="mt-2 rounded-2xl h-12 border-border"
-                  />
-                </div>
-
-                {/* Website Field */}
-                <div>
-                  <Label htmlFor="website" className="text-base font-medium text-foreground">
-                    <Globe className="inline w-4 h-4 mr-2" />
-                    Sitio web o redes sociales
-                  </Label>
-                  <Input
-                    id="website"
-                    name="website"
-                    type="url"
-                    value={formData.website}
-                    onChange={handleInputChange}
-                    placeholder="www.tuempresa.com o @tuinstagram"
-                    className="mt-2 rounded-2xl h-12 border-border"
-                  />
-                  <p className="mt-1 text-sm text-muted-foreground">
-                    Si no tenés web, podés poner tu Instagram o Facebook
-                  </p>
-                </div>
-              </div>
-
-              {/* Pain Point Field - Full Width */}
-              <div>
-                <Label htmlFor="painPoint" className="text-base font-medium text-foreground">
-                  <AlertCircle className="inline w-4 h-4 mr-2" />
-                  ¿Cuál es tu principal desafío operativo? *
-                </Label>
-                <Textarea
-                  id="painPoint"
-                  name="painPoint"
-                  value={formData.painPoint}
-                  onChange={handleInputChange}
-                  placeholder="Ej: Perdemos tiempo en procesos manuales, necesito automatizar tareas repetitivas, no tengo visibilidad de lo que pasa en mi negocio..."
-                  className={`mt-2 min-h-[120px] rounded-2xl ${errors.painPoint ? 'border-red-500' : 'border-border'}`}
-                />
-                {errors.painPoint && (
-                  <p className="mt-1 text-sm text-red-600 flex items-center gap-1">
-                    <AlertCircle className="w-4 h-4" />
-                    {errors.painPoint}
-                  </p>
+      <div className="relative z-10 w-full max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Progress indicator */}
+        <div className="flex justify-center mb-12">
+          <div className="flex items-center gap-3">
+            {Array.from({ length: totalSteps }, (_, i) => (
+              <React.Fragment key={i}>
+                <div className={`
+                  w-3 h-3 rounded-full transition-all duration-300
+                  ${i + 1 === currentStep ? 'bg-signalYellow scale-125' : 
+                    i + 1 < currentStep ? 'bg-brilliantBlue' : 'bg-white/20'}
+                `} />
+                {i < totalSteps - 1 && (
+                  <div className={`
+                    w-8 h-0.5 transition-all duration-300
+                    ${i + 1 < currentStep ? 'bg-brilliantBlue' : 'bg-white/20'}
+                  `} />
                 )}
-              </div>
-
-              {/* Submit Button */}
-              <div className="pt-6">
-                <Button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-brilliantBlue to-brilliantBlue/80 hover:from-brilliantBlue/90 hover:to-brilliantBlue/70 text-white py-5 text-lg font-bold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed transform hover:scale-105"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                      Enviando...
-                    </>
-                  ) : (
-                    <>
-                      <Send className="mr-2 w-5 h-5" />
-                      Solicitar diagnóstico de transformación
-                    </>
-                  )}
-                </Button>
-              </div>
-
-              {/* Privacy Notice */}
-              <div className="text-center pt-4">
-                <p className="text-xs text-muted-foreground">
-                  Al enviar este formulario aceptás que FOMO te contacte para coordinar tu diagnóstico.{" "}
-                  <br />
-                  No compartimos tu información con terceros.
-                </p>
-              </div>
-            </form>
-          </CardContent>
-        </Card>
-
-        {/* Additional Trust Signals */}
-        <div className="mt-12 text-center">
-          <div className="grid md:grid-cols-3 gap-6 max-w-3xl mx-auto">
-            <div className="flex items-center justify-center gap-3 bg-card/50 backdrop-blur-sm rounded-2xl p-4 border border-border/30">
-              <CheckCircle className="w-6 h-6 text-brilliantBlue" />
-              <span className="text-muted-foreground font-medium">Respuesta en 24hs</span>
-            </div>
-            <div className="flex items-center justify-center gap-3 bg-card/50 backdrop-blur-sm rounded-2xl p-4 border border-border/30">
-              <CheckCircle className="w-6 h-6 text-brilliantBlue" />
-              <span className="text-muted-foreground font-medium">100% confidencial</span>
-            </div>
-            <div className="flex items-center justify-center gap-3 bg-card/50 backdrop-blur-sm rounded-2xl p-4 border border-border/30">
-              <CheckCircle className="w-6 h-6 text-brilliantBlue" />
-              <span className="text-muted-foreground font-medium">Sin compromiso</span>
-            </div>
+              </React.Fragment>
+            ))}
           </div>
         </div>
+
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentStep}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.3 }}
+            className="text-center mb-12"
+          >
+            {/* Step header */}
+            <div className="mb-8">
+                             <div className="flex items-center justify-center gap-3 mb-6">
+                 <div className="w-12 h-12 bg-signalYellow rounded-2xl flex items-center justify-center">
+                   <currentStepData.icon className="w-6 h-6 text-slate-900" />
+                 </div>
+                 <div className="text-xs font-bold text-signalYellow uppercase tracking-widest">
+                   Paso {currentStep}
+                 </div>
+               </div>
+               
+               <h2 className="text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
+                 {currentStepData.title}
+               </h2>
+               <p className="text-xl text-white/80">
+                 {currentStepData.subtitle}
+               </p>
+            </div>
+
+            {/* Form field */}
+            <div className="max-w-lg mx-auto mb-8">
+              {currentStepData.type === 'textarea' ? (
+                <Textarea
+                  name={currentStepData.field}
+                  value={formData[currentStepData.field as keyof typeof formData]}
+                  onChange={handleInputChange}
+                  onKeyDown={handleKeyDown}
+                  placeholder={currentStepData.placeholder}
+                                     className={`
+                     w-full min-h-[120px] text-lg bg-white border-gray-300 text-slate-900 placeholder:text-slate-500 
+                     rounded-2xl px-6 py-4 transition-all duration-300
+                     focus:border-signalYellow focus:ring-2 focus:ring-signalYellow/20
+                     ${errors[currentStepData.field] ? 'border-red-400' : ''}
+                   `}
+                />
+              ) : (
+                <div className="space-y-4">
+                  <Input
+                    name={currentStepData.field}
+                    type={currentStepData.type}
+                    value={formData[currentStepData.field as keyof typeof formData]}
+                    onChange={handleInputChange}
+                    onKeyDown={handleKeyDown}
+                    placeholder={currentStepData.placeholder}
+                                         className={`
+                       w-full h-16 text-lg bg-white border-gray-300 text-slate-900 placeholder:text-slate-500 
+                       rounded-2xl px-6 transition-all duration-300
+                       focus:border-signalYellow focus:ring-2 focus:ring-signalYellow/20
+                       ${errors[currentStepData.field] ? 'border-red-400' : ''}
+                     `}
+                  />
+                  
+                  {/* Extra field for step 3 */}
+                  {currentStepData.extraField && (
+                    <Input
+                      name={currentStepData.extraField.field}
+                      type="text"
+                      value={formData[currentStepData.extraField.field as keyof typeof formData]}
+                      onChange={handleInputChange}
+                      placeholder={currentStepData.extraField.placeholder}
+                                             className="w-full h-16 text-lg bg-white border-gray-300 text-slate-900 placeholder:text-slate-500 rounded-2xl px-6 transition-all duration-300 focus:border-signalYellow focus:ring-2 focus:ring-signalYellow/20"
+                    />
+                  )}
+                </div>
+              )}
+              
+              {errors[currentStepData.field] && (
+                                 <motion.p 
+                   initial={{ opacity: 0, y: -10 }}
+                   animate={{ opacity: 1, y: 0 }}
+                   className="mt-3 text-red-300 flex items-center justify-center gap-2"
+                 >
+                  <AlertCircle className="w-4 h-4" />
+                  {errors[currentStepData.field]}
+                </motion.p>
+              )}
+            </div>
+
+            {/* Navigation buttons */}
+            <div className="flex items-center justify-center gap-4">
+              {currentStep > 1 && (
+                                 <Button
+                   onClick={handlePrev}
+                   variant="outline"
+                   className="h-14 px-8 bg-white/10 border-white/30 text-white hover:bg-white/20 rounded-full"
+                 >
+                  <ArrowLeft className="w-5 h-5 mr-2" />
+                  Regresar
+                </Button>
+              )}
+              
+              <Button
+                onClick={handleNext}
+                disabled={isSubmitting}
+                className="h-14 px-12 bg-signalYellow hover:bg-signalYellow/90 text-slate-900 font-bold rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+              >
+                {isSubmitting ? (
+                  <>
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-slate-900 mr-2"></div>
+                    Enviando...
+                  </>
+                                 ) : currentStep === totalSteps ? (
+                   <>
+                     <Send className="mr-2 w-5 h-5" />
+                     Contáctanos
+                   </>
+                 ) : (
+                  <>
+                    Próxima
+                    <ArrowRight className="w-5 h-5 ml-2" />
+                  </>
+                )}
+              </Button>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+
+        {/* Contact info */}
+        <motion.div 
+          className="text-center mt-16"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        >
+                     <p className="text-white/70 text-sm">
+             o envianos un correo electrónico a{" "}
+             <a href="mailto:hola@fomo.com.ar" className="text-signalYellow hover:text-signalYellow/80 transition-colors">
+               hola@fomo.com.ar
+             </a>
+           </p>
+        </motion.div>
       </div>
     </section>
   );

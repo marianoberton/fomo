@@ -68,7 +68,7 @@ export default function NavigationBackup() {
           ))}
           <Link
             href={contactLink.href}
-            className="text-xs lg:text-sm font-medium bg-brilliantBlue hover:bg-blue-700 text-white rounded-full px-4 lg:px-5 py-2 transition-colors duration-200 ml-2 shadow-md"
+            className="text-xs lg:text-sm font-medium bg-brilliantBlue hover:bg-brilliantBlue/90 text-white rounded-full px-4 lg:px-5 py-2 transition-colors duration-200 ml-2 shadow-md"
           >
             {contactLink.name}
           </Link>
@@ -116,7 +116,7 @@ export default function NavigationBackup() {
                 </motion.div>
               ))}
               <motion.div variants={mobileNavItemVariants} initial="closed" animate="open" exit="closed" transition={{ delay: navLinks.length * 0.05 + 0.1, duration: 0.3 }} className="mt-6">
-                <Link href={contactLink.href} onClick={handleLinkClick} className="text-xl font-medium bg-brilliantBlue hover:bg-blue-700 text-white rounded-full px-8 py-3 transition-colors">
+                <Link href={contactLink.href} onClick={handleLinkClick} className="text-xl font-medium bg-brilliantBlue hover:bg-brilliantBlue/90 text-white rounded-full px-8 py-3 transition-colors">
                   {contactLink.name}
                 </Link>
               </motion.div>

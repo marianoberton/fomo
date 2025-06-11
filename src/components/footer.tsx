@@ -48,11 +48,12 @@ export default function Footer() {
   };
 
   return (
-    <footer className="w-full bg-gradient-to-b from-neutral-900 to-black relative overflow-hidden">
+    <footer className="w-full bg-slate-900 relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-brilliantBlue/5 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-signalYellow/5 rounded-full blur-3xl"></div>
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-brilliantBlue/8 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-signalYellow/8 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-orange-500/6 rounded-full blur-3xl"></div>
       </div>
 
       <div className="relative">
@@ -69,7 +70,7 @@ export default function Footer() {
                 <p className="text-brilliantBlue font-semibold text-lg mb-4">
                   Procesos inteligentes que disparan tu PyME
                 </p>
-                <p className="text-gray-300 leading-relaxed">
+                <p className="text-white/80 leading-relaxed">
                   Transformamos PyMEs a través de automatización, datos y gestión del cambio. 
                   Resultados reales en 3 meses.
                 </p>
@@ -77,16 +78,16 @@ export default function Footer() {
               
               {/* Contact Info */}
               <div className="space-y-3">
-                <div className="flex items-center gap-3 text-gray-300">
-                  <Mail className="w-5 h-5 text-brilliantBlue" />
+                <div className="flex items-center gap-3 text-white/80">
+                  <Mail className="w-5 h-5 text-signalYellow" />
                   <span>hola@fomo.consulting</span>
                 </div>
-                <div className="flex items-center gap-3 text-gray-300">
+                <div className="flex items-center gap-3 text-white/80">
                   <Phone className="w-5 h-5 text-brilliantBlue" />
                   <span>+54 9 11 1234-5678</span>
                 </div>
-                <div className="flex items-center gap-3 text-gray-300">
-                  <MapPin className="w-5 h-5 text-brilliantBlue" />
+                <div className="flex items-center gap-3 text-white/80">
+                  <MapPin className="w-5 h-5 text-orange-500" />
                   <span>Buenos Aires, Argentina</span>
                 </div>
               </div>
@@ -102,7 +103,7 @@ export default function Footer() {
                   <li key={index}>
                     <button
                       onClick={() => handleLinkClick(link.href)}
-                      className="text-gray-300 hover:text-brilliantBlue transition-colors duration-200 flex items-center gap-2 group"
+                      className="text-white/70 hover:text-signalYellow transition-colors duration-200 flex items-center gap-2 group"
                     >
                       <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                       {link.name}
@@ -122,7 +123,7 @@ export default function Footer() {
                   <li key={index}>
                     <button
                       onClick={() => handleLinkClick(service.href)}
-                      className="text-gray-300 hover:text-brilliantBlue transition-colors duration-200 flex items-center gap-2 group"
+                      className="text-white/70 hover:text-brilliantBlue transition-colors duration-200 flex items-center gap-2 group"
                     >
                       <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
                       {service.name}
@@ -139,23 +140,23 @@ export default function Footer() {
               </h4>
               
               {/* Newsletter CTA */}
-              <div className="bg-card/10 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
+              <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-6 border border-white/20">
                 <div className="flex items-center gap-2 mb-3">
                   <Zap className="w-5 h-5 text-signalYellow" />
                   <span className="font-semibold text-white">Tips semanales</span>
                 </div>
-                <p className="text-gray-300 text-sm mb-4">
+                <p className="text-white/80 text-sm mb-4">
                   Recibí insights de transformación digital directo en tu inbox
                 </p>
                 <div className="flex gap-2">
                   <input
                     type="email"
                     placeholder="tu@email.com"
-                    className="flex-1 bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder:text-gray-400 text-sm focus:outline-none focus:border-brilliantBlue"
+                    className="flex-1 bg-white/10 border border-white/30 rounded-lg px-3 py-2 text-white placeholder:text-white/50 text-sm focus:outline-none focus:border-signalYellow focus:ring-1 focus:ring-signalYellow/30"
                   />
                   <Button
                     size="sm"
-                    className="bg-brilliantBlue hover:bg-brilliantBlue/80 text-white px-4 py-2 rounded-lg"
+                    className="bg-signalYellow hover:bg-signalYellow/90 text-slate-900 px-4 py-2 rounded-lg font-semibold"
                   >
                     <ArrowRight className="w-4 h-4" />
                   </Button>
@@ -164,7 +165,7 @@ export default function Footer() {
 
               {/* Social Links */}
               <div>
-                <p className="text-gray-300 text-sm mb-3">Seguinos en:</p>
+                <p className="text-white/80 text-sm mb-3">Seguinos en:</p>
                 <div className="flex gap-3">
                   {socialLinks.map((social, index) => {
                     const Icon = social.icon;
@@ -173,9 +174,9 @@ export default function Footer() {
                         key={index}
                         href={social.href}
                         aria-label={social.label}
-                        className="w-10 h-10 bg-white/10 hover:bg-brilliantBlue/20 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/20 hover:border-brilliantBlue/40"
+                        className="w-10 h-10 bg-white/10 hover:bg-signalYellow/20 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/30 hover:border-signalYellow/50"
                       >
-                        <Icon className="w-5 h-5 text-gray-300 hover:text-brilliantBlue" />
+                        <Icon className="w-5 h-5 text-white/70 hover:text-signalYellow" />
                       </a>
                     );
                   })}
@@ -186,12 +187,12 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 bg-black/20 backdrop-blur-sm">
+        <div className="border-t border-white/20 bg-black/20 backdrop-blur-sm">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4">
               
               {/* Copyright */}
-              <div className="flex items-center gap-2 text-gray-400 text-sm">
+              <div className="flex items-center gap-2 text-white/60 text-sm">
                 <span>© {currentYear} FOMO. Hecho con</span>
                 <Heart className="w-4 h-4 text-red-500" />
                 <span>en Buenos Aires</span>
@@ -201,13 +202,13 @@ export default function Footer() {
               <div className="flex gap-6 text-sm">
                 <button
                   onClick={() => handleLinkClick('/privacidad')}
-                  className="text-gray-400 hover:text-brilliantBlue transition-colors duration-200"
+                  className="text-white/60 hover:text-signalYellow transition-colors duration-200"
                 >
                   Política de Privacidad
                 </button>
                 <button
                   onClick={() => handleLinkClick('/terminos')}
-                  className="text-gray-400 hover:text-brilliantBlue transition-colors duration-200"
+                  className="text-white/60 hover:text-signalYellow transition-colors duration-200"
                 >
                   Términos y Condiciones
                 </button>
