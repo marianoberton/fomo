@@ -262,26 +262,113 @@ export default function PainPointsSection() {
       </section>
 
       {/* Cards Section - White background */}
-      <section className="bg-white py-16">
+      <section className="bg-white py-12 md:py-16 pb-8 md:pb-12">
         <div className="w-full px-4 sm:px-6 lg:px-8">
           {/* Section intro */}
           <motion.div
-            className="text-center mb-12 max-w-4xl mx-auto"
+            className="text-center mb-8 md:mb-12 max-w-4xl mx-auto"
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-3xl font-bold text-slate-800 mb-4">
+            <h3 className="text-2xl sm:text-3xl font-bold text-slate-800 mb-4">
               Estos son los 4 problemas más comunes
             </h3>
-            <p className="text-lg text-slate-600">
+            <p className="text-base sm:text-lg text-slate-600">
               Cada uno tiene su nivel de impacto en tu negocio
             </p>
           </motion.div>
 
-          {/* Pain Points Cards - with lateral margins */}
-          <div className="flex gap-4 h-96 mx-8 lg:mx-16 xl:mx-24">
+          {/* Pain Points Cards - Responsive design */}
+          <div className="block md:hidden space-y-4 px-4">
+            {/* Mobile Layout - Vertical Stack */}
+            {painPoints.map((point, index) => {
+              const theme = cardThemes[['efficiency', 'visibility', 'analysis', 'competitiveness'][index] as keyof typeof cardThemes];
+              
+              return (
+                <motion.div
+                  key={index}
+                  className="w-full"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  viewport={{ once: true }}
+                >
+                  <Card className={`relative ${theme.bg} border-2 ${theme.border} rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300`}>
+                    <CardContent className="p-5">
+                      {/* Header row - Icon, Title, Impact */}
+                      <div className="flex items-start gap-3 mb-4">
+                        <div className="flex-shrink-0">
+                          <div 
+                            className={`w-12 h-12 border-2 ${theme.border} rounded-lg flex items-center justify-center shadow-lg`}
+                            style={{
+                              backgroundColor: index === 0 ? '#222222' : '#FFFFFF'
+                            }}
+                          >
+                            {React.createElement(point.icon, {
+                              size: 20,
+                              className: theme.iconColor,
+                              strokeWidth: 1.5
+                            })}
+                          </div>
+                        </div>
+                        
+                        <div className="flex-1 min-w-0">
+                          <h3 className={`text-base font-bold ${theme.text} leading-tight pr-2`}>
+                            {point.title}
+                          </h3>
+                        </div>
+                        
+                        {/* Impact badge */}
+                        <div className={`flex-shrink-0 ${theme.badge} rounded-lg px-2.5 py-1.5 shadow-md`}>
+                          <div className="text-xs font-semibold text-center opacity-90 leading-none">Impacto</div>
+                          <div className="text-sm font-bold text-center leading-none mt-0.5">{point.severity}/10</div>
+                        </div>
+                      </div>
+                      
+                      {/* Description */}
+                      <p className={`text-sm ${theme.text} opacity-90 leading-relaxed mb-4`}>
+                        {point.description}
+                      </p>
+                      
+                      {/* Symptoms - Full width */}
+                      <div className="space-y-2.5">
+                        <div className={`text-xs font-semibold ${theme.text} opacity-80 mb-2`}>Síntomas comunes:</div>
+                        {point.symptoms.slice(0, 3).map((symptom, symptomIndex) => (
+                          <div key={symptomIndex} className="flex items-start gap-2.5">
+                            <div className="flex-shrink-0 mt-0.5">
+                              <div className={`w-4 h-4 rounded flex items-center justify-center ${
+                                index === 0 ? 'bg-slate-900' : 'bg-white/20'
+                              }`}>
+                                <svg 
+                                  className={`w-2.5 h-2.5 ${
+                                    index === 0 ? 'text-signalYellow' : 'text-white'
+                                  }`} 
+                                  viewBox="0 0 24 24" 
+                                  fill="none" 
+                                  stroke="currentColor" 
+                                  strokeWidth="3"
+                                >
+                                  <path d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
+                              </div>
+                            </div>
+                            <span className={`text-xs ${theme.text} opacity-75 leading-relaxed flex-1`}>
+                              {symptom}
+                            </span>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* Desktop Layout - Horizontal with expansion */}
+          <div className="hidden md:flex gap-4 h-96 mx-8 lg:mx-16 xl:mx-24">
             {painPoints.map((point, index) => {
               const isExpanded = expandedCard === index;
               const isCompressed = expandedCard !== null && expandedCard !== index;
@@ -454,7 +541,7 @@ export default function PainPointsSection() {
       </section>
 
       {/* Solution Section - Enhanced and more cohesive */}
-      <section className="relative py-32 overflow-hidden">
+      <section className="relative py-12 md:py-16 overflow-hidden">
         {/* Gradient background that flows from pain-points storytelling */}
         <div 
           className="absolute inset-0"
@@ -596,7 +683,7 @@ export default function PainPointsSection() {
               </motion.p>
 
               <motion.p 
-                className="text-xl text-slate-600 mb-16 leading-relaxed max-w-4xl mx-auto"
+                className="text-xl text-slate-600 mb-12 leading-relaxed max-w-4xl mx-auto"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}

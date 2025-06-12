@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { 
   CheckCircle,
   Target,
@@ -12,7 +11,7 @@ import {
   ArrowRight,
   type LucideIcon
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SplitType from "split-type";
@@ -165,7 +164,6 @@ const pillarsData: PillarData[] = [
 ];
 
 export default function ThreePillarsSection() {
-  const [activeTab, setActiveTab] = useState(0);
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
   
   // Refs for GSAP animations
@@ -173,9 +171,6 @@ export default function ThreePillarsSection() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const highlightRef = useRef<HTMLSpanElement>(null);
-
-  const activePillar = pillarsData[activeTab];
-  const ActivePictogram = activePillar.pictogram;
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -294,7 +289,7 @@ export default function ThreePillarsSection() {
   }, []);
 
   return (
-    <section id="three-pillars" ref={sectionRef} className="w-full bg-white py-24 relative">
+    <section id="three-pillars" ref={sectionRef} className="w-full bg-white py-12 md:py-16 relative">
 
 
       {/* Background decorative elements */}
@@ -306,7 +301,7 @@ export default function ThreePillarsSection() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header with GSAP Animations */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-12 md:mb-16">
           <motion.div 
             className="inline-flex items-center gap-2 bg-gradient-to-r from-plum to-brilliantBlue text-white px-6 py-3 rounded-full text-sm font-medium mb-8 shadow-lg"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -340,7 +335,7 @@ export default function ThreePillarsSection() {
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden lg:grid lg:grid-cols-3 gap-8 mb-24 relative lg:auto-rows-fr">
+        <div className="hidden lg:grid lg:grid-cols-3 gap-8 mb-16 relative lg:auto-rows-fr">
           {pillarsData.map((pillar, index) => {
             const Icon = pillar.icon;
             const Pictogram = pillar.pictogram;
@@ -465,156 +460,101 @@ export default function ThreePillarsSection() {
           })}
         </div>
 
-        {/* Mobile/Tablet Tabs Layout */}
-        <div className="lg:hidden mb-20">
-          {/* Tab Navigation */}
-          <div className="flex justify-center mb-8">
-            <div className="bg-gradient-to-r from-slate-100 to-slate-50 border border-slate-200 rounded-2xl p-1 inline-flex gap-1 max-w-full overflow-x-auto shadow-lg">
-              {pillarsData.map((pillar, index) => {
-                const Pictogram = pillar.pictogram;
-                return (
-                  <Button
-                    key={pillar.id}
-                    onClick={() => setActiveTab(index)}
-                    variant="ghost"
-                    className={`
-                      flex items-center gap-2 px-4 py-3 rounded-xl transition-all duration-300 whitespace-nowrap min-w-fit
-                      ${activeTab === index 
-                        ? 'bg-gradient-to-r from-plum to-brilliantBlue text-white shadow-lg scale-105' 
-                        : 'text-slate-600 hover:bg-white/80 hover:text-slate-800'
-                      }
-                    `}
-                  >
-                    {React.createElement(Pictogram, {
-                      className: "w-5 h-5",
-                      strokeWidth: 1.5
-                    })}
-                    <span className="font-medium text-sm">
-                      {pillar.title.split(' & ')[0]}
-                    </span>
-                  </Button>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Tab Content */}
-          <Card className={`${activePillar.bgColor} border-0 rounded-3xl shadow-xl overflow-hidden`}>
-            <CardContent className="p-8">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={activeTab}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="text-center mb-8">
-                    <motion.div 
-                      className={`inline-flex items-center justify-center w-24 h-24 bg-white/20 backdrop-blur-sm rounded-3xl mb-8 relative shadow-2xl border border-white/30`}
-                      animate={{
-                        y: [0, -1, 0],
-                      }}
-                      transition={{
-                        duration: 3,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                      }}
-                    >
-                      <motion.div
+        {/* Mobile/Tablet Layout - Stacked Cards */}
+        <div className="lg:hidden space-y-6 mb-12">
+          {pillarsData.map((pillar, index) => {
+            const Pictogram = pillar.pictogram;
+            
+            return (
+              <motion.div
+                key={pillar.id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: index * 0.2 }}
+                viewport={{ once: true }}
+              >
+                <Card className={`${pillar.bgColor} border-0 rounded-3xl shadow-xl overflow-hidden`}>
+                  <CardContent className="p-6 md:p-8">
+                    <div className="text-center mb-6">
+                      <motion.div 
+                        className={`inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl mb-6 relative shadow-2xl border border-white/30`}
                         animate={{
-                          rotate: [0, 3, -3, 0],
+                          y: [0, -1, 0],
                         }}
                         transition={{
-                          duration: 4,
+                          duration: 3,
                           repeat: Infinity,
                           ease: "easeInOut",
-                          delay: activeTab * 0.7
+                          delay: index * 0.5
                         }}
                       >
-                        {React.createElement(ActivePictogram, {
-                          className: "w-12 h-12 text-white drop-shadow-lg",
-                          strokeWidth: 2
-                        })}
-                      </motion.div>
-                      <motion.div 
-                        className={`absolute -top-3 -right-3 w-4 h-4 rounded-full shadow-xl border-2 border-white ${
-                          activePillar.accentColor === 'signalYellow' ? 'bg-slate-800' :
-                                          activePillar.accentColor === 'brilliantBlue' ? 'bg-yellow-400' :
-                'bg-orange-500'
-                        }`}
-                        animate={{ 
-                          scale: [1, 1.2, 1],
-                          rotate: [0, 180, 360],
-                        }}
-                        transition={{ 
-                          duration: 2.5, 
-                          repeat: Infinity,
-                          ease: "easeInOut"
-                        }}
-                      >
-                        {/* Inner glow for mobile */}
                         <motion.div
-                          className={`absolute inset-0.5 rounded-full ${
-                            activePillar.accentColor === 'signalYellow' ? 'bg-yellow-400/30' :
-                            activePillar.accentColor === 'brilliantBlue' ? 'bg-white/40' :
-                            'bg-white/30'
-                          }`}
                           animate={{
-                            opacity: [0.3, 0.7, 0.3],
+                            rotate: [0, 3, -3, 0],
                           }}
                           transition={{
-                            duration: 1.5,
+                            duration: 4,
                             repeat: Infinity,
-                            ease: "easeInOut"
+                            ease: "easeInOut",
+                            delay: index * 0.7
+                          }}
+                        >
+                          {React.createElement(Pictogram, {
+                            className: "w-10 h-10 text-white drop-shadow-lg",
+                            strokeWidth: 2
+                          })}
+                        </motion.div>
+                        <motion.div 
+                          className={`absolute -top-2 -right-2 w-3 h-3 rounded-full shadow-xl border-2 border-white ${
+                            pillar.accentColor === 'signalYellow' ? 'bg-slate-800' :
+                            pillar.accentColor === 'brilliantBlue' ? 'bg-yellow-400' :
+                            'bg-orange-500'
+                          }`}
+                          animate={{ 
+                            scale: [1, 1.2, 1],
+                          }}
+                          transition={{ 
+                            duration: 2.5, 
+                            repeat: Infinity,
+                            ease: "easeInOut",
+                            delay: index * 0.3
                           }}
                         />
                       </motion.div>
-                    </motion.div>
-                    <div className={`text-sm font-bold mb-3 uppercase tracking-wider ${activePillar.accentColor === 'signalYellow' ? 'text-slate-700' : 'text-white/80'}`}>
-                      Pilar {activeTab + 1}
+                      
+                      <div className={`text-xs font-bold mb-2 uppercase tracking-wider ${pillar.accentColor === 'signalYellow' ? 'text-slate-700' : 'text-white/80'}`}>
+                        Pilar {index + 1}
+                      </div>
+                      <h3 className={`text-xl font-bold mb-3 leading-tight ${pillar.accentColor === 'signalYellow' ? 'text-slate-900' : 'text-white'}`}>
+                        {pillar.title}
+                      </h3>
+                      <p className={`text-base font-semibold leading-relaxed px-4 py-2.5 rounded-xl ${pillar.accentColor === 'signalYellow' ? 'text-slate-800 bg-slate-900/10' : 'text-white bg-white/20'}`}>
+                        "{pillar.promise}"
+                      </p>
                     </div>
-                    <h3 className={`text-2xl font-bold mb-4 leading-tight ${activePillar.accentColor === 'signalYellow' ? 'text-slate-900' : 'text-white'}`}>
-                      {activePillar.title}
-                    </h3>
-                    <p className={`text-lg font-semibold leading-relaxed px-4 py-3 rounded-xl ${activePillar.accentColor === 'signalYellow' ? 'text-slate-800 bg-slate-900/10' : 'text-white bg-white/20'}`}>
-                      "{activePillar.promise}"
-                    </p>
-                  </div>
 
-                  <div className="space-y-4">
-                    {activePillar.bullets.map((bullet, bulletIndex) => (
-                      <motion.div 
-                        key={bulletIndex} 
-                        className="flex items-start gap-3"
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.4, delay: bulletIndex * 0.1 }}
-                      >
-                        <CheckCircle className={`w-6 h-6 mt-0.5 flex-shrink-0 ${activePillar.accentColor === 'signalYellow' ? 'text-slate-900' : 'text-white'}`} />
-                        <span className={`font-medium leading-relaxed ${activePillar.accentColor === 'signalYellow' ? 'text-slate-700' : 'text-white/90'}`}>
-                          {bullet}
-                        </span>
-                      </motion.div>
-                    ))}
-                  </div>
-
-                  {/* Tab indicator */}
-                  <div className="flex justify-center mt-8 gap-2">
-                    {pillarsData.map((pillar, index) => (
-                      <div 
-                        key={index}
-                        className={`
-                          h-2 rounded-full transition-all duration-500
-                          ${index === activeTab ? `${pillar.bgColor} w-8` : 'bg-slate-300 w-2'}
-                        `}
-                      />
-                    ))}
-                  </div>
-                </motion.div>
-              </AnimatePresence>
-            </CardContent>
-          </Card>
+                    <div className="space-y-3">
+                      {pillar.bullets.map((bullet, bulletIndex) => (
+                        <motion.div 
+                          key={bulletIndex} 
+                          className="flex items-start gap-3"
+                          initial={{ opacity: 0, x: -20 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ duration: 0.4, delay: bulletIndex * 0.1 }}
+                          viewport={{ once: true }}
+                        >
+                          <CheckCircle className={`w-5 h-5 mt-0.5 flex-shrink-0 ${pillar.accentColor === 'signalYellow' ? 'text-slate-900' : 'text-white'}`} />
+                          <span className={`font-medium leading-relaxed text-sm ${pillar.accentColor === 'signalYellow' ? 'text-slate-700' : 'text-white/90'}`}>
+                            {bullet}
+                          </span>
+                        </motion.div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Bottom Section */}
