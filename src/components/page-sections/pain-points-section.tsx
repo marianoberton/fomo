@@ -95,49 +95,61 @@ const storySteps = [
 
 export default function PainPointsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const pillarsRef = useRef<HTMLDivElement[]>([]);
   const headerRef = useRef<HTMLDivElement>(null);
-
-  // Simplified scroll-based storytelling
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end start"]
-  });
 
   // Current step state
   const [currentStep, setCurrentStep] = useState(0);
 
+  // Scroll direction state
+  const [scrollDirection, setScrollDirection] = useState<'down' | 'up'>('down');
+
   // State for controlling which card is expanded
   const [expandedCard, setExpandedCard] = useState<number | null>(null);
 
-  // Update step based on scroll progress
+  // GSAP ScrollTrigger implementation with bidirectional scroll and pauses
   useEffect(() => {
-    const unsubscribe = scrollYProgress.onChange((progress) => {
-      // Adjusted timing: storytelling occupies 80% of scroll, last 20% for transition
-      const storytellingProgress = Math.min(progress / 0.8, 1);
-      const stepIndex = Math.floor(storytellingProgress * storySteps.length);
-      const clampedStep = Math.min(Math.max(stepIndex, 0), storySteps.length - 1);
-      setCurrentStep(clampedStep);
+    if (!sectionRef.current) return;
+
+    const section = sectionRef.current;
+    const content = section.querySelector('.pain-points-content');
+    
+    if (!content) return;
+
+    // Create pinning scroll trigger with bidirectional behavior
+    const pinTrigger = ScrollTrigger.create({
+      trigger: section,
+      start: "top top",
+      end: "+=400vh", // Extended scroll distance for final pause
+      pin: content, // Pin the content container
+      pinSpacing: true, // Adds spacing to push down following content
+      anticipatePin: 1,
+      onUpdate: (self) => {
+        const progress = self.progress;
+        const direction = self.direction; // 1 for down, -1 for up
+        let newStep = 0;
+        
+        // Distribute steps with extended pauses for both directions
+        if (progress < 0.25) {
+          newStep = 0; // Step 1: 0-25%
+        } else if (progress < 0.5) {
+          newStep = 1; // Step 2: 25-50%
+        } else {
+          newStep = 2; // Step 3: 50-100% (extended pause)
+        }
+        
+        if (newStep !== currentStep) {
+          setCurrentStep(newStep);
+          setScrollDirection(direction === 1 ? 'down' : 'up');
+        }
+      },
+      markers: false,
+      refreshPriority: 1
     });
 
-    return unsubscribe;
-  }, [scrollYProgress]);
-
-  // Debug log
-  useEffect(() => {
-    const unsubscribe = scrollYProgress.onChange((progress) => {
-      const storytellingProgress = Math.min(progress / 0.8, 1);
-      console.log('Scroll progress:', progress.toFixed(2), 'Storytelling:', storytellingProgress.toFixed(2), 'Current step:', currentStep);
-    });
-    return unsubscribe;
-  }, [scrollYProgress, currentStep]);
-
-  useEffect(() => {
-    // No GSAP animations needed - Framer Motion handles all animations
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      pinTrigger.kill();
     };
-  }, []);
+  }, [currentStep]);
 
   const cardThemes = {
     'efficiency': {
@@ -182,74 +194,69 @@ export default function PainPointsSection() {
     <div>
 
 
-      {/* Storytelling Section - Enhanced with video background */}
+      {/* Storytelling Section - Proper Pinning Implementation */}
       <section 
         ref={sectionRef}
-        className="relative"
-        style={{ 
-          height: '300vh'
-        }}
+        className="pain-points-section relative w-full"
+        data-scroll-section
       >
-        {/* Background with overlay */}
-        <div className="absolute inset-0">
+        {/* Content Container - This will be pinned */}
+        <div className="pain-points-content w-full h-screen relative">
+          {/* Background */}
           <div className="absolute inset-0 bg-gradient-to-br from-plum/95 via-brilliantBlue/80 to-plum/90"></div>
           <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-black/20"></div>
-        </div>
+          
+          {/* Enhanced background elements */}
+          <div className="absolute inset-0">
+            <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '8s' }}></div>
+            <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-signalYellow/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '12s', animationDelay: '2s' }}></div>
+            <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-white/8 rounded-full blur-2xl animate-pulse" style={{ animationDuration: '10s', animationDelay: '4s' }}></div>
+          </div>
 
-        {/* Enhanced background elements */}
-        <div className="absolute inset-0">
-          <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-white/5 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '8s' }}></div>
-          <div className="absolute bottom-1/3 left-1/4 w-80 h-80 bg-signalYellow/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '12s', animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-white/8 rounded-full blur-2xl animate-pulse" style={{ animationDuration: '10s', animationDelay: '4s' }}></div>
-        </div>
+          {/* Content - centered */}
+          <div className="absolute inset-0 flex items-center justify-center z-40">
+            <div className="w-full max-w-6xl mx-auto px-4 text-center">
+              <motion.div 
+                key={`badge-${currentStep}`}
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-signalYellow to-orange-500 text-slate-900 px-6 py-3 rounded-full text-lg font-bold mb-8 shadow-lg"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.5 }}
+              >
+                <AlertTriangle className="w-5 h-5" />
+                {storySteps[currentStep].badge}
+              </motion.div>
+              
+              <motion.h2 
+                key={`title-${currentStep}`}
+                className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-8 leading-tight"
+                initial={{ y: 30, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.1 }}
+              >
+                {storySteps[currentStep].title}
+              </motion.h2>
+              
+              <motion.p 
+                key={`subtitle-${currentStep}`}
+                className="text-xl sm:text-2xl text-white max-w-4xl mx-auto leading-relaxed mb-4"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.2 }}
+              >
+                {storySteps[currentStep].subtitle}
+              </motion.p>
 
-        {/* Sticky Header Content */}
-        <div className="sticky top-0 h-screen flex items-center justify-center z-10 relative">
-          <div className="w-full px-4 text-center relative z-20 -mt-20">
-            <motion.div 
-              key={`badge-${currentStep}`}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-signalYellow to-orange-500 text-slate-900 px-6 py-3 rounded-full text-lg font-bold mb-8 shadow-lg"
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5 }}
-            >
-              <AlertTriangle className="w-5 h-5" />
-              {storySteps[currentStep].badge}
-            </motion.div>
-            
-            <motion.h2 
-              key={`title-${currentStep}`}
-              className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-8 leading-tight"
-              initial={{ y: 30, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              {storySteps[currentStep].title}
-            </motion.h2>
-            
-            <motion.p 
-              key={`subtitle-${currentStep}`}
-              className="text-xl sm:text-2xl text-white max-w-4xl mx-auto leading-relaxed mb-4"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-            >
-              {storySteps[currentStep].subtitle}
-            </motion.p>
-
-            <motion.p 
-              key={`description-${currentStep}`}
-              className="text-lg text-slate-200 max-w-3xl mx-auto leading-relaxed"
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              {storySteps[currentStep].description}
-            </motion.p>
-
-
-
-
+              <motion.p 
+                key={`description-${currentStep}`}
+                className="text-lg text-slate-200 max-w-3xl mx-auto leading-relaxed"
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.6, delay: 0.3 }}
+              >
+                {storySteps[currentStep].description}
+              </motion.p>
+            </div>
           </div>
         </div>
       </section>
