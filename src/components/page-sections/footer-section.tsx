@@ -63,31 +63,42 @@ export default function FooterSection() {
             {/* Company Info */}
             <div className="lg:col-span-1 space-y-6">
               <div>
-                <h3 className="text-2xl font-bold text-white mb-2">
-                  <span className="text-signalYellow">FO</span>MO
-                </h3>
-                <p className="text-brilliantBlue font-semibold text-lg mb-4">
-                  Procesos inteligentes que disparan tu PyME
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-16 h-16 bg-gradient-to-r from-signalYellow to-orange-500 rounded-2xl flex items-center justify-center shadow-lg">
+                    <Zap className="w-8 h-8 text-slate-900" />
+                  </div>
+                  <h3 className="text-5xl font-bold text-white">
+                    <span className="text-signalYellow">FO</span>MO
+                  </h3>
+                </div>
+                <p className="text-brilliantBlue font-semibold text-xl mb-4">
+                  Automatización que funciona
                 </p>
-                <p className="text-gray-300 leading-relaxed">
-                  Transformamos PyMEs a través de automatización, datos y gestión del cambio. 
-                  Resultados reales en 3 meses.
+                <p className="text-gray-300 leading-relaxed text-lg">
+                  Convertimos procesos manuales en sistemas automáticos. 
+                  Tu PyME crece mientras vos te enfocás en lo importante.
                 </p>
               </div>
               
               {/* Contact Info */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-3 text-gray-300">
-                  <Mail className="w-5 h-5 text-brilliantBlue" />
-                  <span>hola@fomo.consulting</span>
+              <div className="space-y-4">
+                <div className="flex items-center gap-4 text-gray-300 hover:text-white transition-colors duration-300 group">
+                  <div className="w-10 h-10 bg-brilliantBlue/20 rounded-xl flex items-center justify-center group-hover:bg-brilliantBlue/30 transition-colors duration-300">
+                    <Mail className="w-5 h-5 text-brilliantBlue" />
+                  </div>
+                  <span className="text-lg">hola@fomo.consulting</span>
                 </div>
-                <div className="flex items-center gap-3 text-gray-300">
-                  <Phone className="w-5 h-5 text-brilliantBlue" />
-                  <span>+54 9 11 1234-5678</span>
+                <div className="flex items-center gap-4 text-gray-300 hover:text-white transition-colors duration-300 group">
+                  <div className="w-10 h-10 bg-brilliantBlue/20 rounded-xl flex items-center justify-center group-hover:bg-brilliantBlue/30 transition-colors duration-300">
+                    <Phone className="w-5 h-5 text-brilliantBlue" />
+                  </div>
+                  <span className="text-lg">+54 9 11 1234-5678</span>
                 </div>
-                <div className="flex items-center gap-3 text-gray-300">
-                  <MapPin className="w-5 h-5 text-brilliantBlue" />
-                  <span>Buenos Aires, Argentina</span>
+                <div className="flex items-center gap-4 text-gray-300 hover:text-white transition-colors duration-300 group">
+                  <div className="w-10 h-10 bg-brilliantBlue/20 rounded-xl flex items-center justify-center group-hover:bg-brilliantBlue/30 transition-colors duration-300">
+                    <MapPin className="w-5 h-5 text-brilliantBlue" />
+                  </div>
+                  <span className="text-lg">Buenos Aires, Argentina</span>
                 </div>
               </div>
             </div>
@@ -139,23 +150,25 @@ export default function FooterSection() {
               </h4>
               
               {/* Newsletter CTA */}
-              <div className="bg-card/10 backdrop-blur-sm rounded-2xl p-6 border border-white/10">
-                <div className="flex items-center gap-2 mb-3">
-                  <Zap className="w-5 h-5 text-signalYellow" />
-                  <span className="font-semibold text-white">Tips semanales</span>
+              <div className="bg-gradient-to-br from-signalYellow/10 to-orange-500/10 backdrop-blur-sm rounded-2xl p-6 border border-signalYellow/20 shadow-lg">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="w-10 h-10 bg-signalYellow rounded-xl flex items-center justify-center">
+                    <Zap className="w-5 h-5 text-slate-900" />
+                  </div>
+                  <span className="font-bold text-white text-lg">Tips semanales</span>
                 </div>
-                <p className="text-gray-300 text-sm mb-4">
+                <p className="text-gray-300 mb-4 leading-relaxed">
                   Recibí insights de transformación digital directo en tu inbox
                 </p>
                 <div className="flex gap-2">
                   <input
                     type="email"
                     placeholder="tu@email.com"
-                    className="flex-1 bg-black/30 border border-white/20 rounded-lg px-3 py-2 text-white placeholder:text-gray-400 text-sm focus:outline-none focus:border-brilliantBlue"
+                    className="flex-1 bg-black/40 border border-white/30 rounded-xl px-4 py-3 text-white placeholder:text-gray-400 focus:outline-none focus:border-signalYellow focus:ring-2 focus:ring-signalYellow/20"
                   />
                   <Button
                     size="sm"
-                    className="bg-brilliantBlue hover:bg-brilliantBlue/80 text-white px-4 py-2 rounded-lg"
+                    className="bg-signalYellow hover:bg-signalYellow/90 text-slate-900 px-6 py-3 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300"
                   >
                     <ArrowRight className="w-4 h-4" />
                   </Button>
@@ -164,8 +177,8 @@ export default function FooterSection() {
 
               {/* Social Links */}
               <div>
-                <p className="text-gray-300 text-sm mb-3">Seguinos en:</p>
-                <div className="flex gap-3">
+                <p className="text-gray-300 mb-4 font-medium">Seguinos en:</p>
+                <div className="flex gap-4">
                   {socialLinks.map((social, index) => {
                     const Icon = social.icon;
                     return (
@@ -173,9 +186,9 @@ export default function FooterSection() {
                         key={index}
                         href={social.href}
                         aria-label={social.label}
-                        className="w-10 h-10 bg-white/10 hover:bg-brilliantBlue/20 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/20 hover:border-brilliantBlue/40"
+                        className="w-12 h-12 bg-gradient-to-br from-white/10 to-white/5 hover:from-brilliantBlue/20 hover:to-brilliantBlue/10 rounded-xl flex items-center justify-center transition-all duration-300 hover:scale-110 border border-white/20 hover:border-brilliantBlue/40 shadow-lg hover:shadow-xl"
                       >
-                        <Icon className="w-5 h-5 text-gray-300 hover:text-brilliantBlue" />
+                        <Icon className="w-6 h-6 text-gray-300 hover:text-brilliantBlue transition-colors duration-300" />
                       </a>
                     );
                   })}
@@ -186,28 +199,28 @@ export default function FooterSection() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-white/10 bg-black/20 backdrop-blur-sm">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="border-t border-white/10 bg-gradient-to-r from-black/30 to-black/20 backdrop-blur-sm">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-6">
               
               {/* Copyright */}
-              <div className="flex items-center gap-2 text-gray-400 text-sm">
-                <span>© {currentYear} FOMO. Hecho con</span>
-                <Heart className="w-4 h-4 text-red-500" />
-                <span>en Buenos Aires</span>
+              <div className="flex items-center gap-2 text-gray-400">
+                <span className="text-base">© {currentYear} FOMO. Hecho con</span>
+                <Heart className="w-5 h-5 text-red-500 animate-pulse" />
+                <span className="text-base">en Buenos Aires</span>
               </div>
 
               {/* Legal Links */}
-              <div className="flex gap-6 text-sm">
+              <div className="flex gap-8">
                 <button
                   onClick={() => handleLinkClick('/privacidad')}
-                  className="text-gray-400 hover:text-brilliantBlue transition-colors duration-200"
+                  className="text-gray-400 hover:text-brilliantBlue transition-all duration-300 hover:scale-105 font-medium"
                 >
                   Política de Privacidad
                 </button>
                 <button
                   onClick={() => handleLinkClick('/terminos')}
-                  className="text-gray-400 hover:text-brilliantBlue transition-colors duration-200"
+                  className="text-gray-400 hover:text-brilliantBlue transition-all duration-300 hover:scale-105 font-medium"
                 >
                   Términos y Condiciones
                 </button>

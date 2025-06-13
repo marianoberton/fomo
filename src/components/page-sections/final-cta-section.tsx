@@ -3,6 +3,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Rocket, Clock, CheckCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function FinalCTASection() {
   const handleCTAClick = () => {
@@ -21,12 +22,18 @@ export default function FinalCTASection() {
         <div className="absolute top-1/2 right-1/2 w-64 h-64 bg-orange-500/8 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-16 xl:px-32 text-center">
         <div className="mb-8">
-          <div className="inline-flex items-center gap-2 bg-signalYellow text-slate-900 px-4 py-2 rounded-full text-sm font-medium mb-6">
+          <motion.div 
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-signalYellow to-orange-500 text-slate-900 px-6 py-3 rounded-full text-sm font-medium mb-6 shadow-lg"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: [0.68, -0.55, 0.265, 1.55] }}
+            viewport={{ once: true }}
+          >
             <Rocket className="w-4 h-4" />
             Tu momento es ahora
-          </div>
+          </motion.div>
           
           <h2 className="text-4xl lg:text-6xl font-bold text-slate-800 mb-6 leading-tight">
             No esperes a que tus competidores{" "}
@@ -35,14 +42,14 @@ export default function FinalCTASection() {
             </span>
           </h2>
           
-          <p className="text-xl lg:text-2xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl lg:text-2xl text-slate-600 leading-relaxed">
             Cada día que pasás con procesos manuales es un día que perdés ventaja competitiva. 
             La pregunta no es si vas a optimizar tu empresa, sino cuándo.
           </p>
         </div>
 
         {/* Value props quick */}
-        <div className="grid md:grid-cols-3 gap-6 mb-12 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-1 lg:grid-cols-3 gap-6 mb-12">
           <div className="bg-slate-50 rounded-2xl p-6 border border-slate-200 shadow-lg">
             <Clock className="w-8 h-8 text-plum mx-auto mb-3" />
             <h3 className="font-bold text-slate-800 mb-2">Implementación en 3 meses</h3>

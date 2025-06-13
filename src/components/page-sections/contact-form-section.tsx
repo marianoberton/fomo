@@ -23,27 +23,26 @@ const floatingExamples = [
   {
     text: "Perdemos tiempo en procesos manuales, necesitamos automatizar",
     category: "Automatización",
-    position: { top: "15%", left: "8%" }
-  },
-  {
-    text: "No tenemos visibilidad de lo que pasa en el negocio",
-    category: "Dashboards",
-    position: { top: "60%", left: "5%" }
+    position: { top: "8%", left: "2%" },
+    color: "signalYellow"
   },
   {
     text: "Necesitamos un CRM que integre con nuestro sistema actual",
     category: "Integración",
-    position: { top: "25%", right: "8%" }
+    position: { top: "12%", right: "2%" },
+    color: "brilliantBlue"
+  },
+  {
+    text: "No tenemos visibilidad de lo que pasa en el negocio",
+    category: "Dashboards",
+    position: { bottom: "25%", left: "1%" },
+    color: "orange"
   },
   {
     text: "Queremos digitalizar toda la gestión de clientes",
     category: "Digitalización",
-    position: { top: "70%", right: "5%" }
-  },
-  {
-    text: "Buscamos optimizar el flujo de trabajo del equipo",
-    category: "Procesos",
-    position: { bottom: "20%", left: "10%" }
+    position: { bottom: "8%", right: "3%" },
+    color: "plum"
   }
 ];
 
@@ -77,10 +76,10 @@ export default function ContactFormSection() {
     {
       id: 2,
       title: "¿Cuál es tu email?",
-      subtitle: "Para enviarte el diagnóstico",
+      subtitle: "Para mantenernos en contacto",
       field: "email",
       type: "email", 
-      placeholder: "tu@empresa.com",
+      placeholder: "tu@email.com",
       icon: Mail,
       required: true
     },
@@ -191,7 +190,7 @@ export default function ContactFormSection() {
 
   if (isSubmitted) {
     return (
-      <section id="contact-form" className="w-full min-h-screen bg-plum flex items-center justify-center relative overflow-hidden">
+      <section id="contact-form" className="w-screen h-screen bg-plum flex items-center justify-center relative overflow-hidden p-0 m-0">
         {/* Background decoration */}
         <div className="absolute inset-0">
           <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-signalYellow/8 rounded-full blur-3xl"></div>
@@ -243,32 +242,103 @@ export default function ContactFormSection() {
   }
 
   return (
-    <section id="contact-form" className="w-full min-h-screen bg-plum relative overflow-hidden flex items-center justify-center">
-             {/* Floating examples */}
-       {floatingExamples.map((example, index) => (
-        <motion.div
-          key={index}
-                     className="absolute hidden lg:block max-w-xs"
-           style={example.position}
-           initial={{ opacity: 0, scale: 0.8 }}
-           animate={{ 
-             opacity: [0.6, 0.8, 0.6],
-             scale: [0.95, 1, 0.95],
-             y: [0, -10, 0]
-           }}
-           transition={{
-             duration: 4 + index,
-             repeat: Infinity,
-             ease: "easeInOut",
-             delay: index * 0.5
-           }}
-         >
-           <div className="bg-white rounded-2xl p-4 border border-gray-200 shadow-xl">
-             <p className="text-slate-700 text-sm mb-2">"{example.text}"</p>
-             <p className="text-slate-500 text-xs font-medium">{example.category}</p>
-           </div>
-        </motion.div>
-      ))}
+    <section id="contact-form" className="w-screen h-screen bg-plum relative overflow-hidden flex items-center justify-center p-0 m-0">
+             {/* Floating examples - Enhanced design */}
+       {floatingExamples.map((example, index) => {
+         const getColorClasses = (color: string) => {
+           switch (color) {
+             case 'signalYellow':
+               return {
+                 bg: 'bg-signalYellow/10',
+                 border: 'border-signalYellow/30',
+                 accent: 'bg-signalYellow',
+                 text: 'text-signalYellow'
+               };
+             case 'orange':
+               return {
+                 bg: 'bg-orange-500/10',
+                 border: 'border-orange-500/30',
+                 accent: 'bg-orange-500',
+                 text: 'text-orange-500'
+               };
+                           case 'brilliantBlue':
+                return {
+                  bg: 'bg-brilliantBlue/10',
+                  border: 'border-brilliantBlue/30',
+                  accent: 'bg-brilliantBlue',
+                  text: 'text-brilliantBlue'
+                };
+              case 'plum':
+                return {
+                  bg: 'bg-plum/10',
+                  border: 'border-plum/30',
+                  accent: 'bg-plum',
+                  text: 'text-plum'
+                };
+              default:
+               return {
+                 bg: 'bg-white/10',
+                 border: 'border-white/30',
+                 accent: 'bg-white',
+                 text: 'text-white'
+               };
+           }
+         };
+         
+         const colors = getColorClasses(example.color);
+         
+         return (
+           <motion.div
+             key={index}
+             className="absolute hidden xl:block max-w-xs z-10"
+             style={example.position}
+             initial={{ opacity: 0, scale: 0.8, y: 20 }}
+             animate={{ 
+               opacity: [0.9, 1, 0.9],
+               scale: [0.98, 1.02, 0.98],
+               y: [0, -8, 0]
+             }}
+             transition={{
+               duration: 6 + index * 0.5,
+               repeat: Infinity,
+               ease: "easeInOut",
+               delay: index * 1.2
+             }}
+             whileHover={{
+               scale: 1.05,
+               y: -5,
+               transition: { duration: 0.2 }
+             }}
+           >
+             <div className={`bg-white/95 backdrop-blur-sm rounded-2xl p-5 border-2 ${colors.border} shadow-2xl hover:shadow-3xl transition-all duration-300 relative overflow-hidden`}>
+               {/* Accent line */}
+               <div className={`absolute top-0 left-0 w-full h-1 ${colors.accent}`}></div>
+               
+               {/* Content */}
+               <div className="relative">
+                 <div className="flex items-start gap-3 mb-3">
+                   <div className={`w-2 h-2 rounded-full ${colors.accent} mt-2 flex-shrink-0`}></div>
+                   <p className="text-slate-700 text-sm leading-relaxed font-medium">
+                     "{example.text}"
+                   </p>
+                 </div>
+                 
+                 <div className="flex items-center justify-between">
+                   <span className={`text-xs font-bold uppercase tracking-wider ${colors.text}`}>
+                     {example.category}
+                   </span>
+                   <div className={`w-6 h-6 rounded-full ${colors.bg} flex items-center justify-center`}>
+                     <div className={`w-2 h-2 rounded-full ${colors.accent}`}></div>
+                   </div>
+                 </div>
+               </div>
+               
+               {/* Subtle background pattern */}
+               <div className={`absolute bottom-0 right-0 w-16 h-16 ${colors.bg} rounded-full blur-xl opacity-30`}></div>
+             </div>
+           </motion.div>
+         );
+       })}
 
              {/* Background decoration */}
        <div className="absolute inset-0">
@@ -278,20 +348,34 @@ export default function ContactFormSection() {
        </div>
 
       <div className="relative z-10 w-full max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Badge */}
+        <div className="flex justify-center mb-4 md:mb-8">
+          <motion.div 
+            className="inline-flex items-center gap-2 bg-white text-plum px-6 py-3 rounded-full text-sm font-medium shadow-lg"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: [0.68, -0.55, 0.265, 1.55] }}
+            viewport={{ once: true }}
+          >
+            <Send className="w-4 h-4 text-signalYellow" />
+            Contáctanos
+          </motion.div>
+        </div>
+
         {/* Progress indicator */}
-        <div className="flex justify-center mb-12">
+        <div className="flex justify-center mb-8 md:mb-16">
           <div className="flex items-center gap-3">
             {Array.from({ length: totalSteps }, (_, i) => (
               <React.Fragment key={i}>
                 <div className={`
                   w-3 h-3 rounded-full transition-all duration-300
                   ${i + 1 === currentStep ? 'bg-signalYellow scale-125' : 
-                    i + 1 < currentStep ? 'bg-brilliantBlue' : 'bg-white/20'}
+                    i + 1 < currentStep ? 'bg-signalYellow' : 'bg-white/20'}
                 `} />
                 {i < totalSteps - 1 && (
                   <div className={`
                     w-8 h-0.5 transition-all duration-300
-                    ${i + 1 < currentStep ? 'bg-brilliantBlue' : 'bg-white/20'}
+                    ${i + 1 < currentStep ? 'bg-signalYellow' : 'bg-white/20'}
                   `} />
                 )}
               </React.Fragment>
@@ -306,10 +390,10 @@ export default function ContactFormSection() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -50 }}
             transition={{ duration: 0.3 }}
-            className="text-center mb-12"
+            className="text-center mb-8 md:mb-12"
           >
             {/* Step header */}
-            <div className="mb-8">
+            <div className="mb-6 md:mb-8">
                              <div className="flex items-center justify-center gap-3 mb-6">
                  <div className="w-12 h-12 bg-signalYellow rounded-2xl flex items-center justify-center">
                    <currentStepData.icon className="w-6 h-6 text-slate-900" />
@@ -328,7 +412,7 @@ export default function ContactFormSection() {
             </div>
 
             {/* Form field */}
-            <div className="max-w-lg mx-auto mb-8">
+            <div className="w-80 md:w-96 mx-auto mb-6 md:mb-8">
               {currentStepData.type === 'textarea' ? (
                 <Textarea
                   name={currentStepData.field}
@@ -425,20 +509,7 @@ export default function ContactFormSection() {
           </motion.div>
         </AnimatePresence>
 
-        {/* Contact info */}
-        <motion.div 
-          className="text-center mt-16"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-                     <p className="text-white/70 text-sm">
-             o envianos un correo electrónico a{" "}
-             <a href="mailto:hola@fomo.com.ar" className="text-signalYellow hover:text-signalYellow/80 transition-colors">
-               hola@fomo.com.ar
-             </a>
-           </p>
-        </motion.div>
+
       </div>
     </section>
   );

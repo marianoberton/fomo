@@ -274,10 +274,16 @@ export default function ProcessTimelineSection() {
         {/* Header Section */}
         <section className="w-screen py-16 pb-8 relative" style={{ backgroundColor: '#222222' }}>
           <div className="relative w-screen px-4 sm:px-6 lg:px-8 text-center">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-signalYellow to-orange-500 text-slate-900 px-6 py-3 rounded-full text-sm font-bold mb-6 shadow-lg">
-              <Workflow className="w-5 h-5" />
-              Roadmap paso a paso
-          </div>
+                      <motion.div 
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-signalYellow to-orange-500 text-slate-900 px-6 py-3 rounded-full text-sm font-medium mb-6 shadow-lg"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: [0.68, -0.55, 0.265, 1.55] }}
+            viewport={{ once: true }}
+          >
+            <Workflow className="w-5 h-5" />
+            Roadmap paso a paso
+          </motion.div>
             <h2 className="text-4xl lg:text-6xl font-bold text-white mb-4 leading-tight">
               <span className="bg-gradient-to-r from-signalYellow to-orange-500 bg-clip-text text-transparent">
                 Nuestro proceso
@@ -363,7 +369,7 @@ export default function ProcessTimelineSection() {
                     ref={(el) => { cardsRefs.current[index] = el; }}
                     className="absolute flex items-center justify-center w-full"
                   >
-                    <Card className="w-full max-w-sm mr-8 border-2 border-signalYellow/40 shadow-2xl rounded-2xl overflow-hidden backdrop-blur-sm" style={{ backgroundColor: '#1a1a1a' }}>
+                    <Card className="w-full max-w-xs mr-8 border-2 border-signalYellow/40 shadow-2xl rounded-2xl overflow-hidden backdrop-blur-sm" style={{ backgroundColor: '#1a1a1a' }}>
                       {/* Card Header with gradient */}
                       <div className="bg-gradient-to-r from-signalYellow/10 to-orange-500/10 p-4 border-b border-signalYellow/20">
                         <div className="flex items-center gap-3">
@@ -394,20 +400,20 @@ export default function ProcessTimelineSection() {
                         {/* Details with enhanced styling */}
                         <div className="space-y-3">
                           <div className="flex items-center gap-2 mb-3">
-                            <div className="w-6 h-6 bg-signalYellow/20 rounded-lg flex items-center justify-center">
-                              <div className="w-3 h-3 bg-signalYellow rounded-full"></div>
+                            <div className="w-5 h-5 bg-signalYellow/20 rounded-lg flex items-center justify-center">
+                              <div className="w-2.5 h-2.5 bg-signalYellow rounded-full"></div>
                             </div>
                             <h4 className="font-bold text-signalYellow text-sm uppercase tracking-wider">
                               Incluye:
                             </h4>
                           </div>
-                          <ul className="space-y-2">
+                          <ul className="space-y-3">
                             {step.details.map((detail, detailIndex) => (
                               <li key={detailIndex} className="flex items-start gap-3 group">
-                                <div className="w-6 h-6 bg-gradient-to-br from-signalYellow/30 to-orange-500/30 rounded-lg flex items-center justify-center mt-0.5 border border-signalYellow/40 group-hover:border-signalYellow/60 transition-colors">
+                                <div className="w-5 h-5 bg-gradient-to-br from-signalYellow/30 to-orange-500/30 rounded-lg flex items-center justify-center mt-0.5 border border-signalYellow/40 group-hover:border-signalYellow/60 transition-colors">
                                   <div className="w-2 h-2 bg-signalYellow rounded-full"></div>
                                 </div>
-                                <span className="text-white/80 text-sm lg:text-base leading-relaxed group-hover:text-white transition-colors">
+                                <span className="text-white/80 text-sm leading-relaxed group-hover:text-white transition-colors">
                                   {detail}
                                 </span>
                               </li>
@@ -521,11 +527,11 @@ export default function ProcessTimelineSection() {
                             <div className="w-4 h-4 bg-signalYellow/20 rounded flex items-center justify-center">
                               <div className="w-2 h-2 bg-signalYellow rounded-full"></div>
                             </div>
-                            <h4 className="font-bold text-signalYellow text-xs uppercase tracking-wider">
+                            <h4 className="font-bold text-signalYellow text-sm uppercase tracking-wider">
                               Incluye:
                             </h4>
                           </div>
-                          <ul className="space-y-2">
+                          <ul className="space-y-3">
                             {step.details.map((detail, detailIndex) => (
                               <motion.li 
                                 key={detailIndex} 
@@ -538,7 +544,7 @@ export default function ProcessTimelineSection() {
                                 <div className="w-4 h-4 bg-gradient-to-br from-signalYellow/30 to-orange-500/30 rounded flex items-center justify-center mt-0.5 border border-signalYellow/40 flex-shrink-0">
                                   <div className="w-1.5 h-1.5 bg-signalYellow rounded-full"></div>
                                 </div>
-                                <span className="text-white/80 text-xs leading-relaxed">
+                                <span className="text-white/80 text-sm leading-relaxed">
                                   {detail}
                                 </span>
                               </motion.li>

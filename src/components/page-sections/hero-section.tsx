@@ -528,31 +528,31 @@ export default function HeroSection() {
                 {/* Enhanced Animated Progress Bars */}
                 <div className="space-y-4 md:space-y-5 lg:space-y-6">
                   <div className="space-y-2 md:space-y-3">
-                    <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                       <span className="text-sm md:text-base font-semibold text-slate-600 group-hover:text-slate-800 transition-colors duration-300">Procesos automatizados</span>
                       <span className="text-sm md:text-base font-bold text-brilliantBlue">87%</span>
-                    </div>
+                  </div>
                     <div className="h-2.5 md:h-3 lg:h-4 bg-slate-200 rounded-full overflow-hidden relative group/progress">
-                      <div 
-                        className="progress-fill h-full rounded-full relative overflow-hidden bg-brilliantBlue" 
-                        data-width="87%"
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 animate-pulse group-hover/progress:animate-none"></div>
+                    <div 
+                      className="progress-fill h-full rounded-full relative overflow-hidden bg-brilliantBlue" 
+                      data-width="87%"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 animate-pulse group-hover/progress:animate-none"></div>
                       </div>
                     </div>
                   </div>
                   
                   <div className="space-y-2 md:space-y-3">
-                    <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between">
                       <span className="text-sm md:text-base font-semibold text-slate-600 group-hover:text-slate-800 transition-colors duration-300">Decisiones basadas en datos</span>
                       <span className="text-sm md:text-base font-bold text-orange-500">92%</span>
-                    </div>
+                  </div>
                     <div className="h-2.5 md:h-3 lg:h-4 bg-slate-200 rounded-full overflow-hidden relative group/progress">
-                      <div 
-                        className="progress-fill h-full rounded-full relative overflow-hidden bg-orange-500" 
-                        data-width="92%"
-                      >
-                        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 animate-pulse group-hover/progress:animate-none" style={{ animationDelay: '0.5s' }}></div>
+                    <div 
+                      className="progress-fill h-full rounded-full relative overflow-hidden bg-orange-500" 
+                      data-width="92%"
+                    >
+                      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-12 animate-pulse group-hover/progress:animate-none" style={{ animationDelay: '0.5s' }}></div>
                       </div>
                     </div>
                   </div>

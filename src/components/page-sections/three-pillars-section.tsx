@@ -299,7 +299,7 @@ export default function ThreePillarsSection() {
         <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-plum/5 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
         {/* Section Header with GSAP Animations */}
         <div className="text-center mb-12 md:mb-16">
           <motion.div 
@@ -433,8 +433,8 @@ export default function ThreePillarsSection() {
                   </p>
                       </div>
 
-                      <ul className="space-y-3 text-left flex-1">
-                    {pillar.bullets.map((bullet, bulletIndex) => (
+                                            <ul className="space-y-3 text-left flex-1">
+                        {pillar.bullets.map((bullet, bulletIndex) => (
                           <motion.li 
                             key={bulletIndex} 
                             className="flex items-start gap-2.5 group/bullet"
@@ -443,9 +443,9 @@ export default function ThreePillarsSection() {
                             transition={{ duration: 0.4, delay: bulletIndex * 0.1 }}
                             viewport={{ once: true }}
                           >
-                            <CheckCircle className={`w-4 h-4 mt-0.5 flex-shrink-0 transition-all duration-300 ${pillar.accentColor === 'signalYellow' ? 'text-slate-900' : 'text-white'}`} />
+                            <CheckCircle className={`w-5 h-5 mt-0.5 flex-shrink-0 transition-all duration-300 ${pillar.accentColor === 'signalYellow' ? 'text-slate-900' : 'text-white'}`} />
                             <span className={`font-medium leading-snug text-sm transition-colors duration-300 ${pillar.accentColor === 'signalYellow' ? 'text-slate-700 group-hover/bullet:text-slate-900' : 'text-white/90 group-hover/bullet:text-white'}`}>
-                          {bullet}
+                              {bullet}
                             </span>
                           </motion.li>
                         ))}
@@ -543,7 +543,7 @@ export default function ThreePillarsSection() {
                           transition={{ duration: 0.4, delay: bulletIndex * 0.1 }}
                           viewport={{ once: true }}
                         >
-                          <CheckCircle className={`w-5 h-5 mt-0.5 flex-shrink-0 ${pillar.accentColor === 'signalYellow' ? 'text-slate-900' : 'text-white'}`} />
+                          <CheckCircle className={`w-4 h-4 mt-0.5 flex-shrink-0 ${pillar.accentColor === 'signalYellow' ? 'text-slate-900' : 'text-white'}`} />
                           <span className={`font-medium leading-relaxed text-sm ${pillar.accentColor === 'signalYellow' ? 'text-slate-700' : 'text-white/90'}`}>
                             {bullet}
                           </span>

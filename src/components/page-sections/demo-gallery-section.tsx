@@ -134,7 +134,7 @@ export default function DemoGallerySection() {
   };
 
   return (
-    <section id="demo-gallery" className="w-full py-24 bg-white relative overflow-hidden">
+    <section id="demo-gallery" className="w-full py-16 pb-8 bg-white relative overflow-hidden">
       {/* Background decoration with brand colors */}
         <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/6 w-96 h-96 bg-gradient-to-r from-brilliantBlue/5 to-signalYellow/5 rounded-full blur-3xl"></div>
@@ -142,7 +142,7 @@ export default function DemoGallerySection() {
         <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-brilliantBlue/3 rounded-full blur-2xl"></div>
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
           {/* Section Header */}
         <motion.div 
           className="text-center mb-16"
@@ -151,10 +151,16 @@ export default function DemoGallerySection() {
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
         >
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-brilliantBlue to-plum text-white px-6 py-3 rounded-full text-sm font-medium mb-6 shadow-lg">
-              <Eye className="w-4 h-4" />
-              Casos Reales
-            </div>
+          <motion.div 
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-plum to-brilliantBlue text-white px-6 py-3 rounded-full text-sm font-medium mb-6 shadow-lg"
+            initial={{ opacity: 0, scale: 0.8 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, ease: [0.68, -0.55, 0.265, 1.55] }}
+            viewport={{ once: true }}
+          >
+            <Eye className="w-4 h-4" />
+            Casos Reales
+          </motion.div>
           <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6 leading-tight">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brilliantBlue to-plum">
                 Mirá lo que construimos
@@ -167,7 +173,7 @@ export default function DemoGallerySection() {
         </motion.div>
 
         {/* Floating Videos Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {demoItems.map((item, index) => {
             const theme = getThemeColors(item.colorTheme);
             const Icon = item.icon;
