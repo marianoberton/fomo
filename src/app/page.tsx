@@ -7,7 +7,6 @@ import PainPointsSection from "@/components/page-sections/pain-points-section";
 import ThreePillarsSection from "@/components/page-sections/three-pillars-section";
 import DemoGallerySection from "@/components/page-sections/demo-gallery-section";
 import ProcessTimelineSection from "@/components/page-sections/process-timeline-section";
-import MaturityScoreSection from "@/components/page-sections/maturity-score-section";
 import TeamSection from "@/components/page-sections/team-section";
 import FAQSection from "@/components/page-sections/faq-section";
 import FinalCTASection from "@/components/page-sections/final-cta-section";
