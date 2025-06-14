@@ -8,7 +8,7 @@ import {
   Type, 
   Copy, 
   Check, 
-  Download,
+
   ArrowLeft,
   Eye,
   Code2
@@ -81,8 +81,8 @@ const typography: TypographyInfo[] = [
     name: "Concert One",
     fontFamily: "'Concert One', cursive",
     variable: "font-concert",
-    usage: ["Logo FOMO", "Textos de impacto", "Elementos lúdicos"],
-    examples: ["Logo navbar/footer", "Título hero principal", "Textos destacados"]
+    usage: ["Logo FOMO exclusivamente"],
+    examples: ["Logo navbar", "Logo footer"]
   },
   {
     name: "Space Grotesk",
@@ -268,10 +268,7 @@ export default function ManualDeMarca() {
                 </div>
               </div>
             </div>
-            <Button className="bg-gradient-to-r from-signalYellow to-orange-500 text-slate-900 hover:from-signalYellow/90 hover:to-orange-500/90">
-              <Download className="w-4 h-4 mr-2" />
-              Descargar PDF
-            </Button>
+
           </div>
         </div>
       </header>
