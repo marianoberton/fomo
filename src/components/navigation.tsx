@@ -41,7 +41,18 @@ export default function Navigation() {
     if (href.startsWith('#')) {
       const element = document.querySelector(href);
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        // Calculate offset to account for sticky navbar
+        const navbarHeight = 40; // Approximate height of navbar + padding
+        const additionalOffset = window.innerHeight * 0.02; // Additional 2% of viewport height
+        const totalOffset = navbarHeight + additionalOffset;
+        
+        const elementPosition = element.getBoundingClientRect().top + window.pageYOffset;
+        const offsetPosition = elementPosition - totalOffset;
+        
+        window.scrollTo({
+          top: offsetPosition,
+          behavior: 'smooth'
+        });
       }
     }
   };

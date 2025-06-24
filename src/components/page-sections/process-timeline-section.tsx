@@ -260,7 +260,7 @@ export default function ProcessTimelineSection() {
   return (
     <>
       {/* Combined Section with Global Blueprint Background */}
-      <div className="relative w-screen" data-section="process-timeline" style={{ backgroundColor: '#222222' }}>
+      <div id="process-timeline" className="relative w-screen" data-section="process-timeline" style={{ backgroundColor: '#222222' }}>
         {/* Global Background decoration */}
       <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-signalYellow/8 rounded-full blur-3xl"></div>
