@@ -16,7 +16,7 @@ export default function HeroSection() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const mockupRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLSpanElement>(null);
-  const wordContainerRef = useRef<HTMLSpanElement>(null);
+
 
   const handleCTAClick = () => {
     // Scroll to contact form section
@@ -37,52 +37,22 @@ export default function HeroSection() {
 
     if (!titleRef.current || !mockupRef.current) return;
 
-    // Split only the middle line for character animation
-    const middleLine = titleRef.current?.querySelector('.middle-line') as HTMLElement;
-    let split = null;
-    if (middleLine) {
-      split = new SplitType(middleLine, { 
-        types: 'chars',
-      });
-    }
-
     // Set initial states
-    if (split?.chars) {
-      gsap.set(split.chars, { y: 100, opacity: 0 });
-    }
     gsap.set(".hero-gradient-text", { y: 50, opacity: 0 });
     gsap.set(mockupRef.current, { y: 50, opacity: 0, rotateX: 10 });
     gsap.set(".hero-content > *:not(h1)", { y: 30, opacity: 0 });
-    
-    // Ensure tu-pyme line stays together
-    gsap.set(".tu-pyme-line", { 
-      whiteSpace: "nowrap",
-      display: "block",
-      width: "fit-content"
-    });
+    gsap.set("h1", { y: 30, opacity: 0 });
 
     // Create main timeline
     const tl = gsap.timeline({ delay: 0.5 });
 
-    // Animate gradient text first
-    tl.to(".hero-gradient-text", {
+    // Animate title
+    tl.to("h1", {
       y: 0,
       opacity: 1,
-      duration: 1,
-      stagger: 0.3,
+      duration: 0.8,
       ease: "back.out(1.7)",
     }, 0);
-
-    // Animate middle line characters
-    if (split?.chars) {
-      tl.to(split.chars, {
-        y: 0,
-        opacity: 1,
-        duration: 0.8,
-        stagger: 0.03,
-        ease: "back.out(1.7)",
-      }, 0.6);
-    }
 
     // Other content animation
     tl.to(".hero-content > *:not(h1)", {
@@ -91,7 +61,7 @@ export default function HeroSection() {
       duration: 0.6,
       stagger: 0.1,
       ease: "power2.out"
-    }, "-=0.8");
+    }, "-=0.4");
 
     // Mockup animation
     tl.to(mockupRef.current, {
@@ -172,65 +142,8 @@ export default function HeroSection() {
       });
     }, "+=0.5");
 
-    // Word rotation animation with GSAP
-    const words = ["disparan", "potencian", "transforman"];
-    let currentWordIndex = 0;
-    
-    const animateWordChange = () => {
-      if (!wordContainerRef.current) return;
-      
-      const currentWord = words[currentWordIndex];
-      const nextWordIndex = (currentWordIndex + 1) % words.length;
-      const nextWord = words[nextWordIndex];
-      
-      // Timeline for word change
-      const wordTl = gsap.timeline();
-      
-      // Phase 1: Show current word normally (2s)
-      wordTl.set(wordContainerRef.current, { 
-        textContent: currentWord,
-        textDecoration: "none",
-        scale: 1
-      })
-      
-      // Phase 2: Strike through effect (0.5s)
-      .to(wordContainerRef.current, {
-        textDecoration: "line-through",
-        textDecorationColor: "#f97316",
-        scale: 1.05,
-        duration: 0.3,
-        delay: 2.2
-      })
-      
-      // Phase 3: Fade out and change text (0.3s)
-      .to(wordContainerRef.current, {
-        opacity: 0,
-        y: -10,
-        duration: 0.2,
-        delay: 0.2
-      })
-      
-      // Phase 4: Change text and fade in (0.3s)
-      .set(wordContainerRef.current, { 
-        textContent: nextWord,
-        textDecoration: "none",
-        scale: 1,
-        y: 10
-      })
-      .to(wordContainerRef.current, {
-        opacity: 1,
-        y: 0,
-        duration: 0.3
-      });
-      
-      currentWordIndex = nextWordIndex;
-    };
-    
-    // Start the word rotation after initial animations
-    const wordRotationTimer = setInterval(animateWordChange, 3000);
-    
-    // Initial call after delay
-    setTimeout(animateWordChange, 3000);
+
+
 
     // Enhanced Mouse move parallax effect with magnetic interactions
     const handleMouseMove = (e: MouseEvent) => {
@@ -329,10 +242,6 @@ export default function HeroSection() {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseleave', handleMouseLeave);
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      if (split) {
-        split.revert();
-      }
-      clearInterval(wordRotationTimer);
     };
   }, []);
 
@@ -340,12 +249,12 @@ export default function HeroSection() {
     <>
       <section 
         ref={heroRef}
-        className="relative min-h-screen flex items-center justify-center overflow-hidden w-full pt-24 md:pt-20 lg:pt-16"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden w-full px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 pt-24 md:pt-20 lg:pt-16"
         style={{
           background: 'linear-gradient(135deg, #ffffff 0%, #fafbfc 30%, #f8fafc 60%, rgba(0, 119, 182, 0.02) 90%, #ffffff 100%)'
         }}
       >
-        <div className="relative w-full mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 sm:gap-10 md:gap-12 lg:gap-14 xl:gap-16 items-center z-30 px-6 sm:px-8 md:px-10 lg:px-12 xl:px-16 max-w-7xl py-4 md:py-6 lg:py-8">
+        <div className="relative w-full mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-8 sm:gap-10 md:gap-12 lg:gap-14 xl:gap-16 items-center z-30 max-w-7xl py-4 md:py-6 lg:py-8">
           {/* Left Column - Content */}
           <div className="space-y-3 md:space-y-4 lg:space-y-5 hero-content flex flex-col justify-center w-full order-1 lg:order-1">
             {/* Main Headline - 3 Lines with elegant gradient */}
@@ -359,56 +268,52 @@ export default function HeroSection() {
                 }}
               >
                 <span 
-                  className="block mb-0.5 md:mb-1 lg:mb-1.5"
-                  style={{
-                    display: 'block',
+                  className="block mb-0.5 md:mb-1 lg:mb-1.5" 
+                  style={{ 
                     paddingBottom: '0.05em',
-                    color: '#1f2937'
+                    lineHeight: '1.1'
                   }}
                 >
-                  Procesos inteligentes
-                </span>
-                <span className="block text-slate-800 mb-0.5 md:mb-1 lg:mb-1.5 middle-line overflow-visible" style={{ paddingBottom: '0.05em', overflow: 'visible' }}>
                   <span 
-                    ref={wordContainerRef}
-                    className="inline-block animated-word-gsap font-extrabold overflow-visible"
+                    className="font-black"
                     style={{ 
                       color: '#f97316',
-                      textShadow: '0 0 20px rgba(249, 115, 22, 0.3)',
-                      minWidth: '8ch',
-                      display: 'inline-block',
-                      overflow: 'visible',
-                      position: 'relative',
-                      zIndex: 10
+                      textShadow: '0 0 25px rgba(249, 115, 22, 0.4)',
+                      fontSize: '1.1em',
+                      letterSpacing: '0.015em',
+                      fontWeight: '900',
+                      marginRight: '0.3em'
                     }}
                   >
-                    disparan
+                    Transformá
                   </span>
+                  <span 
+                    style={{ 
+                      color: '#1f2937',
+                      fontWeight: '800'
+                    }}
+                  >tu PyME</span>
                 </span>
                 <span 
-                  className="block text-slate-800 middle-line tu-pyme-line" 
+                  className="block text-slate-800" 
                   style={{ 
-                    paddingBottom: '0.05em', 
-                    whiteSpace: 'nowrap',
-                    display: 'block',
-                    width: 'fit-content',
-                    marginTop: '0.05em'
+                    paddingBottom: '0.05em',
+                    marginTop: '0.1em',
+                    lineHeight: '1.1'
                   }}
                 >
-                  <span style={{ whiteSpace: 'nowrap', display: 'inline-block' }}>
-                    tu <span 
-                      style={{
-                        color: '#1f2937',
-                        whiteSpace: 'nowrap',
-                        display: 'inline'
-                      }}
-                    >PyME</span>
-                  </span>
+                  con <span 
+                    style={{
+                      color: '#f97316',
+                      fontWeight: '700',
+                      textShadow: '0 0 15px rgba(249, 115, 22, 0.2)'
+                    }}
+                  >soluciones digitales</span> integradas
                 </span>
               </h1>
               
-              <p className="text-base md:text-lg lg:text-xl text-slate-700 max-w-xl leading-relaxed mt-2 md:mt-3 lg:mt-4" style={{ lineHeight: '1.7', letterSpacing: '0.01em' }}>
-                Transformamos tu empresa con automatización inteligente, datos en tiempo real y decisiones que impulsan el crecimiento.
+              <p className="text-base md:text-lg lg:text-xl text-slate-700 max-w-2xl leading-relaxed mt-2 md:mt-3 lg:mt-4" style={{ lineHeight: '1.7', letterSpacing: '0.01em' }}>
+                En FOMO diseñamos soluciones digitales que combinan inteligencia artificial, automatización, desarrollo a medida y datos en tiempo real para que tu negocio crezca sin trabas.
               </p>
             </div>
 
@@ -422,8 +327,8 @@ export default function HeroSection() {
                   background: 'linear-gradient(135deg, #FCCD12 0%, #f97316 100%)'
                 }}
               >
-                <Rocket className="w-5 h-5 md:w-6 md:h-6 group-hover:rotate-12 transition-transform duration-300 flex-shrink-0" />
-                <span className="whitespace-nowrap flex-shrink-0">Solicitá diagnóstico gratuito</span>
+                <span className="text-xl">⚡</span>
+                <span className="whitespace-nowrap flex-shrink-0">Quiero mi diagnóstico</span>
                 <ArrowRight className="w-4 h-4 md:w-5 md:h-5 group-hover:translate-x-1 transition-transform duration-300 flex-shrink-0" />
               </Button>
             </div>
@@ -505,7 +410,7 @@ export default function HeroSection() {
                   <div className="absolute inset-0 bg-gradient-to-r from-plum/5 to-brilliantBlue/5 scale-0 group-hover/ai:scale-100 transition-transform duration-500 rounded-xl md:rounded-2xl"></div>
                   <div className="flex items-center gap-4 md:gap-5 lg:gap-6 relative z-10">
                     <div 
-                      className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-lg md:rounded-xl flex items-center justify-center relative animate-pulse group-hover/ai:animate-bounce bg-gradient-to-br from-plum to-brilliantBlue"
+                      className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-lg md:rounded-xl flex items-center justify-center relative animate-pulse group-hover/ai:brain-bounce-slow bg-gradient-to-br from-plum to-brilliantBlue"
                     >
                       <Brain className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-white group-hover/ai:scale-110 transition-transform duration-300" />
                       <div className="absolute -top-1 -right-1 md:-top-1.5 md:-right-1.5 w-2.5 h-2.5 md:w-3 md:h-3 bg-red-500 rounded-full animate-ping group-hover/ai:bg-green-500"></div>
@@ -641,6 +546,11 @@ export default function HeroSection() {
           50% { transform: translateY(-8px) scale(1.1); }
         }
         
+        @keyframes bounce-slow {
+          0%, 100% { transform: translateY(0px) scale(1); }
+          50% { transform: translateY(-6px) scale(1.05); }
+        }
+        
         @keyframes rotate-360 {
           from { transform: rotate(0deg); }
           to { transform: rotate(360deg); }
@@ -663,6 +573,10 @@ export default function HeroSection() {
         
         .floating-arrow {
           animation: bounce-gentle 2s ease-in-out infinite;
+        }
+        
+        .group\/ai:hover .brain-bounce-slow {
+          animation: bounce-slow 1.2s ease-in-out infinite;
         }
         
         .animate-pulse-glow {

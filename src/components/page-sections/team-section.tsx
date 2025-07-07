@@ -26,28 +26,29 @@ interface TeamMember {
 const teamMembers: TeamMember[] = [
   {
     name: "Guillermina",
-    role: "Experta en Procesos y Cambio Organizacional",
+    role: "Especialista en Procesos y Transformación Digital",
     photo: "/images/team/guillermina.jpg", // Placeholder
     expertise: [
-      "Mapeo y optimización de procesos",
-      "Gestión del cambio organizacional", 
-      "Adopción de cultura digital"
+      "Optimización práctica de procesos",
+      "Gestión efectiva del cambio organizacional",
+      "Implementación sencilla de cultura digital"
     ],
-    description: "Con más de 8 años liderando transformaciones en PyMEs, Guillermina se especializa en que los equipos adopten nuevas formas de trabajar sin resistencia.",
+    description: "Hace que tu equipo trabaje mejor, más rápido y con menos estrés. Con más de 8 años facilitando cambios reales en PyMEs, logra que las mejoras sean adoptadas naturalmente por toda tu organización.",
     highlight: "Garantiza 100% de adopción en procesos rediseñados",
     colorTheme: 'brilliantBlue'
   },
   {
     name: "Mariano",
-    role: "Arquitecto de Soluciones Tech",
+    role: "Experto en Soluciones Digitales & IA",
     photo: "/images/team/mariano.jpg", // Placeholder
     expertise: [
-      "Desarrollo de dashboards y automatizaciones",
-      "Integración de sistemas y APIs",
-      "IA aplicada a procesos de negocio"
+      "Desarrollo de software a medida",
+      "Integración fluida de sistemas y APIs",
+      "Automatizaciones inteligentes",
+      "Dashboards claros e IA aplicada"
     ],
-    description: "Mariano traduce necesidades de negocio en soluciones tecnológicas concretas. Su enfoque: tecnología que funciona desde el día 1.",
-    highlight: "Implementaciones sin downtime en producción",
+    description: "Convierte tus desafíos de negocio en soluciones digitales que funcionan desde el primer día. Combina tecnología simple, desarrollos prácticos e inteligencia artificial que te dan resultados visibles y medibles.",
+    highlight: "Resultados prácticos que simplifican y potencian tu operación",
     colorTheme: 'signalYellow'
   }
 ];
@@ -80,7 +81,7 @@ export default function TeamSection() {
   };
 
   return (
-    <section id="team" className="w-full pt-12 pb-24 bg-gradient-to-b from-white via-slate-50/50 to-white relative overflow-hidden">
+    <section id="team" className="w-full px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 pt-12 pb-24 bg-gradient-to-b from-white via-slate-50/50 to-white relative overflow-hidden">
       {/* Background decoration using brand colors */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-brilliantBlue/8 to-signalYellow/8 rounded-full blur-3xl"></div>
@@ -88,7 +89,7 @@ export default function TeamSection() {
         <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-brilliantBlue/5 rounded-full blur-2xl"></div>
       </div>
 
-      <div className="relative max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
+      <div className="relative max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div 
           className="text-center mb-16"
@@ -108,19 +109,18 @@ export default function TeamSection() {
             Nuestro Equipo
           </motion.div>
           <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6 leading-tight">
-            Conocé a las personas detrás de{" "}
+            Conocé a los especialistas que{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brilliantBlue to-plum">
-              tu transformación
+              impulsan tu negocio
             </span>
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-            Un dúo complementario: una experta en procesos y cambio + un arquitecto de soluciones tech. 
-            Juntos garantizan que la tecnología funcione Y que tu equipo la adopte.
+            Te acompañamos de punta a punta: desde mejorar tus procesos hasta implementar soluciones tecnológicas efectivas y fáciles de usar.
           </p>
         </motion.div>
 
         {/* Team Members - Solid vibrant cards like pain-points-section */}
-        <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
+        <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto px-4">
           {teamMembers.map((member, index) => {
             const theme = getThemeColors(member.colorTheme);
             
@@ -131,24 +131,21 @@ export default function TeamSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
                 viewport={{ once: true }}
+                className="relative overflow-visible"
               >
-            <Card 
-                  className={`group ${theme.cardBg} border-2 ${theme.border} hover:border-opacity-80 hover:shadow-2xl transition-all duration-500 rounded-3xl overflow-hidden transform hover:scale-105 hover:-rotate-1 shadow-lg`}
-              style={{
-                transformStyle: 'preserve-3d'
-              }}
-            >
-                  <CardContent className="p-8 relative">
+                <Card 
+                  className={`group ${theme.cardBg} border-2 ${theme.border} hover:border-opacity-80 hover:shadow-2xl transition-all duration-500 rounded-3xl overflow-hidden transform hover:scale-[1.02] shadow-lg`}
+                >
+                  <CardContent className="p-6 relative">
                     {/* Decorative element - top right corner */}
-                    <div className="absolute top-6 right-6">
+                    <div className="absolute top-4 right-4 z-10">
                       <motion.div
-                        className={`w-12 h-12 rounded-2xl border-2 border-white/20 flex items-center justify-center shadow-lg`}
+                        className={`w-8 h-8 rounded-lg border border-white/20 flex items-center justify-center shadow-md`}
                         style={{
-                          backgroundColor: member.colorTheme === 'signalYellow' ? 'rgba(0, 0, 0, 0.2)' : 'rgba(255, 255, 255, 0.2)'
+                          backgroundColor: member.colorTheme === 'signalYellow' ? 'rgba(0, 0, 0, 0.15)' : 'rgba(255, 255, 255, 0.15)'
                         }}
                         animate={{
-                          rotate: [0, 5, -5, 0],
-                          scale: [1, 1.05, 1]
+                          rotate: [0, 3, -3, 0],
                         }}
                         transition={{
                           duration: 6,
@@ -157,31 +154,30 @@ export default function TeamSection() {
                           delay: index * 0.5
                         }}
                         whileHover={{ 
-                          scale: 1.1,
-                          rotate: 15 
+                          scale: 1.05
                         }}
                       >
                         {member.colorTheme === 'brilliantBlue' ? (
-                          <BookOpen className={`w-6 h-6 ${theme.text} opacity-80`} />
+                          <BookOpen className={`w-4 h-4 ${theme.text} opacity-80`} />
                         ) : (
-                          <Code className={`w-6 h-6 ${theme.text} opacity-80`} />
+                          <Code className={`w-4 h-4 ${theme.text} opacity-80`} />
                         )}
                       </motion.div>
                     </div>
 
-                {/* Photo */}
-                <div className="relative mb-6">
+                    {/* Header with photo and basic info */}
+                    <div className="flex items-start gap-4 mb-5">
+                      {/* Photo */}
                       <motion.div 
-                        className={`w-32 h-32 mx-auto ${theme.iconBg} rounded-full overflow-hidden border-4 border-white/20 group-hover:border-white/40 transition-all duration-500 shadow-lg`}
-                        whileHover={{ scale: 1.05 }}
+                        className={`w-20 h-20 ${theme.iconBg} rounded-full overflow-hidden border-2 border-white/20 group-hover:border-white/40 transition-all duration-500 shadow-lg flex-shrink-0`}
+                        whileHover={{ scale: 1.02 }}
                         transition={{ duration: 0.3 }}
                       >
-                    {/* Placeholder for actual photos */}
                         <div className="w-full h-full flex items-center justify-center relative">
                           <motion.div 
-                            className={`w-20 h-20 ${theme.cardBg} rounded-full flex items-center justify-center shadow-lg border-2 border-white/30`}
+                            className={`w-14 h-14 ${theme.cardBg} rounded-full flex items-center justify-center shadow-md border-2 border-white/30`}
                             animate={{
-                              rotate: [0, 5, -5, 0],
+                              rotate: [0, 2, -2, 0],
                             }}
                             transition={{
                               duration: 6,
@@ -190,83 +186,87 @@ export default function TeamSection() {
                               delay: index * 0.5
                             }}
                           >
-                            <span className={`text-3xl font-bold ${theme.text}`}>
-                          {member.name.charAt(0)}
-                        </span>
+                            <span className={`text-xl font-bold ${theme.text}`}>
+                              {member.name.charAt(0)}
+                            </span>
                           </motion.div>
-                      </div>
+                        </div>
                       </motion.div>
-                </div>
 
-                {/* Content */}
-                <div className="text-center mb-6">
-                      <h3 className={`text-2xl font-bold ${theme.text} mb-2`}>
-                    {member.name}
-                  </h3>
-                      <p className={`font-semibold mb-3 ${theme.text} opacity-90`}>
-                    {member.role}
-                  </p>
-                      <p className={`${theme.text} opacity-80 leading-relaxed`}>
-                    {member.description}
-                  </p>
-                </div>
+                      {/* Basic Info */}
+                      <div className="flex-1 min-w-0">
+                        <h3 className={`text-xl font-bold ${theme.text} mb-2 leading-tight`}>
+                          {member.name}
+                        </h3>
+                        <p className={`text-sm font-semibold ${theme.text} opacity-90 leading-tight`}>
+                          {member.role}
+                        </p>
+                      </div>
+                    </div>
 
-                {/* Expertise */}
-                <div className="mb-6">
-                      <h4 className={`font-semibold ${theme.text} mb-4 flex items-center gap-2 justify-center opacity-90`}>
+                    {/* Description */}
+                    <div className="mb-5">
+                      <p className={`text-sm ${theme.text} opacity-80 leading-relaxed`}>
+                        {member.description}
+                      </p>
+                    </div>
+
+                    {/* Expertise - Balanced size */}
+                    <div className="mb-5">
+                      <h4 className={`text-sm font-semibold ${theme.text} mb-3 flex items-center gap-2 opacity-90`}>
                         <Lightbulb className={`w-4 h-4 ${theme.text}`} />
-                    Especialidades:
-                  </h4>
-                      <ul className="space-y-3">
-                    {member.expertise.map((skill, skillIndex) => (
-                          <motion.li 
+                        Especialidades:
+                      </h4>
+                      <div className="space-y-2">
+                        {member.expertise.map((skill, skillIndex) => (
+                          <motion.div 
                             key={skillIndex} 
-                            className="flex items-start gap-3 group/skill"
+                            className="flex items-center gap-3 group/skill"
                             initial={{ opacity: 0, x: -20 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.4, delay: skillIndex * 0.1 }}
                             viewport={{ once: true }}
                           >
-                            <div className="flex-shrink-0 mt-1">
+                            <div className="flex-shrink-0">
                               <motion.div
-                                className={`w-6 h-6 ${theme.iconBg} rounded-lg flex items-center justify-center shadow-sm transition-all duration-300 group-hover/skill:scale-110 border border-white/20`}
-                                whileHover={{ rotate: 360 }}
-                                transition={{ duration: 0.5 }}
+                                className={`w-4 h-4 ${theme.iconBg} rounded-lg flex items-center justify-center shadow-sm transition-all duration-300 border border-white/20`}
+                                whileHover={{ rotate: 180 }}
+                                transition={{ duration: 0.3 }}
                               >
-                                <CheckCircle className={`w-3 h-3 ${theme.iconColor}`} />
+                                <CheckCircle className={`w-2.5 h-2.5 ${theme.iconColor}`} />
                               </motion.div>
                             </div>
-                            <span className={`text-sm ${theme.text} opacity-80 group-hover/skill:opacity-100 transition-opacity duration-300`}>
-                          {skill}
-                        </span>
-                          </motion.li>
-                    ))}
-                  </ul>
-                </div>
+                            <span className={`text-xs ${theme.text} opacity-80 group-hover/skill:opacity-100 transition-opacity duration-300 leading-relaxed`}>
+                              {skill}
+                            </span>
+                          </motion.div>
+                        ))}
+                      </div>
+                    </div>
 
-                    {/* Highlight - contrasting solid background */}
+                    {/* Highlight - balanced size */}
                     <motion.div 
-                      className={`rounded-2xl p-4 border-2 border-white/20 relative overflow-hidden shadow-lg`}
+                      className={`rounded-lg p-3 border border-white/20 relative overflow-hidden shadow-lg`}
                       style={{
                         backgroundColor: member.colorTheme === 'signalYellow' ? 'rgb(202 138 4)' : '#005580'
                       }}
-                      whileHover={{ scale: 1.02 }}
+                      whileHover={{ scale: 1.01 }}
                       transition={{ duration: 0.3 }}
                     >
                       <div className="relative">
-                  <div className="flex items-center gap-2 mb-2">
-                          <Zap className={`w-4 h-4 ${member.colorTheme === 'signalYellow' ? 'text-slate-900' : 'text-white'}`} />
-                          <span className={`font-semibold text-sm ${member.colorTheme === 'signalYellow' ? 'text-slate-900' : 'text-white'}`}>
-                      Track record:
-                    </span>
-                  </div>
-                        <p className={`font-medium text-sm opacity-95 ${member.colorTheme === 'signalYellow' ? 'text-slate-900' : 'text-white'}`}>
-                    {member.highlight}
-                  </p>
-                </div>
+                        <div className="flex items-center gap-2 mb-2">
+                          <Zap className={`w-3 h-3 ${member.colorTheme === 'signalYellow' ? 'text-slate-900' : 'text-white'}`} />
+                          <span className={`font-semibold text-xs ${member.colorTheme === 'signalYellow' ? 'text-slate-900' : 'text-white'}`}>
+                            Track record:
+                          </span>
+                        </div>
+                        <p className={`font-medium text-xs opacity-95 leading-relaxed ${member.colorTheme === 'signalYellow' ? 'text-slate-900' : 'text-white'}`}>
+                          {member.highlight}
+                        </p>
+                      </div>
                     </motion.div>
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
               </motion.div>
             );
           })}
@@ -288,45 +288,11 @@ export default function TeamSection() {
             <div className="flex items-center justify-center gap-2 mb-4">
               <Users className="w-6 h-6 text-brilliantBlue" />
                 <span className="font-semibold text-xl text-slate-800">
-                Un equipo, dos enfoques complementarios
+                Un equipo alineado con lo que realmente necesitás
               </span>
             </div>
-              <p className="text-slate-600 mb-6 leading-relaxed">
-              Mientras Guillermina se asegura de que tu equipo adopte los nuevos procesos sin resistencia, 
-              Mariano construye la tecnología que los soporta. El resultado: transformaciones que realmente funcionan.
-            </p>
-            
-            <div className="grid md:grid-cols-2 gap-6 mb-8">
-                <motion.div 
-                  className="bg-signalYellow rounded-2xl p-6 border border-orange-300/20 shadow-lg"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="flex items-center gap-2 mb-3">
-                    <BookOpen className="w-5 h-5 text-slate-900" />
-                    <span className="font-bold text-slate-900">Proceso</span>
-                </div>
-                  <p className="text-sm text-slate-800">
-                  Mapeo, rediseño y gestión del cambio que garantiza adopción
-                </p>
-                </motion.div>
-                <motion.div 
-                  className="bg-brilliantBlue rounded-2xl p-6 border border-brilliantBlue/20 shadow-lg"
-                  whileHover={{ scale: 1.02 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <div className="flex items-center gap-2 mb-3">
-                    <Code className="w-5 h-5 text-white" />
-                    <span className="font-bold text-white">Tecnología</span>
-              </div>
-                  <p className="text-sm text-white opacity-90">
-                  Automatización, dashboards e IA que ejecutan lo diseñado
-                </p>
-                </motion.div>
-            </div>
-
               <p className="text-slate-600 mb-8 leading-relaxed">
-              En el diagnóstico trabajás directamente con ambos para entender tu situación específica.
+              Combinamos procesos claros y tecnología práctica para generar transformaciones que podés ver desde el primer día. En tu diagnóstico inicial participamos personalmente para entender tu negocio y ofrecerte la mejor solución.
             </p>
 
               {/* Enhanced CTA section - Single prominent button matching pain-points style */}
@@ -338,7 +304,7 @@ export default function TeamSection() {
                 viewport={{ once: true }}
               >
                 <motion.a 
-                  href="https://wa.me/5491123456789?text=Hola%2C%20quiero%20saber%20más%20sobre%20cómo%20pueden%20ayudarme%20con%20los%20procesos%20de%20mi%20PyME"
+                  href="https://wa.me/5491139066421?text=Hola%2C%20quiero%20saber%20más%20sobre%20cómo%20pueden%20ayudarme%20con%20los%20procesos%20de%20mi%20PyME"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative bg-gradient-to-r from-signalYellow to-orange-500 hover:from-signalYellow/90 hover:to-orange-500/90 text-black px-12 py-6 rounded-3xl font-bold text-2xl transition-all duration-300 shadow-2xl hover:shadow-3xl overflow-hidden transform hover:scale-105"

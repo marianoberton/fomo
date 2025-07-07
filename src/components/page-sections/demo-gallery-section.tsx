@@ -134,7 +134,7 @@ export default function DemoGallerySection() {
   };
 
   return (
-    <section id="demo-gallery" className="w-full py-16 pb-8 bg-white relative overflow-hidden">
+    <section id="demo-gallery" className="w-full px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 py-16 pb-8 bg-white relative overflow-hidden">
       {/* Background decoration with brand colors */}
         <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/6 w-96 h-96 bg-gradient-to-r from-brilliantBlue/5 to-signalYellow/5 rounded-full blur-3xl"></div>
@@ -142,7 +142,7 @@ export default function DemoGallerySection() {
         <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-brilliantBlue/3 rounded-full blur-2xl"></div>
         </div>
 
-        <div className="relative max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
+        <div className="relative max-w-6xl mx-auto">
           {/* Section Header */}
         <motion.div 
           className="text-center mb-16"
@@ -163,12 +163,12 @@ export default function DemoGallerySection() {
           </motion.div>
           <h2 className="text-4xl lg:text-5xl font-bold text-slate-800 mb-6 leading-tight">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-brilliantBlue to-plum">
-                Mirá lo que construimos
+                Conocé resultados reales
               </span>{" "}
-              para otros clientes
+              de nuestros clientes
             </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-              Estos son artefactos reales de proyectos que desarrollamos. Sin métricas inventadas, sin mockups genéricos.
+              Explorá casos concretos y soluciones que generaron impacto en PyMEs como la tuya. Proyectos reales, métricas verificables y resultados tangibles que hablan por sí solos.
             </p>
         </motion.div>
 
@@ -352,7 +352,7 @@ export default function DemoGallerySection() {
                 Estos no son casos hipotéticos. Son soluciones reales que podemos implementar específicamente para tu negocio.
               </p>
               <motion.a 
-                href="https://wa.me/5491123456789?text=Hola%2C%20quiero%20saber%20más%20sobre%20cómo%20pueden%20ayudarme%20con%20los%20procesos%20de%20mi%20PyME"
+                href="https://wa.me/5491139066421?text=Hola%2C%20quiero%20saber%20más%20sobre%20cómo%20pueden%20ayudarme%20con%20los%20procesos%20de%20mi%20PyME"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 bg-gradient-to-r from-brilliantBlue to-plum hover:from-brilliantBlue/90 hover:to-plum/90 text-white px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 shadow-lg hover:shadow-xl"

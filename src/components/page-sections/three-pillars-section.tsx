@@ -94,15 +94,15 @@ const pillarsData: PillarData[] = [
     icon: Hexagon,
     pictogram: Hexagon,
     title: "Procesos & Cultura Digital",
-    promise: "Estandarizá y ordená tu operación.",
+    promise: "Del caos al control: procesos que funcionan",
     color: "text-signalYellow",
     bgColor: "bg-signalYellow",
     accentColor: "signalYellow",
     bullets: [
-      "Mapeo y optimización de procesos",
-      "Gestión del cambio & training",
-      "Selección de herramientas (CRM/ERP ligero, colaboración)",
-      "Roadmap de transformación"
+      "Optimización de procesos clave",
+      "Capacitación y gestión del cambio",
+      "Herramientas digitales prácticas",
+      "Hoja de ruta clara para avanzar"
     ],
     details: [
       "Diagnóstico completo de procesos actuales y mapeo de workflows",
@@ -118,15 +118,15 @@ const pillarsData: PillarData[] = [
     icon: Settings,
     pictogram: Settings,
     title: "Automatización & Implementación Tech",
-    promise: "La tecnología ejecuta lo que diseñamos.",
+    promise: "Automatizá lo operativo y enfocate en crecer",
     color: "text-brilliantBlue",
     bgColor: "bg-brilliantBlue",
     accentColor: "brilliantBlue",
     bullets: [
-      "Workflows n8n / RPA",
-      "Web y e-commerce integrados a stock y ERP",
-      "Chatbots y formularios inteligentes",
-      "Integraciones API a medida"
+      "Automatización de tareas repetitivas",
+      "Web integrada a stock y sistemas",
+      "Chatbots que responden y captan leads",
+      "Integración fluida de aplicaciones"
     ],
     details: [
       "Automatización de procesos repetitivos con n8n y RPA",
@@ -142,15 +142,15 @@ const pillarsData: PillarData[] = [
     icon: Zap,
     pictogram: Zap,
     title: "Datos, Dashboards & IA",
-    promise: "Decidí con evidencia, no con intuición.",
+    promise: "Decisiones inteligentes con datos reales",
     color: "text-orange-500",
     bgColor: "bg-orange-500",
     accentColor: "orange-500",
     bullets: [
-      "Centro de Comando en Looker / Next.js",
-      "KPIs y alertas en tiempo real",
-      "Modelos predictivos / scoring",
-      "Acompañamiento de mejora continua"
+      "Dashboards personalizados e intuitivos",
+      "Alertas oportunas para actuar rápido",
+      "Modelos predictivos para anticiparte",
+      "Soporte para mejora continua"
     ],
     details: [
       "Dashboards ejecutivos centralizados con métricas clave",
@@ -165,6 +165,7 @@ const pillarsData: PillarData[] = [
 
 export default function ThreePillarsSection() {
   const [hoveredCard, setHoveredCard] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
   
   // Refs for GSAP animations
   const sectionRef = useRef<HTMLElement>(null);
@@ -172,124 +173,197 @@ export default function ThreePillarsSection() {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const highlightRef = useRef<HTMLSpanElement>(null);
 
+  // Detect mobile on mount and resize
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+
+
     const ctx = gsap.context(() => {
-      // Split the main title text
-      if (titleRef.current) {
-        const titleSplit = new SplitType(titleRef.current, { 
-          types: 'words,chars',
-          tagName: 'span'
-        });
-
-        // Animate title characters
-        gsap.fromTo(titleSplit.chars, 
-          {
-            opacity: 0,
-            y: 100,
-            rotationX: -90,
-            transformOrigin: "0% 50% -50px"
-          },
-          {
-            opacity: 1,
-            y: 0,
-            rotationX: 0,
-            duration: 1.2,
-            ease: "back.out(1.7)",
-            stagger: {
-              amount: 1.5,
-              from: "start"
-            },
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 80%",
-              end: "top 20%",
-              toggleActions: "play none none reverse"
-            }
-          }
-        );
-
-        // Special animation for the highlight span
-        if (highlightRef.current) {
-          const highlightSplit = new SplitType(highlightRef.current, { 
-            types: 'chars',
-            tagName: 'span'
-          });
-
-          gsap.fromTo(highlightSplit.chars,
+      if (isMobile) {
+        // MOBILE: Animaciones simplificadas sin SplitType
+        if (titleRef.current) {
+          gsap.fromTo(titleRef.current, 
             {
               opacity: 0,
-              scale: 0,
-              rotation: 180,
-              color: "#64748b" // slate-500
-      },
+              y: 30
+            },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.8,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+              }
+            }
+          );
+        }
+
+        if (highlightRef.current) {
+          gsap.fromTo(highlightRef.current,
+            {
+              opacity: 0,
+              scale: 0.8
+            },
             {
               opacity: 1,
               scale: 1,
-              rotation: 0,
-              color: "#f59e0b", // amber-500 (mantiene el tono naranja-amarillo)
-              duration: 0.8,
-              ease: "elastic.out(1, 0.3)",
+              duration: 0.6,
+              ease: "back.out(1.7)",
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top 80%",
+                toggleActions: "play none none reverse"
+              },
+              delay: 0.3
+            }
+          );
+        }
+
+        if (subtitleRef.current) {
+          gsap.fromTo(subtitleRef.current,
+            {
+              opacity: 0,
+              y: 20
+            },
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.6,
+              ease: "power2.out",
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top 80%",
+                toggleActions: "play none none reverse"
+              },
+              delay: 0.5
+            }
+          );
+        }
+      } else {
+        // DESKTOP: Animaciones completas con SplitType
+        if (titleRef.current) {
+          const titleSplit = new SplitType(titleRef.current, { 
+            types: 'words,chars',
+            tagName: 'span'
+          });
+
+          gsap.fromTo(titleSplit.chars, 
+            {
+              opacity: 0,
+              y: 100,
+              rotationX: -90,
+              transformOrigin: "0% 50% -50px"
+            },
+            {
+              opacity: 1,
+              y: 0,
+              rotationX: 0,
+              duration: 1.2,
+              ease: "back.out(1.7)",
               stagger: {
-                amount: 0.8,
-                from: "center"
+                amount: 1.5,
+                from: "start"
               },
               scrollTrigger: {
                 trigger: sectionRef.current,
-                start: "top 70%",
-                end: "top 10%",
+                start: "top 80%",
+                end: "top 20%",
                 toggleActions: "play none none reverse"
-              },
-              delay: 1
+              }
             }
           );
 
+          if (highlightRef.current) {
+            const highlightSplit = new SplitType(highlightRef.current, { 
+              types: 'chars',
+              tagName: 'span'
+            });
 
+            gsap.fromTo(highlightSplit.chars,
+              {
+                opacity: 0,
+                scale: 0,
+                rotation: 180,
+                color: "#64748b"
+              },
+              {
+                opacity: 1,
+                scale: 1,
+                rotation: 0,
+                color: "#f59e0b",
+                duration: 0.8,
+                ease: "elastic.out(1, 0.3)",
+                stagger: {
+                  amount: 0.8,
+                  from: "center"
+                },
+                scrollTrigger: {
+                  trigger: sectionRef.current,
+                  start: "top 70%",
+                  end: "top 10%",
+                  toggleActions: "play none none reverse"
+                },
+                delay: 1
+              }
+            );
+          }
+        }
+
+        if (subtitleRef.current) {
+          const subtitleSplit = new SplitType(subtitleRef.current, { 
+            types: 'words',
+            tagName: 'span'
+          });
+
+          gsap.fromTo(subtitleSplit.words,
+            {
+              opacity: 0,
+              y: 30,
+              filter: "blur(5px)"
+            },
+            {
+              opacity: 1,
+              y: 0,
+              filter: "blur(0px)",
+              duration: 0.8,
+              ease: "power2.out",
+              stagger: {
+                amount: 0.8,
+                from: "start"
+              },
+              scrollTrigger: {
+                trigger: sectionRef.current,
+                start: "top 75%",
+                end: "top 15%",
+                toggleActions: "play none none reverse"
+              },
+              delay: 0.5
+            }
+          );
         }
       }
-
-      // Split and animate subtitle - simple one-time animation
-      if (subtitleRef.current) {
-        const subtitleSplit = new SplitType(subtitleRef.current, { 
-          types: 'words',
-          tagName: 'span'
-        });
-
-        gsap.fromTo(subtitleSplit.words,
-          {
-            opacity: 0,
-            y: 30,
-            filter: "blur(5px)"
-          },
-          {
-            opacity: 1,
-            y: 0,
-            filter: "blur(0px)",
-            duration: 0.8,
-            ease: "power2.out",
-            stagger: {
-              amount: 0.8,
-              from: "start"
-            },
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: "top 75%",
-              end: "top 15%",
-              toggleActions: "play none none reverse"
-            },
-            delay: 0.5
-          }
-        );
-      }
-
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
   return (
-    <section id="three-pillars" ref={sectionRef} className="w-full bg-white py-12 md:py-16 relative">
+    <section id="three-pillars" ref={sectionRef} className="w-full px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 bg-white py-12 md:py-16 relative">
 
 
       {/* Background decorative elements */}
@@ -299,7 +373,7 @@ export default function ThreePillarsSection() {
         <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-plum/5 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="relative max-w-6xl mx-auto px-6 sm:px-8 lg:px-12 xl:px-16">
+      <div className="relative max-w-6xl mx-auto">
         {/* Section Header with GSAP Animations */}
         <div className="text-center mb-12 md:mb-16">
           <motion.div 
@@ -362,10 +436,10 @@ export default function ThreePillarsSection() {
                           scale: 1.05,
                           boxShadow: "0 15px 30px rgba(0,0,0,0.1)"
                         }}
-                        animate={{
+                        animate={!isMobile ? {
                           y: [0, -2, 0],
-                        }}
-                        transition={{
+                        } : {}}
+                        transition={!isMobile ? {
                           y: {
                             duration: 4,
                             repeat: Infinity,
@@ -376,18 +450,18 @@ export default function ThreePillarsSection() {
                             duration: 0.3,
                             ease: "easeOut"
                           }
-                        }}
+                        } : {}}
                       >
                         <motion.div
-                          animate={{
+                          animate={!isMobile ? {
                             rotate: [0, 3, -3, 0],
-                          }}
-                          transition={{
+                          } : {}}
+                          transition={!isMobile ? {
                             duration: 4,
                             repeat: Infinity,
                             ease: "easeInOut",
                             delay: index * 0.7
-                          }}
+                          } : {}}
                         >
                           {React.createElement(Pictogram, {
                             className: "w-12 h-12 text-white drop-shadow-lg",
@@ -402,15 +476,15 @@ export default function ThreePillarsSection() {
                                             pillar.accentColor === 'brilliantBlue' ? 'bg-yellow-400' :
                 'bg-orange-500'
                           }`}
-                          animate={{ 
-                            scale: [1, 1.2, 1],
-                          }}
-                          transition={{ 
-                            duration: 3, 
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                            delay: index * 0.3
-                          }}
+                                                  animate={!isMobile ? {
+                          scale: [1, 1.2, 1],
+                        } : {}}
+                        transition={!isMobile ? { 
+                          duration: 3, 
+                          repeat: Infinity,
+                          ease: "easeInOut",
+                          delay: index * 0.3
+                        } : {}}
                           whileHover={{
                             scale: 1.3,
                             transition: { duration: 0.3 }
@@ -476,51 +550,23 @@ export default function ThreePillarsSection() {
                 <Card className={`${pillar.bgColor} border-0 rounded-3xl shadow-xl overflow-hidden`}>
                   <CardContent className="p-6 md:p-8">
                     <div className="text-center mb-6">
-                      <motion.div 
+                      <div 
                         className={`inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl mb-6 relative shadow-2xl border border-white/30`}
-                        animate={{
-                          y: [0, -1, 0],
-                        }}
-                        transition={{
-                          duration: 3,
-                          repeat: Infinity,
-                          ease: "easeInOut",
-                          delay: index * 0.5
-                        }}
                       >
-                        <motion.div
-                          animate={{
-                            rotate: [0, 3, -3, 0],
-                          }}
-                          transition={{
-                            duration: 4,
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                            delay: index * 0.7
-                          }}
-                        >
+                        <div>
                           {React.createElement(Pictogram, {
                             className: "w-10 h-10 text-white drop-shadow-lg",
                             strokeWidth: 2
                           })}
-                        </motion.div>
-                        <motion.div 
+                        </div>
+                        <div 
                           className={`absolute -top-2 -right-2 w-3 h-3 rounded-full shadow-xl border-2 border-white ${
                             pillar.accentColor === 'signalYellow' ? 'bg-slate-800' :
                             pillar.accentColor === 'brilliantBlue' ? 'bg-yellow-400' :
                             'bg-orange-500'
                           }`}
-                          animate={{ 
-                            scale: [1, 1.2, 1],
-                          }}
-                          transition={{ 
-                            duration: 2.5, 
-                            repeat: Infinity,
-                            ease: "easeInOut",
-                            delay: index * 0.3
-                          }}
                         />
-                      </motion.div>
+                      </div>
                       
                       <div className={`text-xs font-bold mb-2 uppercase tracking-wider ${pillar.accentColor === 'signalYellow' ? 'text-slate-700' : 'text-white/80'}`}>
                         Pilar {index + 1}
@@ -535,19 +581,15 @@ export default function ThreePillarsSection() {
 
                     <div className="space-y-3">
                       {pillar.bullets.map((bullet, bulletIndex) => (
-                        <motion.div 
+                        <div 
                           key={bulletIndex} 
                           className="flex items-start gap-3"
-                          initial={{ opacity: 0, x: -20 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.4, delay: bulletIndex * 0.1 }}
-                          viewport={{ once: true }}
                         >
                           <CheckCircle className={`w-4 h-4 mt-0.5 flex-shrink-0 ${pillar.accentColor === 'signalYellow' ? 'text-slate-900' : 'text-white'}`} />
-                          <span className={`font-medium leading-relaxed text-sm ${pillar.accentColor === 'signalYellow' ? 'text-slate-700' : 'text-white/90'}`}>
+                                                      <span className={`font-medium leading-relaxed text-sm ${pillar.accentColor === 'signalYellow' ? 'text-slate-700' : 'text-white/90'}`}>
                             {bullet}
                           </span>
-                        </motion.div>
+                        </div>
                       ))}
                     </div>
                   </CardContent>

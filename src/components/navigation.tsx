@@ -12,7 +12,7 @@ const navLinks = [
   { name: "Equipo", href: "#team" },
 ];
 
-const contactLink = { name: "Contáctanos", href: "#contact-form" };
+const contactLink = { name: "Contáctanos", href: "https://wa.me/5491139066421?text=Hola%2C%20quiero%20saber%20más%20sobre%20cómo%20pueden%20ayudarme%20con%20los%20procesos%20de%20mi%20PyME" };
 
 const mobileMenuVariants = {
   closed: { 
@@ -54,6 +54,9 @@ export default function Navigation() {
           behavior: 'smooth'
         });
       }
+    } else if (href.startsWith('http')) {
+      // Handle external links (like WhatsApp)
+      window.open(href, '_blank', 'noopener,noreferrer');
     }
   };
 

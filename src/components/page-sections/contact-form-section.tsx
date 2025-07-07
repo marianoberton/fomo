@@ -21,27 +21,27 @@ import { motion, AnimatePresence } from "framer-motion";
 // Example queries for floating elements
 const floatingExamples = [
   {
-    text: "Perdemos tiempo en procesos manuales, necesitamos automatizar",
+    text: "Necesitamos automatizar procesos manuales para dejar de perder tiempo y dinero en tareas repetitivas.",
     category: "Automatización",
-    position: { top: "8%", left: "2%" },
+    position: { top: "10%", left: "2%" },
     color: "signalYellow"
   },
   {
-    text: "Necesitamos un CRM que integre con nuestro sistema actual",
-    category: "Integración",
-    position: { top: "12%", right: "2%" },
+    text: "Queremos que nuestro CRM se integre automáticamente con facturación, ventas y atención al cliente.",
+    category: "Integraciones",
+    position: { top: "14%", right: "3%" },
     color: "brilliantBlue"
   },
   {
-    text: "No tenemos visibilidad de lo que pasa en el negocio",
-    category: "Dashboards",
-    position: { bottom: "25%", left: "1%" },
+    text: "Necesitamos dashboards claros que nos den visibilidad en tiempo real para tomar mejores decisiones comerciales.",
+    category: "Dashboards & IA",
+    position: { bottom: "20%", left: "3%" },
     color: "orange"
   },
   {
-    text: "Queremos digitalizar toda la gestión de clientes",
-    category: "Digitalización",
-    position: { bottom: "8%", right: "3%" },
+    text: "Buscamos digitalizar la gestión completa de clientes para aumentar ventas y mejorar su experiencia.",
+    category: "Transformación Digital",
+    position: { bottom: "8%", right: "4%" },
     color: "plum"
   }
 ];
@@ -190,7 +190,7 @@ export default function ContactFormSection() {
 
   if (isSubmitted) {
     return (
-      <section id="contact-form" className="w-screen h-screen bg-plum flex items-center justify-center relative overflow-hidden p-0 m-0">
+      <section id="contact-form" className="w-full px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 h-screen bg-plum flex items-center justify-center relative overflow-hidden">
         {/* Background decoration */}
         <div className="absolute inset-0">
           <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-signalYellow/8 rounded-full blur-3xl"></div>
@@ -198,7 +198,7 @@ export default function ContactFormSection() {
         </div>
 
         <motion.div 
-          className="relative z-10 max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
+          className="relative z-10 max-w-2xl mx-auto text-center"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
@@ -242,7 +242,7 @@ export default function ContactFormSection() {
   }
 
   return (
-    <section id="contact-form" className="w-screen h-screen bg-plum relative overflow-hidden flex items-center justify-center p-0 m-0">
+    <section id="contact-form" className="w-full px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 h-screen bg-plum relative overflow-hidden flex items-center justify-center">
              {/* Floating examples - Enhanced design */}
        {floatingExamples.map((example, index) => {
          const getColorClasses = (color: string) => {
@@ -290,7 +290,7 @@ export default function ContactFormSection() {
          return (
            <motion.div
              key={index}
-             className="absolute hidden xl:block max-w-xs z-10"
+             className="absolute hidden xl:block w-64 z-50"
              style={example.position}
              initial={{ opacity: 0, scale: 0.8, y: 20 }}
              animate={{ 
@@ -310,15 +310,15 @@ export default function ContactFormSection() {
                transition: { duration: 0.2 }
              }}
            >
-             <div className={`bg-white/95 backdrop-blur-sm rounded-2xl p-5 border-2 ${colors.border} shadow-2xl hover:shadow-3xl transition-all duration-300 relative overflow-hidden`}>
+             <div className={`bg-white/95 backdrop-blur-sm rounded-2xl p-4 border-2 ${colors.border} shadow-2xl hover:shadow-3xl transition-all duration-300 relative overflow-hidden`}>
                {/* Accent line */}
                <div className={`absolute top-0 left-0 w-full h-1 ${colors.accent}`}></div>
                
                {/* Content */}
                <div className="relative">
-                 <div className="flex items-start gap-3 mb-3">
-                   <div className={`w-2 h-2 rounded-full ${colors.accent} mt-2 flex-shrink-0`}></div>
-                   <p className="text-slate-700 text-sm leading-relaxed font-medium">
+                 <div className="flex items-start gap-2 mb-3">
+                   <div className={`w-2 h-2 rounded-full ${colors.accent} mt-1.5 flex-shrink-0`}></div>
+                   <p className="text-slate-700 text-xs leading-tight font-medium">
                      "{example.text}"
                    </p>
                  </div>
@@ -347,7 +347,7 @@ export default function ContactFormSection() {
          <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-orange-500/8 rounded-full blur-3xl"></div>
        </div>
 
-      <div className="relative z-10 w-full max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 w-full max-w-2xl mx-auto">
         {/* Section Badge */}
         <div className="flex justify-center mb-4 md:mb-8">
           <motion.div 

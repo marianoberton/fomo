@@ -7,14 +7,11 @@ import { motion } from "framer-motion";
 
 export default function FinalCTASection() {
   const handleCTAClick = () => {
-    const contactSection = document.getElementById('contact-form');
-    if (contactSection) {
-      contactSection.scrollIntoView({ behavior: 'smooth' });
-    }
+    window.open('https://wa.me/5491139066421?text=Hola%2C%20quiero%20saber%20más%20sobre%20cómo%20pueden%20ayudarme%20con%20los%20procesos%20de%20mi%20PyME', '_blank', 'noopener,noreferrer');
   };
 
   return (
-    <section className="w-full py-24 bg-white relative overflow-hidden">
+    <section className="w-full px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 py-24 bg-white relative overflow-hidden">
       {/* Background decoration */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-brilliantBlue/8 rounded-full blur-3xl"></div>
@@ -22,7 +19,7 @@ export default function FinalCTASection() {
         <div className="absolute top-1/2 right-1/2 w-64 h-64 bg-orange-500/8 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-16 xl:px-32 text-center">
+      <div className="relative max-w-4xl mx-auto text-center">
         <div className="mb-8">
           <motion.div 
             className="inline-flex items-center gap-2 bg-gradient-to-r from-signalYellow to-orange-500 text-slate-900 px-6 py-3 rounded-full text-sm font-medium mb-6 shadow-lg"
@@ -118,6 +115,44 @@ export default function FinalCTASection() {
             <br />
             Solo trabajamos con 3 clientes por mes para garantizar resultados excepcionales.
           </p>
+        </div>
+      </div>
+
+      {/* Elegant Divider Section */}
+      <div className="relative py-8">
+        {/* Subtle gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-slate-50/30 to-white"></div>
+        
+        {/* Main divider line with decorative elements */}
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24">
+          <div className="flex items-center justify-center">
+            {/* Left decorative element */}
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-plum/20 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-brilliantBlue/30 rounded-full"></div>
+              <div className="w-1 h-1 bg-signalYellow/40 rounded-full"></div>
+            </div>
+            
+            {/* Main gradient line */}
+            <div className="flex-1 mx-8 h-px bg-gradient-to-r from-transparent via-slate-300/60 to-transparent"></div>
+            
+            {/* Central decorative circle */}
+            <div className="relative">
+              <div className="w-8 h-8 rounded-full border-2 border-slate-200 bg-white shadow-sm flex items-center justify-center">
+                <div className="w-2 h-2 rounded-full bg-gradient-to-br from-plum/60 to-brilliantBlue/60"></div>
+              </div>
+            </div>
+            
+            {/* Main gradient line */}
+            <div className="flex-1 mx-8 h-px bg-gradient-to-r from-transparent via-slate-300/60 to-transparent"></div>
+            
+            {/* Right decorative element */}
+            <div className="flex items-center gap-2">
+              <div className="w-1 h-1 bg-signalYellow/40 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-brilliantBlue/30 rounded-full"></div>
+              <div className="w-2 h-2 bg-plum/20 rounded-full"></div>
+            </div>
+          </div>
         </div>
       </div>
     </section>

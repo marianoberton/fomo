@@ -52,61 +52,61 @@ const processSteps: ProcessStep[] = [
   {
     number: 1,
     title: "Diagnóstico 360°",
-    description: "Auditamos procesos, cultura y datos para mapear tu situación actual",
+    description: "Entendemos dónde estás hoy y hacia dónde querés ir.",
     icon: Search,
     details: [
-      "Entrevistas con equipo clave",
-      "Mapeo de procesos actuales",
-      "Auditoría de herramientas existentes",
-      "Análisis de cultura organizacional"
+      "Charlas con tu equipo para conocer tus desafíos reales.",
+      "Revisión integral de procesos actuales.",
+      "Análisis práctico de herramientas digitales existentes.",
+      "Evaluación rápida de tu cultura organizacional."
     ]
   },
   {
     number: 2,
     title: "Rediseño y plan de cambio",
-    description: "Diseñamos nuevos procesos optimizados y el plan de transformación",
+    description: "Organizamos tu negocio y definimos una ruta clara hacia adelante.",
     icon: Workflow,
     details: [
-      "Procesos rediseñados y documentados",
-      "Plan de gestión del cambio",
-      "Roadmap de implementación",
-      "Estrategia de capacitación"
+      "Procesos optimizados, claros y fáciles de adoptar.",
+      "Estrategia para gestionar el cambio con tu equipo.",
+      "Hoja de ruta práctica de implementación.",
+      "Plan de capacitación ajustado a tu realidad."
     ]
   },
   {
     number: 3,
-    title: "Implementación tech & automatización",
-    description: "Ejecutamos la tecnología, integraciones y automatizaciones",
+    title: "Implementación tecnológica y automatización",
+    description: "Ponemos en marcha soluciones tecnológicas para simplificar tu día a día.",
     icon: Cog,
     details: [
-      "Desarrollo de automatizaciones",
-      "Integración de sistemas",
-      "Configuración de herramientas",
-      "Testing y puesta en producción"
+      "Automatización de tareas repetitivas.",
+      "Configuración y puesta a punto de todas tus herramientas digitales.",
+      "Chatbots prácticos que captan consultas y ventas.",
+      "Conexión fluida de todas tus herramientas digitales."
     ]
   },
   {
     number: 4,
-    title: "Dashboards e IA",
+    title: "Dashboards y herramientas de IA",
     description: "Construimos tu centro de comando con datos en tiempo real",
     icon: TrendingUp,
     details: [
-      "Dashboard ejecutivo centralizado",
-      "KPIs y alertas automáticas",
-      "Modelos predictivos",
-      "Reportes automatizados"
+      "Dashboard ejecutivo fácil de usar.",
+      "Alertas inmediatas para actuar rápidamente.",
+      "Modelos predictivos claros para adelantarte a los problemas.",
+      "Reportes simples y automáticos."
     ]
   },
   {
     number: 5,
     title: "Soporte y mejora continua",
-    description: "Acompañamos la optimización y evolución constante",
+    description: "Te acompañamos para que tu negocio siga mejorando siempre.",
     icon: LifeBuoy,
     details: [
-      "Soporte técnico ongoing",
-      "Optimización basada en uso",
-      "Nuevas automatizaciones",
-      "Evolución de la solución"
+      "Soporte técnico permanente.",
+      "Mejoras periódicas según el uso real.",
+      "Nuevas automatizaciones adaptadas a tu crecimiento.",
+      "Evolución constante de todas tus soluciones digitales."
     ]
   }
 ];
@@ -260,7 +260,7 @@ export default function ProcessTimelineSection() {
   return (
     <>
       {/* Combined Section with Global Blueprint Background */}
-      <div id="process-timeline" className="relative w-screen" data-section="process-timeline" style={{ backgroundColor: '#222222' }}>
+      <div id="process-timeline" className="relative w-full px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24" data-section="process-timeline" style={{ backgroundColor: '#222222' }}>
         {/* Global Background decoration */}
       <div className="absolute inset-0">
           <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-signalYellow/8 rounded-full blur-3xl"></div>
@@ -272,8 +272,8 @@ export default function ProcessTimelineSection() {
         {/* (SVGs removed as requested) */}
 
         {/* Header Section */}
-        <section className="w-screen py-16 pb-8 relative" style={{ backgroundColor: '#222222' }}>
-          <div className="relative w-screen px-4 sm:px-6 lg:px-8 text-center">
+        <section className="w-full py-16 pb-8 relative" style={{ backgroundColor: '#222222' }}>
+          <div className="relative w-full text-center">
                       <motion.div 
             className="inline-flex items-center gap-2 bg-gradient-to-r from-signalYellow to-orange-500 text-slate-900 px-6 py-3 rounded-full text-sm font-medium mb-6 shadow-lg"
             initial={{ opacity: 0, scale: 0.8 }}
@@ -291,7 +291,7 @@ export default function ProcessTimelineSection() {
               paso a paso
           </h2>
             <p className="text-xl text-white/80 max-w-3xl mx-auto leading-relaxed">
-            Una metodología probada que garantiza resultados tangibles y adopción exitosa
+            Una metodología clara, comprobada y diseñada desde una perspectiva IA-first para impulsar tu PyME con resultados visibles desde el primer día.
           </p>
         </div>
         </section>
@@ -299,16 +299,16 @@ export default function ProcessTimelineSection() {
         {/* Desktop Timeline Section - Full Screen Pinned */}
         <section 
           ref={sectionRef}
-          className="hidden lg:block w-screen h-screen relative overflow-hidden"
+          className="hidden lg:block w-full h-screen relative overflow-hidden"
           style={{ backgroundColor: '#222222' }}
         >
           {/* Full Screen Timeline Interface */}
           <div 
             ref={timelineRef}
-            className="relative h-full w-screen"
+            className="relative h-full w-full"
             style={{ paddingTop: '80px' }}
           >
-            <div className="flex w-full h-full relative max-w-5xl mx-auto px-8">
+            <div className="flex w-full h-full relative max-w-5xl mx-auto">
               {/* Left Section - Better balanced */}
               <div className="w-5/12 flex items-center justify-end pr-6">
                 <div className="space-y-3 lg:space-y-4">
@@ -430,8 +430,8 @@ export default function ProcessTimelineSection() {
         </section>
 
         {/* Mobile Timeline Section - Vertical Cards */}
-        <section className="lg:hidden w-screen pt-4 pb-8 relative" style={{ backgroundColor: '#222222' }}>
-          <div className="w-full px-4 sm:px-6">
+        <section className="lg:hidden w-full pt-4 pb-8 relative" style={{ backgroundColor: '#222222' }}>
+          <div className="w-full">
             <div className="space-y-6 relative">
               {/* Single continuous timeline line - centered behind cards */}
               <motion.div 

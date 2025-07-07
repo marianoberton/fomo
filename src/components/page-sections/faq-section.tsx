@@ -2,7 +2,19 @@
 
 import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronDown, ChevronUp, HelpCircle, Clock, Cog, Users, TrendingUp } from "lucide-react";
+import { 
+  ChevronDown, 
+  ChevronUp, 
+  HelpCircle, 
+  Users, 
+  TrendingUp,
+  DollarSign,
+  CalendarCheck,
+  ShieldCheck,
+  CreditCard,
+  Cpu,
+  BarChart
+} from "lucide-react";
 import { motion } from "framer-motion";
 
 interface FAQItem {
@@ -12,55 +24,91 @@ interface FAQItem {
   colorTheme: 'signalYellow' | 'brilliantBlue' | 'plum' | 'orange';
 }
 
+interface FloatingExample {
+  text: string;
+  category: string;
+  position: { top?: string; bottom?: string; left?: string; right?: string };
+  color: 'signalYellow' | 'brilliantBlue' | 'plum' | 'orange';
+}
+
 const faqData: FAQItem[] = [
   {
-    question: "¿Cuánto dura el diagnóstico?",
-    answer: "El diagnóstico completo se entrega en 5 días hábiles desde que coordinamos la primera llamada. Incluye: mapeo de procesos actuales, auditoría de herramientas, identificación de 3 quick wins de automatización y roadmap de transformación detallado. La sesión de presentación de resultados dura aproximadamente 90 minutos.",
-    icon: Clock,
-    colorTheme: 'signalYellow'
-  },
-  {
-    question: "¿Necesito cambiar todo mi software?",
-    answer: "No necesariamente. Primero evaluamos qué herramientas tenés funcionando bien y cuáles están causando ineficiencias. Muchas veces podemos optimizar lo que ya tenés con integraciones y automatizaciones. Solo recomendamos cambios cuando realmente hay una oportunidad significativa de mejora.",
-    icon: Cog,
-    colorTheme: 'brilliantBlue'
-  },
-  {
-    question: "¿Cómo involucran a mi equipo?",
-    answer: "El equipo es clave para el éxito. Incluimos sesiones de mapeo colaborativo donde tu equipo nos cuenta cómo trabajan hoy. Diseñamos un plan de gestión del cambio personalizado con capacitaciones y acompañamiento. Guillermina, nuestra experta en cultura digital, se encarga específicamente de que la adopción sea exitosa.",
-    icon: Users,
-    colorTheme: 'plum'
-  },
-  {
-    question: "¿Qué ROI puedo esperar?",
-    answer: "Nuestros clientes típicamente ven una reducción del 30-50% en tiempos de procesos manuales dentro de los primeros 3 meses. Esto se traduce en ahorro de horas de trabajo, menos errores, y capacidad de escalar sin contratar más gente. El ROI exacto depende de tu situación específica, pero lo calculamos en el diagnóstico inicial.",
+    question: "¿Qué resultados concretos puedo ver en los primeros 30 días?",
+    answer: "En el primer mes solemos implementar al menos un 'quick win' de automatización (ej. reportería automática o integración de facturación) que reduce de inmediato entre un 20 y 30 % las horas destinadas a tareas manuales. Además, entregamos un mini-dashboard con tus KPIs críticos para que empieces a tomar decisiones basadas en datos desde la semana 4.",
     icon: TrendingUp,
-    colorTheme: 'orange'
+    colorTheme: "signalYellow"
   },
   {
-    question: "¿Cuánto cuesta la transformación completa?",
-    answer: "El costo depende del alcance y complejidad de tu PyME. Después del diagnóstico, te presentamos un presupuesto detallado por fases. Podés implementar por etapas según tu presupuesto. La mayoría de nuestros clientes recuperan la inversión en los primeros 6-9 meses a través del ahorro en tiempo y eficiencia operativa.",
-    icon: Clock,
-    colorTheme: 'signalYellow'
+    question: "¿Cómo calculan el retorno de inversión (ROI) de la automatización e IA?",
+    answer: "Usamos un modelo de ROI basado en tres variables: horas ahorradas, errores evitados y ventas adicionales por insights de datos. Cada variable se multiplica por tu costo/hora promedio o tu margen neto. El modelo se presenta en el diagnóstico, para que veas la proyección de payback en 3, 6 y 12 meses.",
+    icon: DollarSign,
+    colorTheme: "brilliantBlue"
   },
   {
-    question: "¿Trabajan con empresas de mi sector?",
-    answer: "Trabajamos con PyMEs de diversos sectores: retail, servicios, manufactura, distribución, consultoría, y más. Nuestra metodología se adapta a cualquier industria porque nos enfocamos en procesos universales: ventas, operaciones, finanzas y atención al cliente. Lo importante no es el sector, sino el tamaño y la complejidad operativa.",
-    icon: Cog,
-    colorTheme: 'brilliantBlue'
+    question: "¿La implementación interrumpe mis operaciones diarias?",
+    answer: "No. Trabajamos con una metodología 'Zero-Downtime': clonamos tus flujos actuales en un entorno de pruebas y migramos en ventanas programadas (normalmente fuera del horario comercial). Así tu equipo sigue operando sin fricciones.",
+    icon: CalendarCheck,
+    colorTheme: "plum"
   },
   {
-    question: "¿Qué pasa si mi equipo se resiste al cambio?",
-    answer: "Es normal y lo esperamos. Por eso Guillermina lidera específicamente la gestión del cambio. Incluimos capacitaciones personalizadas, acompañamiento individual, y implementación gradual. Mostramos beneficios tangibles desde el primer día para generar adopción natural. Tenemos 100% de éxito en adopción porque priorizamos a las personas tanto como la tecnología.",
+    question: "¿Mi información y la de mis clientes están protegidas?",
+    answer: "Sí. Firmamos acuerdo de confidencialidad (NDA), usamos cifrado AES-256 en tránsito y reposo, y cumplimos con la Ley 25.326 de Protección de Datos Personales de Argentina. Nuestros servidores están en regiones que garantizan redundancia y backups automáticos.",
+    icon: ShieldCheck,
+    colorTheme: "orange"
+  },
+  {
+    question: "¿FOMO trabaja con PyMEs de menos de 10 empleados?",
+    answer: "Claro. Nuestra propuesta es modular: desde planes 'Start' para micro-empresas hasta proyectos enterprise. El requisito clave no es el tamaño, sino la voluntad de profesionalizar procesos y aprovechar datos.",
     icon: Users,
-    colorTheme: 'plum'
+    colorTheme: "signalYellow"
   },
   {
-    question: "¿Ofrecen soporte después de la implementación?",
-    answer: "Sí, incluimos 3 meses de soporte post-implementación sin costo adicional. Después podés contratar soporte mensual que incluye: optimizaciones continuas, nuevas automatizaciones, actualizaciones de dashboards, y resolución de incidencias. También ofrecemos sesiones trimestrales de revisión estratégica.",
-    icon: TrendingUp,
-    colorTheme: 'orange'
+    question: "¿Cuál es la inversión mínima y cómo puedo financiarla?",
+    answer: "Los proyectos arranquen desde USD 1.200 e incluyen fase de diagnóstico + quick wins. Podés financiar en 3 o 6 cuotas en pesos al tipo de cambio oficial + IVA, o abonar con tarjeta corporativa en dólares sin recargos.",
+    icon: CreditCard,
+    colorTheme: "brilliantBlue"
+  },
+  {
+    question: "¿Qué tecnologías usan y por qué las eligen?",
+    answer: "Trabajamos con n8n para RPA low-code, Next.js para front-end, Supabase para bases de datos serverless y modelos de IA de OpenAI o Vertex AI. Las elegimos por su comunidad activa, bajo costo de escalado y licencias open-source o pay-as-you-go.",
+    icon: Cpu,
+    colorTheme: "plum"
+  },
+  {
+    question: "¿Cómo aseguran que la solución escale cuando mi negocio crece?",
+    answer: "Diseñamos una arquitectura cloud-native que separa front-end, automatizaciones y base de datos. Así podés aumentar tráfico o volumen de pedidos sin reescribir código; solo se ajustan recursos (RAM, vCPU) bajo demanda.",
+    icon: BarChart,
+    colorTheme: "orange"
   }
+];
+
+// Floating examples disabled to prevent visual issues
+const floatingExamples: FloatingExample[] = [
+  // Disabled temporarily to prevent floating elements from overlapping content
+  // {
+  //   text: "Necesitamos automatizar procesos manuales para dejar de perder tiempo y dinero en tareas repetitivas.",
+  //   category: "Automatización",
+  //   position: { top: "10%", left: "2%" },
+  //   color: "signalYellow"
+  // },
+  // {
+  //   text: "Queremos que nuestro CRM se integre automáticamente con facturación, ventas y atención al cliente.",
+  //   category: "Integraciones",
+  //   position: { top: "14%", right: "3%" },
+  //   color: "brilliantBlue"
+  // },
+  // {
+  //   text: "Necesitamos dashboards claros que nos den visibilidad en tiempo real para tomar mejores decisiones comerciales.",
+  //   category: "Dashboards & IA",
+  //   position: { bottom: "20%", left: "3%" },
+  //   color: "orange"
+  // },
+  // {
+  //   text: "Buscamos digitalizar la gestión completa de clientes para aumentar ventas y mejorar su experiencia.",
+  //   category: "Transformación Digital",
+  //   position: { bottom: "8%", right: "4%" },
+  //   color: "plum"
+  // }
 ];
 
 export default function FAQSection() {
@@ -108,7 +156,7 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="w-full pt-8 pb-24 bg-white relative overflow-hidden">
+    <section className="w-full px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 pt-8 pb-24 bg-white relative overflow-hidden">
       {/* Background decoration matching other sections */}
       <div className="absolute inset-0">
         <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-to-r from-brilliantBlue/8 to-plum/8 rounded-full blur-3xl"></div>
@@ -116,7 +164,56 @@ export default function FAQSection() {
         <div className="absolute top-1/2 left-1/2 w-64 h-64 bg-plum/5 rounded-full blur-3xl"></div>
       </div>
 
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Floating Examples - Better contained */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        {floatingExamples.map((example, index) => {
+          const theme = getThemeColors(example.color);
+          return (
+            <motion.div
+              key={index}
+              className="absolute hidden lg:block z-10 pointer-events-auto"
+              style={example.position}
+              initial={{ opacity: 0, scale: 0.8, y: 20 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: index * 0.2 }}
+              viewport={{ once: true }}
+            >
+            <motion.div
+              className={`max-w-xs p-4 ${theme.bg} rounded-2xl shadow-lg border border-white/20 backdrop-blur-sm`}
+              animate={{
+                y: [0, -10, 0],
+                rotate: [0, 1, -1, 0]
+              }}
+              transition={{
+                y: {
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: index * 0.5
+                },
+                rotate: {
+                  duration: 6,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: index * 0.3
+                }
+              }}
+            >
+              <div className="mb-2">
+                <span className={`text-xs font-bold ${theme.text} opacity-80 uppercase tracking-wider`}>
+                  {example.category}
+                </span>
+              </div>
+              <p className={`text-sm ${theme.text} leading-relaxed font-medium`}>
+                {example.text}
+              </p>
+            </motion.div>
+          </motion.div>
+        );
+      })}
+      </div>
+
+      <div className="relative max-w-6xl mx-auto">
         {/* Section Header */}
         <motion.div 
           className="text-center mb-16"
@@ -249,7 +346,7 @@ export default function FAQSection() {
                 viewport={{ once: true }}
               >
                 <motion.a 
-                  href="https://wa.me/5491123456789?text=Hola%2C%20quiero%20saber%20más%20sobre%20cómo%20pueden%20ayudarme%20con%20los%20procesos%20de%20mi%20PyME"
+                  href="https://wa.me/5491139066421?text=Hola%2C%20quiero%20saber%20más%20sobre%20cómo%20pueden%20ayudarme%20con%20los%20procesos%20de%20mi%20PyME"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative bg-gradient-to-r from-signalYellow to-orange-500 hover:from-signalYellow/90 hover:to-orange-500/90 text-black px-12 py-6 rounded-3xl font-bold text-2xl transition-all duration-300 shadow-2xl hover:shadow-3xl overflow-hidden transform hover:scale-105"

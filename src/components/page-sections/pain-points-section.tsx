@@ -74,22 +74,22 @@ const painPoints: PainPoint[] = [
 // Story steps for the scrollytelling (3 steps now)
 const storySteps = [
   {
-    badge: "¿Te suena familiar?",
-    title: "Los dolores más comunes que vemos en PyMEs",
-    subtitle: "Si te identificás con alguno de estos escenarios, no estás solo.",
-    description: "Son los desafíos que resolvemos todos los días."
+    badge: "¿Te pasa algo de esto?",
+    title: "Los problemas que frenan a la mayoría de las PyMEs",
+    subtitle: "Si te sentís reflejado, quedate tranquilo: lo vemos todos los días y tiene solución.",
+    description: "Esto es justamente lo que resolvemos a diario con nuestros clientes."
   },
   {
-    badge: "La realidad de las PyMEs",
-    title: "9 de cada 10 PyMEs luchan con estos problemas",
-    subtitle: "No es tu culpa. Es el resultado de crecer sin herramientas adecuadas.",
-    description: "La mayoría empieza con Excel y WhatsApp, pero llega un punto donde ya no alcanza."
+    badge: "La realidad diaria",
+    title: "9 de cada 10 PyMEs se chocan con estos límites",
+    subtitle: "No es desorganización: es la consecuencia de crecer sin las herramientas correctas.",
+    description: "Excel, WhatsApp y buena voluntad alcanzan al principio, hasta que los procesos se vuelven inmanejables y los datos se dispersan."
   },
   {
-    badge: "El costo real",
-    title: "Cada día perdés tiempo, dinero y oportunidades",
-    subtitle: "Los procesos desordenados no solo molestan, te cuestan caro.",
-    description: "Empleados frustrados, clientes que se van, decisiones incorrectas por falta de datos reales."
+    badge: "Lo que se pierde cada día",
+    title: "Horas de trabajo, oportunidades comerciales y recursos mal aprovechados",
+    subtitle: "Cuando los procesos no están ordenados, las consecuencias se sienten:",
+    description: "Equipos desmotivados, clientes que se alejan y decisiones que se toman sin información clara."
   }
 ];
 
@@ -262,8 +262,8 @@ export default function PainPointsSection() {
       </section>
 
       {/* Cards Section - White background */}
-      <section className="bg-white py-12 md:py-16 pb-8 md:pb-12">
-        <div className="w-full px-4 sm:px-6 lg:px-8">
+      <section className="w-full px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 bg-white py-12 md:py-16 pb-8 md:pb-12">
+        <div className="w-full">
           {/* Section intro */}
           <motion.div
             className="text-center mb-8 md:mb-12 max-w-4xl mx-auto"
@@ -612,7 +612,7 @@ export default function PainPointsSection() {
           ></motion.div>
         </div>
 
-        <div className="w-full px-4 sm:px-6 lg:px-8 text-center relative z-10">
+        <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 text-center relative z-10">
           <div className="max-w-5xl mx-auto">
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -693,7 +693,7 @@ export default function PainPointsSection() {
                 viewport={{ once: true }}
               >
                 <motion.a 
-                  href="https://wa.me/5491123456789?text=Hola%2C%20quiero%20saber%20más%20sobre%20cómo%20pueden%20ayudarme%20con%20los%20procesos%20de%20mi%20PyME"
+                  href="https://wa.me/5491139066421?text=Hola%2C%20quiero%20saber%20más%20sobre%20cómo%20pueden%20ayudarme%20con%20los%20procesos%20de%20mi%20PyME"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative bg-gradient-to-r from-signalYellow to-orange-500 hover:from-signalYellow/90 hover:to-orange-500/90 text-black px-12 py-6 rounded-3xl font-bold text-2xl transition-all duration-300 shadow-2xl hover:shadow-3xl overflow-hidden transform hover:scale-105"
@@ -739,6 +739,46 @@ export default function PainPointsSection() {
               viewport={{ once: true }}
             />
           </svg>
+        </div>
+      </section>
+
+      {/* Elegant Divider Section */}
+      <section className="relative py-8">
+        {/* Subtle gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white via-slate-50/30 to-white"></div>
+        
+        {/* Main divider line with decorative elements */}
+        <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24">
+          <div className="flex items-center justify-center">
+            {/* Left decorative element */}
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 bg-plum/20 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-brilliantBlue/30 rounded-full"></div>
+              <div className="w-1 h-1 bg-signalYellow/40 rounded-full"></div>
+            </div>
+            
+            {/* Main divider line */}
+            <div className="flex-1 mx-8">
+              <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+            </div>
+            
+            {/* Center decorative icon */}
+            <div className="flex items-center justify-center w-8 h-8 bg-white border border-slate-200 rounded-full shadow-sm">
+              <div className="w-1.5 h-1.5 bg-gradient-to-r from-plum to-brilliantBlue rounded-full"></div>
+            </div>
+            
+            {/* Right divider line */}
+            <div className="flex-1 mx-8">
+              <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent"></div>
+            </div>
+            
+            {/* Right decorative element */}
+            <div className="flex items-center gap-2">
+              <div className="w-1 h-1 bg-signalYellow/40 rounded-full"></div>
+              <div className="w-1.5 h-1.5 bg-brilliantBlue/30 rounded-full"></div>
+              <div className="w-2 h-2 bg-plum/20 rounded-full"></div>
+            </div>
+          </div>
         </div>
       </section>
       </div>
