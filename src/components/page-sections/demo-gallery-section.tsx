@@ -329,5 +329,6 @@ export default function DemoGallerySection() {
         </motion.div>
         </div>
       </section>
+    
   );
 } 
