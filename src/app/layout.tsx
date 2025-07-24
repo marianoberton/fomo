@@ -1,33 +1,26 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Quicksand, Poppins, Fredoka } from "next/font/google";
-import Navigation from "@/components/navigation";
-import Footer from "@/components/footer";
+import { Manrope, Space_Grotesk } from "next/font/google";
+import ClientLayout from "@/components/client-layout";
 import Script from "next/script";
 
-// Font definitions - Más redondeadas y cálidas
-const quicksand = Quicksand({ 
+// Font definitions - Geométricas y frescas
+const manrope = Manrope({ 
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap"
 });
 
-const poppins = Poppins({
+const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-heading",
   display: "swap"
 });
 
-const fredoka = Fredoka({
-  subsets: ["latin"],
-  variable: "--font-accent",
-  display: "swap"
-});
-
 export const metadata: Metadata = {
-  title: "FOMO - Diseño Digital para Pymes",
-  description: "Transformamos tu negocio con soluciones digitales a medida. Desarrollo, automatizaciones, IA y diseño para pymes innovadoras.",
+  title: "FOMO - IA y Datos que disparan tu PyME",
+  description: "Consultora FOMO: estrategia, implementación y optimización continua para crecer sin depender de la intuición.",
 };
 
 export default function RootLayout({
@@ -63,10 +56,10 @@ export default function RootLayout({
           />
         </noscript>
       </head>
-      <body className={`${quicksand.variable} ${poppins.variable} ${fredoka.variable} font-body bg-background selection:bg-accent selection:text-accent-foreground`}>
-        <Navigation />
-        <main>{children}</main>
-        <Footer />
+      <body className={`${manrope.variable} ${spaceGrotesk.variable} font-body bg-background selection:bg-accent selection:text-accent-foreground`}>
+        <ClientLayout>
+          {children}
+        </ClientLayout>
       </body>
     </html>
   );
