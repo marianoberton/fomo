@@ -7,6 +7,23 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion, useScroll, useTransform } from "framer-motion";
 
+// Mobile detection hook
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return isMobile;
+};
+
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -96,6 +113,7 @@ const storySteps = [
 export default function PainPointsSection() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
+  const isMobile = useIsMobile(); // Add mobile detection
 
   // Current step state
   const [currentStep, setCurrentStep] = useState(0);
@@ -623,9 +641,12 @@ export default function PainPointsSection() {
               {/* Enhanced good news badge */}
               <motion.div 
                 className="inline-flex items-center gap-2 bg-gradient-to-r from-plum to-brilliantBlue text-white px-6 py-3 rounded-full text-sm font-medium mb-8 shadow-lg"
-                initial={{ opacity: 0, scale: 0.8 }}
+                initial={{ opacity: 0, scale: isMobile ? 0.9 : 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.6, ease: [0.68, -0.55, 0.265, 1.55] }}
+                transition={{ 
+                  duration: isMobile ? 0.4 : 0.6, 
+                  ease: isMobile ? "easeOut" : [0.68, -0.55, 0.265, 1.55] 
+                }}
                 viewport={{ once: true }}
               >
                 <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
@@ -639,9 +660,12 @@ export default function PainPointsSection() {
               {/* Main headline with enhanced styling */}
               <motion.h2 
                 className="text-5xl sm:text-6xl lg:text-7xl font-black mb-8 leading-tight"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: isMobile ? 15 : 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2 }}
+                transition={{ 
+                  duration: isMobile ? 0.5 : 0.8, 
+                  delay: isMobile ? 0.1 : 0.2 
+                }}
                 viewport={{ once: true }}
                 style={{
                   background: 'linear-gradient(135deg, #310629 0%, #0077B6 50%, #310629 100%)',
@@ -655,9 +679,12 @@ export default function PainPointsSection() {
               {/* Subtitle with better typography */}
               <motion.p 
                 className="text-2xl sm:text-3xl text-slate-700 mb-6 leading-relaxed font-medium"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: isMobile ? 15 : 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
+                transition={{ 
+                  duration: isMobile ? 0.5 : 0.8, 
+                  delay: isMobile ? 0.2 : 0.4 
+                }}
                 viewport={{ once: true }}
               >
                 Y no necesitás cambiar todo{" "}
@@ -675,9 +702,12 @@ export default function PainPointsSection() {
 
               <motion.p 
                 className="text-xl text-slate-600 mb-12 leading-relaxed max-w-4xl mx-auto"
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: isMobile ? 15 : 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
+                transition={{ 
+                  duration: isMobile ? 0.5 : 0.8, 
+                  delay: isMobile ? 0.3 : 0.6 
+                }}
                 viewport={{ once: true }}
               >
                 Te mostramos paso a paso cómo resolverlo, con{" "}
@@ -687,9 +717,12 @@ export default function PainPointsSection() {
               {/* Enhanced CTA section - Single prominent button */}
               <motion.div
                 className="flex justify-center items-center"
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: isMobile ? 20 : 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.8 }}
+                transition={{ 
+                  duration: isMobile ? 0.5 : 0.8, 
+                  delay: isMobile ? 0.4 : 0.8 
+                }}
                 viewport={{ once: true }}
               >
                 <motion.a 
@@ -697,10 +730,10 @@ export default function PainPointsSection() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group relative bg-gradient-to-r from-signalYellow to-orange-500 hover:from-signalYellow/90 hover:to-orange-500/90 text-black px-12 py-6 rounded-3xl font-bold text-2xl transition-all duration-300 shadow-2xl hover:shadow-3xl overflow-hidden transform hover:scale-105"
-                  whileHover={{ 
+                  whileHover={!isMobile ? { 
                     scale: 1.06,
                     boxShadow: '0 25px 50px -12px rgba(247, 217, 23, 0.3)'
-                  }}
+                  } : {}}
                   whileTap={{ scale: 0.98 }}
                 >
                   <span className="relative z-10 flex items-center justify-center gap-4">
@@ -713,10 +746,14 @@ export default function PainPointsSection() {
                   </span>
                   
                   {/* Animated background overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-signalYellow opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  {!isMobile && (
+                    <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-signalYellow opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  )}
                   
                   {/* Subtle glow effect */}
-                  <div className="absolute inset-0 rounded-3xl bg-white/5 scale-100 group-hover:scale-105 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                  {!isMobile && (
+                    <div className="absolute inset-0 rounded-3xl bg-white/5 scale-100 group-hover:scale-105 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+                  )}
                 </motion.a>
               </motion.div>
             </motion.div>
@@ -783,4 +820,4 @@ export default function PainPointsSection() {
       </section>
       </div>
   );
-} 
+}

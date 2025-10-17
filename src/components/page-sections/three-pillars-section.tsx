@@ -14,7 +14,6 @@ import {
 import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import SplitType from "split-type";
 
 // Register GSAP plugins
 if (typeof window !== "undefined") {
@@ -188,179 +187,73 @@ export default function ThreePillarsSection() {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-
-
     const ctx = gsap.context(() => {
-      if (isMobile) {
-        // MOBILE: Animaciones simplificadas sin SplitType
-        if (titleRef.current) {
-          gsap.fromTo(titleRef.current, 
-            {
-              opacity: 0,
-              y: 30
-            },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.8,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top 85%",
-                toggleActions: "play none none reverse"
-              }
+      // SIMPLIFIED ANIMATIONS FOR ALL DEVICES
+      if (titleRef.current) {
+        gsap.fromTo(titleRef.current, 
+          {
+            opacity: 0,
+            y: isMobile ? 20 : 30
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: isMobile ? 0.6 : 0.8,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 85%",
+              toggleActions: "play none none reverse"
             }
-          );
-        }
-
-        if (highlightRef.current) {
-          gsap.fromTo(highlightRef.current,
-            {
-              opacity: 0,
-              scale: 0.8
-            },
-            {
-              opacity: 1,
-              scale: 1,
-              duration: 0.6,
-              ease: "back.out(1.7)",
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top 80%",
-                toggleActions: "play none none reverse"
-              },
-              delay: 0.3
-            }
-          );
-        }
-
-        if (subtitleRef.current) {
-          gsap.fromTo(subtitleRef.current,
-            {
-              opacity: 0,
-              y: 20
-            },
-            {
-              opacity: 1,
-              y: 0,
-              duration: 0.6,
-              ease: "power2.out",
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top 80%",
-                toggleActions: "play none none reverse"
-              },
-              delay: 0.5
-            }
-          );
-        }
-      } else {
-        // DESKTOP: Animaciones completas con SplitType
-        if (titleRef.current) {
-          const titleSplit = new SplitType(titleRef.current, { 
-            types: 'words,chars',
-            tagName: 'span'
-          });
-
-          gsap.fromTo(titleSplit.chars, 
-            {
-              opacity: 0,
-              y: 100,
-              rotationX: -90,
-              transformOrigin: "0% 50% -50px"
-            },
-            {
-              opacity: 1,
-              y: 0,
-              rotationX: 0,
-              duration: 1.2,
-              ease: "back.out(1.7)",
-              stagger: {
-                amount: 1.5,
-                from: "start"
-              },
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top 80%",
-                end: "top 20%",
-                toggleActions: "play none none reverse"
-              }
-            }
-          );
-
-          if (highlightRef.current) {
-            const highlightSplit = new SplitType(highlightRef.current, { 
-              types: 'chars',
-              tagName: 'span'
-            });
-
-            gsap.fromTo(highlightSplit.chars,
-              {
-                opacity: 0,
-                scale: 0,
-                rotation: 180,
-                color: "#64748b"
-              },
-              {
-                opacity: 1,
-                scale: 1,
-                rotation: 0,
-                color: "#f59e0b",
-                duration: 0.8,
-                ease: "elastic.out(1, 0.3)",
-                stagger: {
-                  amount: 0.8,
-                  from: "center"
-                },
-                scrollTrigger: {
-                  trigger: sectionRef.current,
-                  start: "top 70%",
-                  end: "top 10%",
-                  toggleActions: "play none none reverse"
-                },
-                delay: 1
-              }
-            );
           }
-        }
+        );
+      }
 
-        if (subtitleRef.current) {
-          const subtitleSplit = new SplitType(subtitleRef.current, { 
-            types: 'words',
-            tagName: 'span'
-          });
-
-          gsap.fromTo(subtitleSplit.words,
-            {
-              opacity: 0,
-              y: 30,
-              filter: "blur(5px)"
+      if (highlightRef.current) {
+        gsap.fromTo(highlightRef.current,
+          {
+            opacity: 0,
+            scale: isMobile ? 0.9 : 0.8
+          },
+          {
+            opacity: 1,
+            scale: 1,
+            duration: isMobile ? 0.4 : 0.6,
+            ease: isMobile ? "power2.out" : "back.out(1.7)",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 80%",
+              toggleActions: "play none none reverse"
             },
-            {
-              opacity: 1,
-              y: 0,
-              filter: "blur(0px)",
-              duration: 0.8,
-              ease: "power2.out",
-              stagger: {
-                amount: 0.8,
-                from: "start"
-              },
-              scrollTrigger: {
-                trigger: sectionRef.current,
-                start: "top 75%",
-                end: "top 15%",
-                toggleActions: "play none none reverse"
-              },
-              delay: 0.5
-            }
-          );
-        }
+            delay: isMobile ? 0.2 : 0.3
+          }
+        );
+      }
+
+      if (subtitleRef.current) {
+        gsap.fromTo(subtitleRef.current,
+          {
+            opacity: 0,
+            y: isMobile ? 15 : 20
+          },
+          {
+            opacity: 1,
+            y: 0,
+            duration: isMobile ? 0.5 : 0.6,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 80%",
+              toggleActions: "play none none reverse"
+            },
+            delay: isMobile ? 0.3 : 0.5
+          }
+        );
       }
     }, sectionRef);
 
     return () => ctx.revert();
-  }, []);
+  }, [isMobile]);
 
   return (
     <section id="three-pillars" ref={sectionRef} className="w-full px-4 sm:px-6 lg:px-8 xl:px-16 2xl:px-24 bg-white py-12 md:py-16 relative">
@@ -485,10 +378,10 @@ export default function ThreePillarsSection() {
                           ease: "easeInOut",
                           delay: index * 0.3
                         } : {}}
-                          whileHover={{
+                          whileHover={!isMobile ? {
                             scale: 1.3,
                             transition: { duration: 0.3 }
-                          }}
+                          } : {}}
                         />
                       </motion.div>
                     </div>
@@ -542,9 +435,9 @@ export default function ThreePillarsSection() {
             return (
               <motion.div
                 key={pillar.id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: isMobile ? 15 : 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: index * 0.2 }}
+                transition={{ duration: isMobile ? 0.4 : 0.6, delay: isMobile ? index * 0.1 : index * 0.2 }}
                 viewport={{ once: true }}
               >
                 <Card className={`${pillar.bgColor} border-0 rounded-3xl shadow-xl overflow-hidden`}>
@@ -602,9 +495,9 @@ export default function ThreePillarsSection() {
         {/* Bottom Section */}
         <motion.div 
           className="text-center"
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: isMobile ? 15 : 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: isMobile ? 0.5 : 0.8 }}
           viewport={{ once: true }}
         >
           <div className="relative bg-gradient-to-br from-slate-50 to-white rounded-2xl p-12 border-2 border-plum/20 shadow-lg max-w-5xl mx-auto">
@@ -643,4 +536,4 @@ export default function ThreePillarsSection() {
       </div>
     </section>
   );
-} 
+}

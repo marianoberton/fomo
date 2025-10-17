@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Rocket, Users, BarChart3, Brain, TrendingUp, Zap } from "lucide-react";
 import { gsap } from "gsap";
@@ -11,11 +11,29 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// Mobile detection hook
+const useIsMobile = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  return isMobile;
+};
+
 export default function HeroSection() {
   const heroRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const mockupRef = useRef<HTMLDivElement>(null);
   const highlightRef = useRef<HTMLSpanElement>(null);
+  const isMobile = useIsMobile(); // Add mobile detection
 
 
   const handleCTAClick = () => {
@@ -145,9 +163,9 @@ export default function HeroSection() {
 
 
 
-    // Enhanced Mouse move parallax effect with magnetic interactions
+    // Enhanced Mouse move parallax effect with magnetic interactions (disabled on mobile)
     const handleMouseMove = (e: MouseEvent) => {
-      if (!mockupRef.current) return;
+      if (!mockupRef.current || isMobile) return;
       
       const { clientX, clientY } = e;
       const { innerWidth, innerHeight } = window;
@@ -204,9 +222,9 @@ export default function HeroSection() {
       });
     };
 
-    // Cursor leave effect
+    // Cursor leave effect (disabled on mobile)
     const handleMouseLeave = () => {
-      if (!mockupRef.current) return;
+      if (!mockupRef.current || isMobile) return;
       
       gsap.to(mockupRef.current, {
         rotateY: 0,
@@ -234,16 +252,21 @@ export default function HeroSection() {
       });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseleave', handleMouseLeave);
+    // Add event listeners only on desktop
+    if (!isMobile) {
+      window.addEventListener('mousemove', handleMouseMove);
+      window.addEventListener('mouseleave', handleMouseLeave);
+    }
 
     // Cleanup
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      window.removeEventListener('mouseleave', handleMouseLeave);
+      if (!isMobile) {
+        window.removeEventListener('mousemove', handleMouseMove);
+        window.removeEventListener('mouseleave', handleMouseLeave);
+      }
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
     };
-  }, []);
+  }, [isMobile]);
 
   return (
     <>
@@ -994,4 +1017,4 @@ export default function HeroSection() {
       `}</style>
     </>
   );
-} 
+}
